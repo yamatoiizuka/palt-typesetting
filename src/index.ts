@@ -7,7 +7,7 @@ import type { TypeSetttingOptions } from './types'
  * HTMLテキストを処理し、カスタムスタイルと区切り文字を適用するためのクラス。
  * HTMLProcessor クラスを拡張し、特定の変換関数を適用します。
  */
-class TypeSetter extends HTMLProcessor {
+class TypeSet extends HTMLProcessor {
   constructor(options: Partial<TypeSetttingOptions> = {}) {
     const transformFunctions = [applyStyleToText, insertSeparatorsToText, applyStyleToSegment]
     super(transformFunctions, options)
@@ -24,9 +24,11 @@ class TypeSetter extends HTMLProcessor {
     const isSupported = typeof Intl.Segmenter !== 'undefined'
 
     if (!isSupported) {
-      console.warn(
-        'Intl.Segmenter is not supported in this environment. The original HTML string will be returned. For more information, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter'
-      )
+      console.warn(`
+        Intl.Segmenter is not supported in this environment. 
+        The original HTML string will be returned. 
+        For more information, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter
+        `)
     }
 
     return isSupported
@@ -54,8 +56,8 @@ class TypeSetter extends HTMLProcessor {
  * @return 区切り文字が挿入され、スタイルが適用されたHTML文字列。
  */
 const createTypeSetting = (srcHtml: string, options: Partial<TypeSetttingOptions> = {}): string => {
-  const typeset = new TypeSetter(options)
+  const typeset = new TypeSet(options)
   return typeset.render(srcHtml)
 }
 
-export { TypeSetter, createTypeSetting }
+export { TypeSet, createTypeSetting }
