@@ -1,20 +1,11 @@
 import { JSDOM } from 'jsdom'
 
 /**
- * 環境に応じて適切なWindowオブジェクトを提供します。
- * ブラウザ環境ではグローバルなwindowオブジェクトを、
- * Node.js環境ではJSDOMにより生成されたwindowオブジェクトを使用します。
+ * Node.js環境で使用するためにJSDOMライブラリを利用してwindowオブジェクトを提供します。
+ * これにより、Node.js環境でのDOM操作が可能となります。
  *
- * @return 環境に適したWindowオブジェクト
+ * @return JSDOMにより生成されたWindowオブジェクト。
  */
-const win = (() => {
-  if (typeof window !== 'undefined') {
-    // ブラウザ環境
-    return window
-  } else {
-    // Node.js環境
-    return new JSDOM().window
-  }
-})()
+const win = new JSDOM().window
 
 export default win
