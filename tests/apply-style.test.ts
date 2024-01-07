@@ -1,45 +1,81 @@
 import { applyStyleToSegment } from '../src/apply-style'
+import { TypeSetttingOptions } from '../src/types'
 
 describe('applyStyleToSegment', () => {
+  const options: TypeSetttingOptions = {
+    addWbrToHtml: true,
+    addThinSpaceToHtml: true,
+    thinSpaceWidth: '50%',
+    kerning: [
+      {
+        between: ['す', '。'],
+        value: '-80',
+      },
+    ],
+  }
+
   it("applies letter-spacing style to separation prohibited characters '──'", () => {
-    const segment = '──'
+    const current = '──'
+    const next = ''
     const expected = '<span class="typeset-no-breaks" style="letter-spacing: 0">──</span>'
-    expect(applyStyleToSegment(segment)).toEqual(expected)
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("does not change styling for full-width symbol '「'", () => {
-    const segment = '「'
+    const current = '「'
+    const next = ''
     const expected = '「'
-    expect(applyStyleToSegment(segment)).toEqual(expected)
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("does not change styling for hiragana 'こんにちは'", () => {
-    const segment = 'こんにちは'
+    const current = 'こんにちは'
+    const next = ''
     const expected = 'こんにちは'
-    expect(applyStyleToSegment(segment)).toEqual(expected)
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("does not change styling for kanji '日本語'", () => {
-    const segment = '日本語'
+    const current = '日本語'
+    const next = ''
     const expected = '日本語'
-    expect(applyStyleToSegment(segment)).toEqual(expected)
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("applies 'latin' class to English words 'English'", () => {
-    const segment = 'English'
+    const current = 'English'
+    const next = ''
     const expected = '<span class="typeset-latin">English</span>'
-    expect(applyStyleToSegment(segment)).toEqual(expected)
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("applies 'latin' class to half-width numbers '28'", () => {
-    const segment = '28'
+    const current = '28'
+    const next = ''
     const expected = '<span class="typeset-latin">28</span>'
-    expect(applyStyleToSegment(segment)).toEqual(expected)
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("applies 'latin' class to half-width symbol ':'", () => {
-    const segment = ':'
+    const current = ':'
+    const next = ''
     const expected = '<span class="typeset-latin">:</span>'
-    expect(applyStyleToSegment(segment)).toEqual(expected)
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+  })
+
+  it("adds kerning tag after 'で'", () => {
+    const current = 'す'
+    const next = '。'
+    const expected =
+      'す<span class="typeset-kerning" style="margin: -0.04em; user-select:none;" aria-hidden="true" data-nosnippet=""></span>'
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+  })
+
+  it("adds kerning tag after 'で'", () => {
+    const current = 'です。'
+    const next = 'その'
+    const expected =
+      'です<span class="typeset-kerning" style="margin: -0.04em; user-select:none;" aria-hidden="true" data-nosnippet=""></span>。'
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 })
