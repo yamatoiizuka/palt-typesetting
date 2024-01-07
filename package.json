@@ -4,7 +4,8 @@
   "description": "A Japanese typesetting library, primarily focused on proportional spacing (font-feature-settings: 'palt').",
   "main": "./dist/index.js",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "bundle/**/*"
   ],
   "repository": {
     "type": "git",
