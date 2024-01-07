@@ -2,7 +2,7 @@ import HTMLProcessor from './html-processor'
 import insertSeparatorsToText from './insert-separators'
 import { applyStyleToText, applyStyleToSegment } from './apply-style'
 import win from './win'
-import type { TypeSetttingOptions } from './types'
+import type { TypeSetttingOptions, KerningRule } from './types'
 
 /**
  * HTMLテキストを処理し、カスタムスタイルと区切り文字を適用するためのクラス。
@@ -12,8 +12,10 @@ class TypeSet extends HTMLProcessor {
   private isSupported: boolean
 
   constructor(options: Partial<TypeSetttingOptions> = {}) {
+    const validatedOptions = TypeSet.validateOptions(options)
     const transformFunctions = [applyStyleToText, insertSeparatorsToText, applyStyleToSegment]
-    super(transformFunctions, options)
+
+    super(transformFunctions, validatedOptions)
 
     /**
      * 現在の実行環境で Intl.Segmenter がサポートされているかどうかを確認します。
@@ -28,6 +30,42 @@ class TypeSet extends HTMLProcessor {
         For more information, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter
         `)
     }
+  }
+
+  /**
+   * 与えられたオプションを検証し、修正されたオプションを返します。
+   *
+   * @param options - 検証するオプション。
+   * @return 修正されたオプション。
+   */
+  private static validateOptions(options: Partial<TypeSetttingOptions>): TypeSetttingOptions {
+    if (options.kerning) {
+      options.kerning = options.kerning.filter(TypeSet.isValidKerningRule)
+    }
+
+    // デフォルトのオプションとマージ
+    return {
+      addWbrToHtml: true,
+      addThinSpaceToHtml: true,
+      thinSpaceWidth: '50%',
+      kerning: [],
+      ...options,
+    }
+  }
+
+  /**
+   * カーニングルールが適切かどうかを検証します。
+   *
+   * @param rule - 検証するカーニングルール。
+   * @return ルールが有効な場合はtrue、そうでない場合はfalse。
+   */
+  private static isValidKerningRule(rule: KerningRule): boolean {
+    if (rule.between[0].length !== 1 || rule.between[1].length !== 1) {
+      console.warn(`Kerning rule between '${rule.between[0]}' and '${rule.between[1]}' must be single characters.`)
+      return false
+    }
+
+    return true
   }
 
   /**
