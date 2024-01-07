@@ -1,10 +1,16 @@
-import insertSeparatorsToText, { generateSegments, addSeparatorsToSegment, shouldAddWbr, shouldAddThinSpace } from '../src/insert-separators'
+import insertSeparatorsToText, {
+  generateSegments,
+  addSeparatorsToSegment,
+  shouldAddWbr,
+  shouldAddThinSpace,
+} from '../src/insert-separators'
 import { wbr, thinSpace } from '../src/utils-tags'
 
 const options = {
   addWbrToHtml: true,
   addThinSpaceToHtml: true,
   thinSpaceWidth: '50%',
+  kerning: [],
 }
 
 const space = thinSpace(options.thinSpaceWidth)
@@ -21,7 +27,23 @@ describe('insertSeparators', () => {
 describe('generateSegments', () => {
   it('generates an array of text segments from a sentence, using word granularity', () => {
     const src = '──「こんにちは。」日本語とEnglish、晴れ・28度。'
-    const expected = ['─', '─', '「', 'こんにちは', '。', '」', '日本語', 'と', 'English', '、', '晴れ', '・', '28', '度', '。']
+    const expected = [
+      '─',
+      '─',
+      '「',
+      'こんにちは',
+      '。',
+      '」',
+      '日本語',
+      'と',
+      'English',
+      '、',
+      '晴れ',
+      '・',
+      '28',
+      '度',
+      '。',
+    ]
     expect(generateSegments(src)).toEqual(expected)
   })
 })
