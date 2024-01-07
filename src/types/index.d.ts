@@ -6,7 +6,11 @@
  * @param nextNodeValue - 次のノードの値（存在する場合）。存在しない場合は空文字列を想定。
  * @return 変換後の文字列。
  */
-export type TransformFunction = (currentNodeValue: string, nextNodeValue: string, options: TypeSetttingOptions) => string
+export type TransformFunction = (
+  currentNodeValue: string,
+  nextNodeValue: string,
+  options: TypeSetttingOptions
+) => string
 
 /**
  * 組版処理に関する設定オプションの型定義です。
@@ -29,4 +33,20 @@ export interface TypeSetttingOptions {
    * 例えば'20%'と指定すると、THIN SPACEは通常のスペースの20%の幅になります。
    */
   thinSpaceWidth: string
+
+  /**
+   * カーニングを適用するためのルールのリスト。
+   * 各ルールは、特定の文字ペア間に適用されるカーニング値を指定します。
+   */
+  kerning: KerningRule[]
+}
+
+/**
+ * カーニングルールを定義するインターフェース。
+ * between: 文字ペアを定義します。
+ * value: 適用するカーニング値（1000 = 1em）を指定します。
+ */
+export interface KerningRule {
+  between: [string, string]
+  value: string | number
 }

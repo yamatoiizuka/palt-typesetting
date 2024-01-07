@@ -1,6 +1,6 @@
 import { CharClass, LanguageClass } from './utils-text-classes'
-import { applyWbrStyle, applyLatinClass, applyNoBreakStyle } from './utils-tags'
-import { TypeSetttingOptions } from './types'
+import { applyWbrStyle, applyLatinClass, applyNoBreakStyle, applyKerning } from './utils-tags'
+import { TypeSetttingOptions, KerningRule } from './types'
 
 /**
  * 与えられたテキストに対して、word-breakとoverflow-wrapスタイルを持つspanタグでラップします。
@@ -25,24 +25,51 @@ const applyStyleToText = (currentNodeValue: string, nextNodeValue: string, optio
  * @return スタイリングされたテキストセグメント。セグメントがスペースであるか、特別なスタイリングが不要であれば、
  *     そのまま返されます。それ以外の場合は、適切なスタイリングでspanタグでラップされます。
  */
-const applyStyleToSegment = (segment: string): string => {
+const applyStyleToSegment = (currentSegment: string, nextSegment: string, options: TypeSetttingOptions): string => {
   // セグメントがスペースであればそのまま返す
-  if (segment === ' ') {
-    return segment
+  if (currentSegment === ' ') {
+    return currentSegment
   }
 
+  const kernedSegment = applyKerningToSegment(currentSegment, nextSegment, options.kerning)
+
   // ラテン文字のセグメントには 'latin' クラスを適用
-  if (LanguageClass.isLatin(segment)) {
-    return applyLatinClass(segment)
+  if (LanguageClass.isLatin(currentSegment)) {
+    return applyLatinClass(kernedSegment)
   }
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用
-  if (CharClass.shouldNotBreak(segment)) {
-    return applyNoBreakStyle(segment)
+  if (CharClass.shouldNotBreak(currentSegment)) {
+    return applyNoBreakStyle(kernedSegment)
   }
 
-  // 特にスタイリングが必要ない場合は、セグメントを変更せずに返す
-  return segment
+  return kernedSegment
+}
+
+/**
+ * カーニングルールに基づき、テキストセグメントにカーニングを適用します。
+ *
+ * @param currentSegment - カーニングを適用する現在のセグメント。
+ * @param nextSegment - 次のセグメント（カーニング適用の判断に使用）。
+ * @param kerningRules - 適用するカーニングルールの配列。
+ * @return カーニング適用後のテキストセグメント。
+ */
+const applyKerningToSegment = (currentSegment: string, nextSegment: string, kerningRules: KerningRule[]): string => {
+  const chars = [...currentSegment]
+
+  const kernedChars = chars.map((currentChar, i) => {
+    const nextChar = chars[i + 1] || nextSegment[0] || ''
+    const kerningRule = kerningRules.find(rule => rule.between[0] === currentChar && rule.between[1] === nextChar)
+
+    if (kerningRule) {
+      const kerningValue = typeof kerningRule.value === 'number' ? kerningRule.value : parseInt(kerningRule.value, 10)
+      return applyKerning(currentChar, kerningValue)
+    }
+
+    return currentChar
+  })
+
+  return kernedChars.join('')
 }
 
 export { applyStyleToText, applyStyleToSegment }

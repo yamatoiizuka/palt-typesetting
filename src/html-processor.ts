@@ -10,14 +10,9 @@ class HTMLProcessor {
   private transformFunctions: TransformFunction[]
   private options: TypeSetttingOptions
 
-  constructor(transformFunctions: TransformFunction[], options: Partial<TypeSetttingOptions> = {}) {
+  constructor(transformFunctions: TransformFunction[], options: TypeSetttingOptions) {
     this.transformFunctions = transformFunctions
-    this.options = {
-      addWbrToHtml: true,
-      addThinSpaceToHtml: true,
-      thinSpaceWidth: '50%',
-      ...options,
-    }
+    this.options = options
   }
 
   /**
