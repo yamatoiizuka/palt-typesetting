@@ -35,6 +35,8 @@
     "@types/jest": "^29.5.11",
     "@types/jsdom": "^21.1.6",
     "@types/node": "^20",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
     "babel-jest": "^29.7.0",
     "esbuild": "^0.19.11",
     "eslint": "^8",
