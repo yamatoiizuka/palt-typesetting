@@ -15,8 +15,8 @@ class Typesetter extends HTMLProcessor {
   private isIntlSegmenterSupported: boolean
 
   constructor(options: Partial<TypesettingOptions> = {}) {
-    const validatedOptions = Typesetter.validateOptions(options)
     const transformFunctions = [applyStyleToText, insertSeparatorsToText, applyStyleToSegment]
+    const validatedOptions = Typesetter.validateOptions(options)
 
     super(transformFunctions, validatedOptions)
 
