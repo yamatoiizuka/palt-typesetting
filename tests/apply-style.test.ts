@@ -4,6 +4,7 @@ import { TypesettingOptions } from '../src/types'
 describe('applyStyleToSegment', () => {
   const options: TypesettingOptions = {
     useWordBreak: true,
+    noSpaceForNoBreaks: true,
     addThinSpaces: true,
     thinSpaceWidth: '50%',
     kerning: [
