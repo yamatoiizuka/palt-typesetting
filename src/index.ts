@@ -47,10 +47,10 @@ class Typesetter extends HTMLProcessor {
     return {
       classNamePrefix: 'typeset',
       useWordBreak: true,
+      wrapLatin: true,
+      noSpaceBetweenNoBreaks: true,
       addThinSpaces: true,
       thinSpaceWidth: '50%',
-      noSpaceForNoBreaks: true,
-      wrapLatin: true,
       kerningRules: [],
       ...options,
     }

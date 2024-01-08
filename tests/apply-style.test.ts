@@ -6,7 +6,7 @@ describe('applyStyleToSegment', () => {
     classNamePrefix: 'typeset',
     useWordBreak: true,
     wrapLatin: true,
-    noSpaceForNoBreaks: true,
+    noSpaceBetweenNoBreaks: true,
     addThinSpaces: true,
     thinSpaceWidth: '50%',
     kerningRules: [

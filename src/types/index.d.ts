@@ -28,7 +28,7 @@ export interface TypesettingOptions {
    * 分離禁則文字を .typeset-nobreaks でラップし、文字間を 0 に設定します。
    * useWordBreak が true の場合にのみ有効です。
    */
-  noSpaceForNoBreaks: boolean
+  noSpaceBetweenNoBreaks: boolean
 
   /**
    * HTML内のテキストにTHIN SPACEを自動的に追加するかどうかを指定します。

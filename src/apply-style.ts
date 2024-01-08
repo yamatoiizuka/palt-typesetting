@@ -39,7 +39,7 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
   }
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用
-  if (options.noSpaceForNoBreaks && CharClass.shouldNotBreak(currentSegment)) {
+  if (options.noSpaceBetweenNoBreaks && CharClass.shouldNotBreak(currentSegment)) {
     return applyNoBreakStyle(kernedSegment, options.classNamePrefix)
   }
 
