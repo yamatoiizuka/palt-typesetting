@@ -43,7 +43,7 @@ const addSeparatorsToSegment = (current: string, next = '', options: Typesetting
 
   const addWbr = options.useWordBreak && shouldAddWbr(current, next)
   const addSpace = options.addThinSpaces && shouldAddThinSpace(current, next)
-  return current + (addSpace ? thinSpace(options.thinSpaceWidth) : '') + (addWbr ? wbr : '')
+  return current + (addSpace ? thinSpace(options.thinSpaceWidth, options.classNamePrefix) : '') + (addWbr ? wbr : '')
 }
 
 /**

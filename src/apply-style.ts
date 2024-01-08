@@ -1,6 +1,6 @@
 import { CharClass, LanguageClass } from './utils-text-classes'
 import { applyWbrStyle, applyLatinClass, applyNoBreakStyle, applyKerning } from './utils-tags'
-import { TypesettingOptions, KerningRule } from './types'
+import { TypesettingOptions } from './types'
 
 /**
  * 与えられたテキストに対して、word-breakとoverflow-wrapスタイルを持つspanタグでラップします。
@@ -31,16 +31,16 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
     return currentSegment
   }
 
-  const kernedSegment = applyKerningToSegment(currentSegment, nextSegment, options.kerningRules)
+  const kernedSegment = applyKerningToSegment(currentSegment, nextSegment, options)
 
   // ラテン文字のセグメントには 'latin' クラスを適用
   if (options.wrapLatin && LanguageClass.isLatin(currentSegment)) {
-    return applyLatinClass(kernedSegment)
+    return applyLatinClass(kernedSegment, options.classNamePrefix)
   }
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用
   if (options.noSpaceForNoBreaks && CharClass.shouldNotBreak(currentSegment)) {
-    return applyNoBreakStyle(kernedSegment)
+    return applyNoBreakStyle(kernedSegment, options.classNamePrefix)
   }
 
   return kernedSegment
@@ -54,16 +54,18 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
  * @param kerningRules - 適用するカーニングルールの配列。
  * @return カーニング適用後のテキストセグメント。
  */
-const applyKerningToSegment = (currentSegment: string, nextSegment: string, kerningRules: KerningRule[]): string => {
+const applyKerningToSegment = (currentSegment: string, nextSegment: string, options: TypesettingOptions): string => {
   const chars = [...currentSegment]
 
   const kernedChars = chars.map((currentChar, i) => {
     const nextChar = chars[i + 1] || nextSegment[0] || ''
-    const kerningRule = kerningRules.find(rule => rule.between[0] === currentChar && rule.between[1] === nextChar)
+    const kerningRule = options.kerningRules.find(
+      rule => rule.between[0] === currentChar && rule.between[1] === nextChar
+    )
 
     if (kerningRule) {
       const kerningValue = typeof kerningRule.value === 'number' ? kerningRule.value : parseInt(kerningRule.value, 10)
-      return applyKerning(currentChar, kerningValue)
+      return applyKerning(currentChar, kerningValue, options.classNamePrefix)
     }
 
     return currentChar

@@ -3,6 +3,7 @@ import { TypesettingOptions } from '../src/types'
 
 describe('applyStyleToSegment', () => {
   const options: TypesettingOptions = {
+    classNamePrefix: 'typeset',
     useWordBreak: true,
     wrapLatin: true,
     noSpaceForNoBreaks: true,
@@ -15,7 +16,6 @@ describe('applyStyleToSegment', () => {
       },
     ],
   }
-
   it("applies letter-spacing style to separation prohibited characters '──'", () => {
     const current = '──'
     const next = ''

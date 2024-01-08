@@ -7,6 +7,7 @@ import insertSeparatorsToText, {
 import { wbr, thinSpace } from '../src/utils-tags'
 
 const options = {
+  classNamePrefix: 'typeset',
   useWordBreak: true,
   wrapLatin: true,
   noSpaceForNoBreaks: true,
@@ -15,7 +16,7 @@ const options = {
   kerningRules: [],
 }
 
-const space = thinSpace(options.thinSpaceWidth)
+const space = thinSpace(options.thinSpaceWidth, options.classNamePrefix)
 
 describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {

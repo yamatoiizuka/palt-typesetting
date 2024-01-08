@@ -45,6 +45,7 @@ class Typesetter extends HTMLProcessor {
 
     // デフォルトのオプションとマージ
     return {
+      classNamePrefix: 'typeset',
       useWordBreak: true,
       addThinSpaces: true,
       thinSpaceWidth: '50%',
