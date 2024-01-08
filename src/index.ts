@@ -49,6 +49,7 @@ class Typesetter extends HTMLProcessor {
       addThinSpaces: true,
       thinSpaceWidth: '50%',
       noSpaceForNoBreaks: true,
+      wrapLatin: true,
       kerning: [],
       ...options,
     }

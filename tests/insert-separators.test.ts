@@ -8,6 +8,7 @@ import { wbr, thinSpace } from '../src/utils-tags'
 
 const options = {
   useWordBreak: true,
+  wrapLatin: true,
   noSpaceForNoBreaks: true,
   addThinSpaces: true,
   thinSpaceWidth: '50%',
