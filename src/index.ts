@@ -62,12 +62,14 @@ class Typesetter extends HTMLProcessor {
   /**
    * カーニングルールが適切かどうかを検証します。
    *
-   * @param rule - 検証するカーニングルール。
+   * @param kerningRule - 検証するカーニングルール。
    * @return ルールが有効な場合はtrue、そうでない場合はfalse。
    */
-  private static isValidKerningRule(rule: KerningRule): boolean {
-    if (rule.between[0].length !== 1 || rule.between[1].length !== 1) {
-      console.warn(`Kerning rule between '${rule.between[0]}' and '${rule.between[1]}' must be single characters.`)
+  private static isValidKerningRule(kerningRule: KerningRule): boolean {
+    if (kerningRule.between[0].length !== 1 || kerningRule.between[1].length !== 1) {
+      console.warn(
+        `Kerning rule between '${kerningRule.between[0]}' and '${kerningRule.between[1]}' must be single characters.`
+      )
       return false
     }
 
