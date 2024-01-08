@@ -7,8 +7,9 @@ describe('Typesetter', () => {
   const prefix = Typesetter.defaultOptions.classNamePrefix
   const addwbr = Typesetter.defaultOptions.useWordBreak
   const space = thinSpace('50%', prefix)
-  const srcHtml = `<p>──「<b>こんにちは。</b>」日本語とEnglish、晴れ・28度。</p>`
-  const expectedHtml = `<p>${applyWrapperStyle(`${applyNoBreakStyle('──', prefix)}${space}「`, prefix, addwbr)}<b>${applyWrapperStyle(`こんにちは。`, prefix, addwbr)}</b>${applyWrapperStyle(`」${space}${wbr}日本語${wbr}と${space}${wbr}${applyLatinStyle('English', prefix)}${space}、${space}${wbr}晴れ${space}・${space}${wbr}${applyLatinStyle('28', prefix)}${space}${wbr}度。`, prefix, addwbr)}</p>`
+  const srcHtml = `<p>──<b>こんにちは。</b>「日本語」とEnglish、晴れ・28度。</p>`
+
+  const expectedHtml = `<p>${applyWrapperStyle(`${applyNoBreakStyle('──', prefix)}${wbr}`, prefix, addwbr)}<b>${applyWrapperStyle(`こんにちは。${space}${wbr}`, prefix, addwbr)}</b>${applyWrapperStyle(`「日本語」${space}${wbr}と${space}${wbr}${applyLatinStyle('English', prefix)}${space}、${space}${wbr}晴れ${space}・${space}${wbr}${applyLatinStyle('28', prefix)}${space}${wbr}度。`, prefix, addwbr)}</p>`
 
   const typeset = new Typesetter()
 
