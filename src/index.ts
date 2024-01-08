@@ -9,7 +9,10 @@ import type { TypesettingOptions, KerningRule } from './types'
  * HTMLProcessor クラスを拡張し、特定の変換関数を適用します。
  */
 class Typesetter extends HTMLProcessor {
-  private isSupported: boolean
+  /**
+   * Intl.Segmenter API が現在の実行環境でサポートされているかどうかを示します。
+   */
+  private isIntlSegmenterSupported: boolean
 
   constructor(options: Partial<TypesettingOptions> = {}) {
     const validatedOptions = Typesetter.validateOptions(options)
@@ -22,8 +25,8 @@ class Typesetter extends HTMLProcessor {
      * Intl.Segmenter は、テキストを言語固有のセグメントに分割する機能を提供します。
      * サポートされていない場合は警告をコンソールに表示します。
      */
-    this.isSupported = typeof Intl.Segmenter !== 'undefined'
-    if (!this.isSupported) {
+    this.isIntlSegmenterSupported = typeof Intl.Segmenter !== 'undefined'
+    if (!this.isIntlSegmenterSupported) {
       console.warn(`
         Intl.Segmenter is not supported in this environment. 
         The original HTML string will be returned. 
@@ -78,7 +81,7 @@ class Typesetter extends HTMLProcessor {
    * @return 処理後のHTML文字列。
    */
   render(srcHtml: string): string {
-    if (!this.isSupported || !srcHtml) {
+    if (!this.isIntlSegmenterSupported || !srcHtml) {
       return srcHtml
     }
 
@@ -92,7 +95,7 @@ class Typesetter extends HTMLProcessor {
    * @param elements - スタイルを適用するElementまたはHTMLElementの配列。
    */
   renderToElements(elements: Element | Element[] | null): void {
-    if (!this.isSupported || !elements) {
+    if (!this.isIntlSegmenterSupported || !elements) {
       return
     }
 
@@ -113,7 +116,7 @@ class Typesetter extends HTMLProcessor {
    * @param selector - スタイルを適用する要素を選択するCSSセレクタ。
    */
   renderToSelector(selector: string | null): void {
-    if (!this.isSupported || !selector) {
+    if (!this.isIntlSegmenterSupported || !selector) {
       return
     }
 
