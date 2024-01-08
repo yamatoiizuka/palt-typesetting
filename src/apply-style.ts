@@ -1,6 +1,6 @@
 import { CharClass, LanguageClass } from './utils-text-classes'
 import { applyWbrStyle, applyLatinClass, applyNoBreakStyle, applyKerning } from './utils-tags'
-import { TypeSetttingOptions, KerningRule } from './types'
+import { TypesettingOptions, KerningRule } from './types'
 
 /**
  * 与えられたテキストに対して、word-breakとoverflow-wrapスタイルを持つspanタグでラップします。
@@ -8,7 +8,7 @@ import { TypeSetttingOptions, KerningRule } from './types'
  * @param text - スタイリングされるテキスト。
  * @return スタイリングされたテキスト。テキストが空の場合は、そのまま返されます。
  */
-const applyStyleToText = (currentNodeValue: string, nextNodeValue: string, options: TypeSetttingOptions): string => {
+const applyStyleToText = (currentNodeValue: string, nextNodeValue: string, options: TypesettingOptions): string => {
   // ここでは nextNodeValue を使用していませんが、関数のシグネチャはTransformFunctionに合わせています。
   if (!options.addWbrToHtml || currentNodeValue === ' ') {
     return currentNodeValue
@@ -25,7 +25,7 @@ const applyStyleToText = (currentNodeValue: string, nextNodeValue: string, optio
  * @return スタイリングされたテキストセグメント。セグメントがスペースであるか、特別なスタイリングが不要であれば、
  *     そのまま返されます。それ以外の場合は、適切なスタイリングでspanタグでラップされます。
  */
-const applyStyleToSegment = (currentSegment: string, nextSegment: string, options: TypeSetttingOptions): string => {
+const applyStyleToSegment = (currentSegment: string, nextSegment: string, options: TypesettingOptions): string => {
   // セグメントがスペースであればそのまま返す
   if (currentSegment === ' ') {
     return currentSegment

@@ -2,17 +2,17 @@ import HTMLProcessor from './html-processor'
 import insertSeparatorsToText from './insert-separators'
 import { applyStyleToText, applyStyleToSegment } from './apply-style'
 import win from './win'
-import type { TypeSetttingOptions, KerningRule } from './types'
+import type { TypesettingOptions, KerningRule } from './types'
 
 /**
  * HTMLテキストを処理し、カスタムスタイルと区切り文字を適用するためのクラス。
  * HTMLProcessor クラスを拡張し、特定の変換関数を適用します。
  */
-class TypeSet extends HTMLProcessor {
+class Typesetter extends HTMLProcessor {
   private isSupported: boolean
 
-  constructor(options: Partial<TypeSetttingOptions> = {}) {
-    const validatedOptions = TypeSet.validateOptions(options)
+  constructor(options: Partial<TypesettingOptions> = {}) {
+    const validatedOptions = Typesetter.validateOptions(options)
     const transformFunctions = [applyStyleToText, insertSeparatorsToText, applyStyleToSegment]
 
     super(transformFunctions, validatedOptions)
@@ -38,9 +38,9 @@ class TypeSet extends HTMLProcessor {
    * @param options - 検証するオプション。
    * @return 修正されたオプション。
    */
-  private static validateOptions(options: Partial<TypeSetttingOptions>): TypeSetttingOptions {
+  private static validateOptions(options: Partial<TypesettingOptions>): TypesettingOptions {
     if (options.kerning) {
-      options.kerning = options.kerning.filter(TypeSet.isValidKerningRule)
+      options.kerning = options.kerning.filter(Typesetter.isValidKerningRule)
     }
 
     // デフォルトのオプションとマージ
@@ -119,15 +119,4 @@ class TypeSet extends HTMLProcessor {
   }
 }
 
-/**
- * 与えられたHTML文字列に区切り文字を挿入し、スタイルを適用します。
- *
- * @param srcHtml - 処理する元のHTML文字列。
- * @return 区切り文字が挿入され、スタイルが適用されたHTML文字列。
- */
-const createTypeSetting = (srcHtml: string, options: Partial<TypeSetttingOptions> = {}): string => {
-  const typeset = new TypeSet(options)
-  return typeset.render(srcHtml)
-}
-
-export { TypeSet, createTypeSetting }
+export default Typesetter
