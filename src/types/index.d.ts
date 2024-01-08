@@ -39,6 +39,7 @@ export interface TypesettingOptions {
   /**
    * THIN SPACEの幅を指定します。
    * 例えば'20%'と指定すると、THIN SPACEは通常のスペースの20%の幅になります。
+   * addThinSpaces が true の場合のみ有効です。
    */
   thinSpaceWidth: string
 
