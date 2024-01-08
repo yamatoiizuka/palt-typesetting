@@ -1,8 +1,8 @@
 import { applyStyleToSegment } from '../src/apply-style'
-import { TypeSetttingOptions } from '../src/types'
+import { TypesettingOptions } from '../src/types'
 
 describe('applyStyleToSegment', () => {
-  const options: TypeSetttingOptions = {
+  const options: TypesettingOptions = {
     useWordBreak: true,
     addThinSpaces: true,
     thinSpaceWidth: '50%',

@@ -1,5 +1,5 @@
 import win from './win'
-import type { TransformFunction, TypeSetttingOptions } from './types'
+import type { TransformFunction, TypesettingOptions } from './types'
 
 /**
  * HTMLコンテンツの変換と処理を行うクラスです。
@@ -8,9 +8,9 @@ import type { TransformFunction, TypeSetttingOptions } from './types'
  */
 class HTMLProcessor {
   private transformFunctions: TransformFunction[]
-  private options: TypeSetttingOptions
+  private options: TypesettingOptions
 
-  constructor(transformFunctions: TransformFunction[], options: TypeSetttingOptions) {
+  constructor(transformFunctions: TransformFunction[], options: TypesettingOptions) {
     this.transformFunctions = transformFunctions
     this.options = options
   }
