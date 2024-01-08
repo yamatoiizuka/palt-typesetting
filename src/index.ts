@@ -119,15 +119,4 @@ class Typeset extends HTMLProcessor {
   }
 }
 
-/**
- * 与えられたHTML文字列に区切り文字を挿入し、スタイルを適用します。
- *
- * @param srcHtml - 処理する元のHTML文字列。
- * @return 区切り文字が挿入され、スタイルが適用されたHTML文字列。
- */
-const createTypeSetting = (srcHtml: string, options: Partial<TypeSetttingOptions> = {}): string => {
-  const typeset = new TypeSet(options)
-  return typeset.render(srcHtml)
-}
-
-export { TypeSet, createTypeSetting }
+export default Typeset
