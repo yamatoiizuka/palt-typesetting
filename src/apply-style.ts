@@ -1,5 +1,5 @@
 import { CharClass, LanguageClass } from './utils-text-classes'
-import { applyWrapperStyle, applyLatinClass, applyNoBreakStyle, applyKerning } from './utils-tags'
+import { applyWrapperStyle, applyLatinStyle, applyNoBreakStyle, applyKerning } from './utils-tags'
 import { TypesettingOptions } from './types'
 
 /**
@@ -35,7 +35,7 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
 
   // ラテン文字のセグメントには 'latin' クラスを適用
   if (options.wrapLatin && LanguageClass.isLatin(currentSegment)) {
-    return applyLatinClass(kernedSegment, options.classNamePrefix)
+    return applyLatinStyle(kernedSegment, options.classNamePrefix)
   }
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用
