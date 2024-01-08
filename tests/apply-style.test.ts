@@ -1,8 +1,8 @@
 import { applyStyleToSegment } from '../src/apply-style'
-import { TypeSetttingOptions } from '../src/types'
+import { TypesetOptions } from '../src/types'
 
 describe('applyStyleToSegment', () => {
-  const options: TypeSetttingOptions = {
+  const options: TypesetOptions = {
     addWbrToHtml: true,
     addThinSpaceToHtml: true,
     thinSpaceWidth: '50%',

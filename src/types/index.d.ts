@@ -6,16 +6,12 @@
  * @param nextNodeValue - 次のノードの値（存在する場合）。存在しない場合は空文字列を想定。
  * @return 変換後の文字列。
  */
-export type TransformFunction = (
-  currentNodeValue: string,
-  nextNodeValue: string,
-  options: TypeSetttingOptions
-) => string
+export type TransformFunction = (currentNodeValue: string, nextNodeValue: string, options: TypesetOptions) => string
 
 /**
  * 組版処理に関する設定オプションの型定義です。
  */
-export interface TypeSetttingOptions {
+export interface TypesetOptions {
   /**
    * HTML内のテキストにWBRタグを自動的に追加するかどうかを指定します。
    * WBRタグは、必要に応じて改行の挿入を許可するために使用されます。
