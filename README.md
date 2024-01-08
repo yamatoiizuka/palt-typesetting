@@ -24,7 +24,7 @@ typesetter.renderToSelector('.my-class')
 ### Use from CDN
 
 ```html
-<script src="https://unpkg.com/palt-typesetting@0.1.6/bundle/palt-typesetting.min.js"></script>
+<script src="https://unpkg.com/palt-typesetting@0.1.7/bundle/palt-typesetting.min.js"></script>
 ```
 
 ```html
@@ -46,7 +46,7 @@ typesetter.renderToSelector('.my-class')
 .typeset-latin {
   letter-spacing: 0.05em;
 
-  // if needed
+  /* if needed */
   font-size: 105%;
   line-height: calc(1.8 / 1.05);
 }
@@ -76,17 +76,17 @@ console.log(typesetter.render(srcHtml))
 
 ### Constructor
 
-| <div style="width:18em">コンストラクタ</div> | 説明                                                                                                  | 引数                            |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------- |
-| `Typesetter(options?)`                       | Typesetter インスタンスを作成します。<br>オプションを指定することでカスタムの組版設定を適用できます。 | `options`: オプション（任意）。 |
+| コンストラクタ         | 説明                                                                                                  | 引数                            |
+| ---------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `Typesetter(options?)` | Typesetter インスタンスを作成します。<br>オプションを指定することでカスタムの組版設定を適用できます。 | `options`: オプション（任意）。 |
 
 ### Methods
 
-| <div style="width:18em">メソッド名</div> | 説明                                                                  | 引数                                                         | 返り値                                   |
-| ---------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------- |
-| `render(srcHtml)`                        | スタイルを適用した HTML 文字列を返します。                            | `srcHtml`: 処理する HTML 文字列                              | `string`: スタイルを適用した HTML 文字列 |
-| `renderToElements(elements)`             | 指定された Element または Element の配列にスタイルを適用します。      | `elements`: スタイルを適用する Element または Element の配列 | `void`                                   |
-| `renderToSelector(selector)`             | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。 | `selector`: スタイルを適用する要素を選択する CSS セレクタ    | `void`                                   |
+| メソッド名                   | 説明                                                                  | 引数                                                         | 返り値                                   |
+| ---------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------- |
+| `render(srcHtml)`            | スタイルを適用した HTML 文字列を返します。                            | `srcHtml`: 処理する HTML 文字列                              | `string`: スタイルを適用した HTML 文字列 |
+| `renderToElements(elements)` | 指定された Element または Element の配列にスタイルを適用します。      | `elements`: スタイルを適用する Element または Element の配列 | `void`                                   |
+| `renderToSelector(selector)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。 | `selector`: スタイルを適用する要素を選択する CSS セレクタ    | `void`                                   |
 
 ## Options
 
@@ -131,15 +131,15 @@ typesetter.renderToSelector('.my-class')
 
 ### Typesetting Options
 
-| <div style="width:18em">オプション名</div> | 説明                                                                                                                                      | 型                                                       | デフォルト値 |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------ |
-| `classNamePrefix`                          | ライブラリで使用される CSS クラス名のプレフィックスを指定します。                                                                         | `string`                                                 | `'typeset' ` |
-| `useWordBreak`                             | 単語や助詞など、語単位での改行を行います。                                                                                                | `boolean`                                                | `true`       |
-| `wrapLatin`                                | 英数を `span.typeset-latin` でラップします。<br>`useWordBreak` が `true` の場合にのみ有効です。                                           | `boolean`                                                | `true`       |
-| `noSpaceBetweenNoBreaks`                   | 罫線などの分離禁則文字を `span.typeset-nobreaks` でラップし、文字間を 0 に設定します。<br>`useWordBreak` が `true` の場合にのみ有効です。 | `boolean`                                                | `true`       |
-| `addThinSpaces`                            | 四分アキスペースを自動で追加します。                                                                                                      | `boolean`                                                | `true`       |
-| `thinSpaceWidth`                           | 四分アキスペースの幅を設定します。<br>`addThinSpaces` が `true` の場合にのみ有効です。                                                    | `string`                                                 | `'50%' `     |
-| `kerningRules`                             | 特定の文字間のカーニングルールを設定します。                                                                                              | `{between: [string, string], value: string \| number}[]` | `[]`         |
+| オプション名             | 説明                                                                                                                                      | 型                                                       | デフォルト値 |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------ |
+| `classNamePrefix`        | ライブラリで使用される CSS クラス名のプレフィックスを指定します。                                                                         | `string`                                                 | `'typeset' ` |
+| `useWordBreak`           | 単語や助詞など、語単位での改行を行います。                                                                                                | `boolean`                                                | `true`       |
+| `wrapLatin`              | 英数を `span.typeset-latin` でラップします。<br>`useWordBreak` が `true` の場合にのみ有効です。                                           | `boolean`                                                | `true`       |
+| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typeset-nobreaks` でラップし、文字間を 0 に設定します。<br>`useWordBreak` が `true` の場合にのみ有効です。 | `boolean`                                                | `true`       |
+| `addThinSpaces`          | 四分アキスペースを自動で追加します。                                                                                                      | `boolean`                                                | `true`       |
+| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`addThinSpaces` が `true` の場合にのみ有効です。                                                    | `string`                                                 | `'50%' `     |
+| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                              | `{between: [string, string], value: string \| number}[]` | `[]`         |
 
 ## Notes
 
