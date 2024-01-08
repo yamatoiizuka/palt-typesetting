@@ -19,14 +19,14 @@ describe('TypeSet', () => {
     expect(typeset.render(srcHtml)).toEqual(expectedHtml)
   })
 
-  test('renderFromElement should apply styles to an HTMLElement', () => {
+  test('renderToElements should apply styles to an HTMLElement', () => {
     const element = win.document.getElementById('test')
-    typeset.renderFromElements(element)
+    typeset.renderToElements(element)
     expect(element?.innerHTML).toEqual(expectedHtml)
   })
 
-  test('renderFromSelector should apply styles to elements matching a CSS selector', () => {
-    typeset.renderFromSelector('#test')
+  test('renderToSelector should apply styles to elements matching a CSS selector', () => {
+    typeset.renderToSelector('#test')
     const element = win.document.getElementById('test')
     expect(element?.innerHTML).toEqual(expectedHtml)
   })
