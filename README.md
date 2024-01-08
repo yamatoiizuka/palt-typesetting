@@ -22,7 +22,7 @@ typesetter.renderToSelector('.my-class')
 ### Use from CDN
 
 ```html
-<script src="https://unpkg.com/palt-typesetting@0.1.4/bundle/palt-typesetting.min.js"></script>
+<script src="https://unpkg.com/palt-typesetting@0.1.5/bundle/palt-typesetting.min.js"></script>
 ```
 
 ```html
@@ -143,12 +143,12 @@ typesetter.renderToSelector('.my-class')
 
 ### 環境要件
 
-Palt Typesetting ライブラリは、語単位の改行機能のコアとして `Intl.Segmenter` による分割処理を使用しています。そのため、以下の環境要件があります：
+Palt Typesetting ライブラリは、語単位の改行機能のコアとして `Intl.Segmenter` による分割処理を使用しています。そのため、以下の環境要件があります。
 
-- Node.js: 16.0.0 以上。
-- ブラウザ: Intl.Segmenter をサポートしているブラウザ。
+- Node.js: 16.0.0 以上
+- ブラウザ: Intl.Segmenter をサポートしているブラウザ
 
-`Intl.Segmenter` は、テキストを言語固有のセグメントに分割する機能を提供しますが、一部のブラウザでは利用できません（クライアントサイドで実行する場合）。Palt Typesetting は、`Intl.Segmenter` がサポートされていない環境では組版処理をスキップし、元のテキストをそのまま返します。
+`Intl.Segmenter` は、テキストを言語固有のセグメントに分割する機能を提供しますが、一部のブラウザでは利用できません（クライアントサイドで実行する場合）。Palt Typesetting ライブラリは、`Intl.Segmenter` がサポートされていない環境では組版処理をスキップし、元のテキストをそのまま返します。
 
 `Intl.Segmenter` の対応状況については、[MDN Web Docs](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter) で確認できます。
 
