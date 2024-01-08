@@ -34,10 +34,14 @@ const applyKerning = (char: string, value: number, classNamePrefix: string): str
 /**
  * 与えられたテキストにword-breakとoverflow-wrapスタイルを適用します。
  * @param text - スタイルを適用するテキスト。
+ * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
+ * @param useWordBreak - 単語や助詞など、語単位での改行を行うかどうか。デフォルトは true。
  * @return スタイル適用されたテキストを含むspanタグ。
  */
-const applyWbrStyle = (text: string): string => {
-  return `<span style="word-break: keep-all; overflow-wrap: anywhere;">${text}</span>`
+const applyWrapperStyle = (text: string, classNamePrefix: string, useWordBreak: boolean): string => {
+  // <wbr> 以外の箇所で改行しないためのスタイリング
+  const style = useWordBreak ? 'word-break: keep-all; overflow-wrap: anywhere;' : ''
+  return `<span class="${classNamePrefix}" style="${style}">${text}</span>`
 }
 
 /**
@@ -62,4 +66,4 @@ const applyNoBreakStyle = (segment: string, classNamePrefix: string): string => 
   return `<span class="${classname}" style="letter-spacing: 0">${segment}</span>`
 }
 
-export { wbr, thinSpace, applyKerning, applyWbrStyle, applyLatinClass, applyNoBreakStyle }
+export { wbr, thinSpace, applyKerning, applyWrapperClassAndStyle, applyLatinClass, applyNoBreakStyle }
