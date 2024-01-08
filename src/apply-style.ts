@@ -1,6 +1,6 @@
 import { CharClass, LanguageClass } from './utils-text-classes'
 import { applyWbrStyle, applyLatinClass, applyNoBreakStyle, applyKerning } from './utils-tags'
-import { TypesettingOptions, KerningRule } from './types'
+import { TypesettingOptions } from './types'
 
 /**
  * 与えられたテキストに対して、word-breakとoverflow-wrapスタイルを持つspanタグでラップします。
@@ -10,7 +10,7 @@ import { TypesettingOptions, KerningRule } from './types'
  */
 const applyStyleToText = (currentNodeValue: string, nextNodeValue: string, options: TypesettingOptions): string => {
   // ここでは nextNodeValue を使用していませんが、関数のシグネチャはTransformFunctionに合わせています。
-  if (!options.addWbrToHtml || currentNodeValue === ' ') {
+  if (!options.useWordBreak || currentNodeValue === ' ') {
     return currentNodeValue
   }
 
@@ -31,16 +31,16 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
     return currentSegment
   }
 
-  const kernedSegment = applyKerningToSegment(currentSegment, nextSegment, options.kerning)
+  const kernedSegment = applyKerningToSegment(currentSegment, nextSegment, options)
 
   // ラテン文字のセグメントには 'latin' クラスを適用
-  if (LanguageClass.isLatin(currentSegment)) {
-    return applyLatinClass(kernedSegment)
+  if (options.wrapLatin && LanguageClass.isLatin(currentSegment)) {
+    return applyLatinClass(kernedSegment, options.classNamePrefix)
   }
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用
-  if (CharClass.shouldNotBreak(currentSegment)) {
-    return applyNoBreakStyle(kernedSegment)
+  if (options.noSpaceBetweenNoBreaks && CharClass.shouldNotBreak(currentSegment)) {
+    return applyNoBreakStyle(kernedSegment, options.classNamePrefix)
   }
 
   return kernedSegment
@@ -54,16 +54,18 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
  * @param kerningRules - 適用するカーニングルールの配列。
  * @return カーニング適用後のテキストセグメント。
  */
-const applyKerningToSegment = (currentSegment: string, nextSegment: string, kerningRules: KerningRule[]): string => {
+const applyKerningToSegment = (currentSegment: string, nextSegment: string, options: TypesettingOptions): string => {
   const chars = [...currentSegment]
 
   const kernedChars = chars.map((currentChar, i) => {
     const nextChar = chars[i + 1] || nextSegment[0] || ''
-    const kerningRule = kerningRules.find(rule => rule.between[0] === currentChar && rule.between[1] === nextChar)
+    const kerningRule = options.kerningRules.find(
+      rule => rule.between[0] === currentChar && rule.between[1] === nextChar
+    )
 
     if (kerningRule) {
       const kerningValue = typeof kerningRule.value === 'number' ? kerningRule.value : parseInt(kerningRule.value, 10)
-      return applyKerning(currentChar, kerningValue)
+      return applyKerning(currentChar, kerningValue, options.classNamePrefix)
     }
 
     return currentChar

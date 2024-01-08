@@ -9,11 +9,27 @@ import type { TypesettingOptions, KerningRule } from './types'
  * HTMLProcessor クラスを拡張し、特定の変換関数を適用します。
  */
 class Typesetter extends HTMLProcessor {
-  private isSupported: boolean
+  /**
+   * Typesetter のデフォルトの設定です。
+   */
+  static defaultOptions: TypesettingOptions = {
+    classNamePrefix: 'typeset',
+    useWordBreak: true,
+    wrapLatin: true,
+    noSpaceBetweenNoBreaks: true,
+    addThinSpaces: true,
+    thinSpaceWidth: '50%',
+    kerningRules: [],
+  }
+
+  /**
+   * Intl.Segmenter API が現在の実行環境でサポートされているかどうかを示します。
+   */
+  private isIntlSegmenterSupported: boolean
 
   constructor(options: Partial<TypesettingOptions> = {}) {
-    const validatedOptions = Typesetter.validateOptions(options)
     const transformFunctions = [applyStyleToText, insertSeparatorsToText, applyStyleToSegment]
+    const validatedOptions = Typesetter.validateOptions(options)
 
     super(transformFunctions, validatedOptions)
 
@@ -22,8 +38,8 @@ class Typesetter extends HTMLProcessor {
      * Intl.Segmenter は、テキストを言語固有のセグメントに分割する機能を提供します。
      * サポートされていない場合は警告をコンソールに表示します。
      */
-    this.isSupported = typeof Intl.Segmenter !== 'undefined'
-    if (!this.isSupported) {
+    this.isIntlSegmenterSupported = typeof Intl.Segmenter !== 'undefined'
+    if (!this.isIntlSegmenterSupported) {
       console.warn(`
         Intl.Segmenter is not supported in this environment. 
         The original HTML string will be returned. 
@@ -39,16 +55,13 @@ class Typesetter extends HTMLProcessor {
    * @return 修正されたオプション。
    */
   private static validateOptions(options: Partial<TypesettingOptions>): TypesettingOptions {
-    if (options.kerning) {
-      options.kerning = options.kerning.filter(Typesetter.isValidKerningRule)
+    if (options.kerningRules) {
+      options.kerningRules = options.kerningRules.filter(Typesetter.isValidKerningRule)
     }
 
     // デフォルトのオプションとマージ
     return {
-      addWbrToHtml: true,
-      addThinSpaceToHtml: true,
-      thinSpaceWidth: '50%',
-      kerning: [],
+      ...Typesetter.defaultOptions,
       ...options,
     }
   }
@@ -56,12 +69,14 @@ class Typesetter extends HTMLProcessor {
   /**
    * カーニングルールが適切かどうかを検証します。
    *
-   * @param rule - 検証するカーニングルール。
+   * @param kerningRule - 検証するカーニングルール。
    * @return ルールが有効な場合はtrue、そうでない場合はfalse。
    */
-  private static isValidKerningRule(rule: KerningRule): boolean {
-    if (rule.between[0].length !== 1 || rule.between[1].length !== 1) {
-      console.warn(`Kerning rule between '${rule.between[0]}' and '${rule.between[1]}' must be single characters.`)
+  private static isValidKerningRule(kerningRule: KerningRule): boolean {
+    if (kerningRule.between[0].length !== 1 || kerningRule.between[1].length !== 1) {
+      console.warn(
+        `Kerning rule between '${kerningRule.between[0]}' and '${kerningRule.between[1]}' must be single characters.`
+      )
       return false
     }
 
@@ -75,7 +90,7 @@ class Typesetter extends HTMLProcessor {
    * @return 処理後のHTML文字列。
    */
   render(srcHtml: string): string {
-    if (!this.isSupported || !srcHtml) {
+    if (!this.isIntlSegmenterSupported || !srcHtml) {
       return srcHtml
     }
 
@@ -89,7 +104,7 @@ class Typesetter extends HTMLProcessor {
    * @param elements - スタイルを適用するElementまたはHTMLElementの配列。
    */
   renderToElements(elements: Element | Element[] | null): void {
-    if (!this.isSupported || !elements) {
+    if (!this.isIntlSegmenterSupported || !elements) {
       return
     }
 
@@ -110,7 +125,7 @@ class Typesetter extends HTMLProcessor {
    * @param selector - スタイルを適用する要素を選択するCSSセレクタ。
    */
   renderToSelector(selector: string | null): void {
-    if (!this.isSupported || !selector) {
+    if (!this.isIntlSegmenterSupported || !selector) {
       return
     }
 

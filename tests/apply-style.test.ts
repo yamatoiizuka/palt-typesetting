@@ -1,12 +1,11 @@
+import Typesetter from '../src'
 import { applyStyleToSegment } from '../src/apply-style'
 import { TypesettingOptions } from '../src/types'
 
 describe('applyStyleToSegment', () => {
   const options: TypesettingOptions = {
-    addWbrToHtml: true,
-    addThinSpaceToHtml: true,
-    thinSpaceWidth: '50%',
-    kerning: [
+    ...Typesetter.defaultOptions,
+    kerningRules: [
       {
         between: ['す', '。'],
         value: '-80',

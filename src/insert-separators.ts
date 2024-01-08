@@ -41,9 +41,9 @@ const generateSegments = (src: string): string[] => {
 const addSeparatorsToSegment = (current: string, next = '', options: TypesettingOptions): string => {
   if (!next) return current
 
-  const addWbr = options.addWbrToHtml && shouldAddWbr(current, next)
-  const addSpace = options.addThinSpaceToHtml && shouldAddThinSpace(current, next)
-  return current + (addSpace ? thinSpace(options.thinSpaceWidth) : '') + (addWbr ? wbr : '')
+  const addWbr = options.useWordBreak && shouldAddWbr(current, next)
+  const addSpace = options.addThinSpaces && shouldAddThinSpace(current, next)
+  return current + (addSpace ? thinSpace(options.thinSpaceWidth, options.classNamePrefix) : '') + (addWbr ? wbr : '')
 }
 
 /**

@@ -1,4 +1,3 @@
-const classnamePrefix = 'typeset'
 const uiIgnore = 'user-select:none;" aria-hidden="true" data-nosnippet=""'
 
 /**
@@ -9,11 +8,12 @@ const wbr = '<wbr>'
 /**
  * THIN SPACEを指定した幅で生成する関数です。
  * @param width - THIN SPACEの幅。
+ * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return スタイル適用されたTHIN SPACEを含むspanタグ。
  */
-const thinSpace = (width: string): string => {
+const thinSpace = (width: string, classNamePrefix: string): string => {
   const THIN_SPACE = String.fromCharCode(0x2009) // U+2009 THIN SPACE
-  const classname: string = classnamePrefix + '-thin-space'
+  const classname: string = classNamePrefix + '-thin-space'
   return `<span class="${classname}" style="font-size: ${width}; ${uiIgnore}>${THIN_SPACE}</span>`
 }
 
@@ -22,11 +22,12 @@ const thinSpace = (width: string): string => {
  *
  * @param char - カーニングを適用する文字。
  * @param value - カーニング値（千分率）。例: 1000 は 1em のカーニングを意味します。
+ * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return カーニング適用後のHTMLコンテンツ。
  */
-const applyKerning = (char: string, value: number): string => {
+const applyKerning = (char: string, value: number, classNamePrefix: string): string => {
   const emValue = value / 1000 / 2 + 'em'
-  const classname: string = classnamePrefix + '-kerning'
+  const classname: string = classNamePrefix + '-kerning'
   return `${char}<span class="${classname}" style="margin: ${emValue}; ${uiIgnore}></span>`
 }
 
@@ -42,22 +43,22 @@ const applyWbrStyle = (text: string): string => {
 /**
  * 与えられたセグメントにクラス名を適用します。
  * @param segment - クラスを適用するセグメント。
- * @param classname - 適用するクラス名。デフォルトは 'typeset-latin'。
+ * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return クラス適用されたセグメントを含むspanタグ。
  */
-const applyLatinClass = (segment: string): string => {
-  const classname: string = classnamePrefix + '-latin'
+const applyLatinClass = (segment: string, classNamePrefix: string): string => {
+  const classname: string = classNamePrefix + '-latin'
   return `<span class="${classname}">${segment}</span>`
 }
 
 /**
  * 与えられたセグメントにno-breakスタイルを適用します。
  * @param segment - スタイルを適用するセグメント。
- * @param classname - 適用するクラス名。デフォルトは 'typeset-no-breaks'。
+ * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return スタイル適用されたセグメントを含むspanタグ。
  */
-const applyNoBreakStyle = (segment: string): string => {
-  const classname: string = classnamePrefix + '-no-breaks'
+const applyNoBreakStyle = (segment: string, classNamePrefix: string): string => {
+  const classname: string = classNamePrefix + '-no-breaks'
   return `<span class="${classname}" style="letter-spacing: 0">${segment}</span>`
 }
 

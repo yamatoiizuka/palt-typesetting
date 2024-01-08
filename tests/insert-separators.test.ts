@@ -1,3 +1,4 @@
+import Typesetter from '../src'
 import insertSeparatorsToText, {
   generateSegments,
   addSeparatorsToSegment,
@@ -6,14 +7,8 @@ import insertSeparatorsToText, {
 } from '../src/insert-separators'
 import { wbr, thinSpace } from '../src/utils-tags'
 
-const options = {
-  addWbrToHtml: true,
-  addThinSpaceToHtml: true,
-  thinSpaceWidth: '50%',
-  kerning: [],
-}
-
-const space = thinSpace(options.thinSpaceWidth)
+const options = Typesetter.defaultOptions
+const space = thinSpace(options.thinSpaceWidth, options.classNamePrefix)
 
 describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {

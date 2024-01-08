@@ -16,17 +16,30 @@ export interface TypesettingOptions {
    * HTML内のテキストにWBRタグを自動的に追加するかどうかを指定します。
    * WBRタグは、必要に応じて改行の挿入を許可するために使用されます。
    */
-  addWbrToHtml: boolean
+  useWordBreak: boolean
+
+  /**
+   * 英数を .typeset-latin でラップします。
+   * useWordBreak が true の場合にのみ有効です。
+   */
+  wrapLatin: boolean
+
+  /**
+   * 分離禁則文字を .typeset-nobreaks でラップし、文字間を 0 に設定します。
+   * useWordBreak が true の場合にのみ有効です。
+   */
+  noSpaceBetweenNoBreaks: boolean
 
   /**
    * HTML内のテキストにTHIN SPACEを自動的に追加するかどうかを指定します。
    * THIN SPACEは、視覚的なスペースを微調整するために使用されます。
    */
-  addThinSpaceToHtml: boolean
+  addThinSpaces: boolean
 
   /**
    * THIN SPACEの幅を指定します。
    * 例えば'20%'と指定すると、THIN SPACEは通常のスペースの20%の幅になります。
+   * addThinSpaces が true の場合のみ有効です。
    */
   thinSpaceWidth: string
 
@@ -34,7 +47,12 @@ export interface TypesettingOptions {
    * カーニングを適用するためのルールのリスト。
    * 各ルールは、特定の文字ペア間に適用されるカーニング値を指定します。
    */
-  kerning: KerningRule[]
+  kerningRules: KerningRule[]
+
+  /**
+   * ライブラリで使用されるCSSクラス名のプレフィックスを指定します。
+   */
+  classNamePrefix: string
 }
 
 /**
