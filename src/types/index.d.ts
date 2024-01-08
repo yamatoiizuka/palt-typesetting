@@ -20,13 +20,13 @@ export interface TypeSetttingOptions {
    * HTML内のテキストにWBRタグを自動的に追加するかどうかを指定します。
    * WBRタグは、必要に応じて改行の挿入を許可するために使用されます。
    */
-  addWbrToHtml: boolean
+  useWordBreak: boolean
 
   /**
    * HTML内のテキストにTHIN SPACEを自動的に追加するかどうかを指定します。
    * THIN SPACEは、視覚的なスペースを微調整するために使用されます。
    */
-  addThinSpaceToHtml: boolean
+  addThinSpaces: boolean
 
   /**
    * THIN SPACEの幅を指定します。

@@ -10,7 +10,7 @@ import { TypeSetttingOptions, KerningRule } from './types'
  */
 const applyStyleToText = (currentNodeValue: string, nextNodeValue: string, options: TypeSetttingOptions): string => {
   // ここでは nextNodeValue を使用していませんが、関数のシグネチャはTransformFunctionに合わせています。
-  if (!options.addWbrToHtml || currentNodeValue === ' ') {
+  if (!options.useWordBreak || currentNodeValue === ' ') {
     return currentNodeValue
   }
 

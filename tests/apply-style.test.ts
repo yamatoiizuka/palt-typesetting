@@ -3,8 +3,8 @@ import { TypeSetttingOptions } from '../src/types'
 
 describe('applyStyleToSegment', () => {
   const options: TypeSetttingOptions = {
-    addWbrToHtml: true,
-    addThinSpaceToHtml: true,
+    useWordBreak: true,
+    addThinSpaces: true,
     thinSpaceWidth: '50%',
     kerning: [
       {

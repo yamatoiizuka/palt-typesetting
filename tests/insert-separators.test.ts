@@ -7,8 +7,8 @@ import insertSeparatorsToText, {
 import { wbr, thinSpace } from '../src/utils-tags'
 
 const options = {
-  addWbrToHtml: true,
-  addThinSpaceToHtml: true,
+  useWordBreak: true,
+  addThinSpaces: true,
   thinSpaceWidth: '50%',
   kerning: [],
 }

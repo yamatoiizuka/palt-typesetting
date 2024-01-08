@@ -45,8 +45,8 @@ class TypeSet extends HTMLProcessor {
 
     // デフォルトのオプションとマージ
     return {
-      addWbrToHtml: true,
-      addThinSpaceToHtml: true,
+      useWordBreak: true,
+      addThinSpaces: true,
       thinSpaceWidth: '50%',
       kerning: [],
       ...options,
