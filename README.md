@@ -1,4 +1,6 @@
-# Typesetting Library for Propotional Spacing
+# Palt Typesetting
+
+## Typesetting Library for Propotional Spacing
 
 Palt Typesetting は、読みやすく美しいテキスト表示を実現するための JavaScript ライブラリです。和欧混合、およびメトリクス詰め(`font-feature-settings: 'palt'`) の版面設計において、最大限の力を発揮します。
 
@@ -22,7 +24,7 @@ typesetter.renderToSelector('.my-class')
 ### Use from CDN
 
 ```html
-<script src="https://unpkg.com/palt-typesetting@0.1.5/bundle/palt-typesetting.min.js"></script>
+<script src="https://unpkg.com/palt-typesetting@0.1.6/bundle/palt-typesetting.min.js"></script>
 ```
 
 ```html
