@@ -10,6 +10,19 @@ import type { TypesettingOptions, KerningRule } from './types'
  */
 class Typesetter extends HTMLProcessor {
   /**
+   * Typesetter のデフォルトの設定です。
+   */
+  static defaultOptions: TypesettingOptions = {
+    classNamePrefix: 'typeset',
+    useWordBreak: true,
+    wrapLatin: true,
+    noSpaceBetweenNoBreaks: true,
+    addThinSpaces: true,
+    thinSpaceWidth: '50%',
+    kerningRules: [],
+  }
+
+  /**
    * Intl.Segmenter API が現在の実行環境でサポートされているかどうかを示します。
    */
   private isIntlSegmenterSupported: boolean
@@ -48,13 +61,7 @@ class Typesetter extends HTMLProcessor {
 
     // デフォルトのオプションとマージ
     return {
-      classNamePrefix: 'typeset',
-      useWordBreak: true,
-      wrapLatin: true,
-      noSpaceBetweenNoBreaks: true,
-      addThinSpaces: true,
-      thinSpaceWidth: '50%',
-      kerningRules: [],
+      ...Typesetter.defaultOptions,
       ...options,
     }
   }

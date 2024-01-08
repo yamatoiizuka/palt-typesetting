@@ -1,14 +1,10 @@
+import Typesetter from '../src'
 import { applyStyleToSegment } from '../src/apply-style'
 import { TypesettingOptions } from '../src/types'
 
 describe('applyStyleToSegment', () => {
   const options: TypesettingOptions = {
-    classNamePrefix: 'typeset',
-    useWordBreak: true,
-    wrapLatin: true,
-    noSpaceBetweenNoBreaks: true,
-    addThinSpaces: true,
-    thinSpaceWidth: '50%',
+    ...Typesetter.defaultOptions,
     kerningRules: [
       {
         between: ['す', '。'],
@@ -16,6 +12,7 @@ describe('applyStyleToSegment', () => {
       },
     ],
   }
+
   it("applies letter-spacing style to separation prohibited characters '──'", () => {
     const current = '──'
     const next = ''

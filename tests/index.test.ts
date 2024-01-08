@@ -4,7 +4,7 @@ import win from '../src/win'
 
 // prettier-ignore
 describe('Typesetter', () => {
-  const prefix = 'typeset'
+  const prefix = Typesetter.defaultOptions.classNamePrefix
   const space = thinSpace('50%', prefix)
   const srcHtml = `<p>──「<b>こんにちは。</b>」日本語とEnglish、晴れ・28度。</p>`
   const expectedHtml = `<p>${applyWbrStyle(`${applyNoBreakStyle('──', prefix)}${space}「`)}<b>${applyWbrStyle(`こんにちは。`)}</b>${applyWbrStyle(`」${space}${wbr}日本語${wbr}と${space}${wbr}${applyLatinClass('English', prefix)}${space}、${space}${wbr}晴れ${space}・${space}${wbr}${applyLatinClass('28', prefix)}${space}${wbr}度。`)}</p>`

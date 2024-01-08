@@ -1,3 +1,4 @@
+import Typesetter from '../src'
 import insertSeparatorsToText, {
   generateSegments,
   addSeparatorsToSegment,
@@ -6,16 +7,7 @@ import insertSeparatorsToText, {
 } from '../src/insert-separators'
 import { wbr, thinSpace } from '../src/utils-tags'
 
-const options = {
-  classNamePrefix: 'typeset',
-  useWordBreak: true,
-  wrapLatin: true,
-  noSpaceBetweenNoBreaks: true,
-  addThinSpaces: true,
-  thinSpaceWidth: '50%',
-  kerningRules: [],
-}
-
+const options = Typesetter.defaultOptions
 const space = thinSpace(options.thinSpaceWidth, options.classNamePrefix)
 
 describe('insertSeparators', () => {
