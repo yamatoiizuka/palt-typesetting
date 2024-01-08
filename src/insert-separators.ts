@@ -1,7 +1,7 @@
 import LineBreaker from 'linebreak'
 import { CharClass, LanguageClass } from './utils-text-classes'
 import { wbr, thinSpace } from './utils-tags'
-import { TypesetOptions } from './types'
+import { TypesettingOptions } from './types'
 
 /**
  * HTMLテキストノードにセパレーター（四分アキ、<wbr>）を挿入します。
@@ -9,7 +9,7 @@ import { TypesetOptions } from './types'
  * @param nextText - 次のテキストノード
  * @return セパレーターを挿入したHTML文字列
  */
-const insertSeparatorsToText = (currentText: string, nextText: string, options: TypesetOptions): string => {
+const insertSeparatorsToText = (currentText: string, nextText: string, options: TypesettingOptions): string => {
   const currentSegments = generateSegments(currentText)
   const nextSegments = generateSegments(nextText)
 
@@ -38,7 +38,7 @@ const generateSegments = (src: string): string[] => {
  * @param next - 次のセグメント
  * @return セパレーターを追加したセグメント
  */
-const addSeparatorsToSegment = (current: string, next = '', options: TypesetOptions): string => {
+const addSeparatorsToSegment = (current: string, next = '', options: TypesettingOptions): string => {
   if (!next) return current
 
   const addWbr = options.addWbrToHtml && shouldAddWbr(current, next)
