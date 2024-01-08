@@ -12,7 +12,7 @@ const options = {
   noSpaceForNoBreaks: true,
   addThinSpaces: true,
   thinSpaceWidth: '50%',
-  kerning: [],
+  kerningRules: [],
 }
 
 const space = thinSpace(options.thinSpaceWidth)

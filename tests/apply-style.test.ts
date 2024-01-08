@@ -8,7 +8,7 @@ describe('applyStyleToSegment', () => {
     noSpaceForNoBreaks: true,
     addThinSpaces: true,
     thinSpaceWidth: '50%',
-    kerning: [
+    kerningRules: [
       {
         between: ['す', '。'],
         value: '-80',

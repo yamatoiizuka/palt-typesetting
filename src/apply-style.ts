@@ -31,7 +31,7 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
     return currentSegment
   }
 
-  const kernedSegment = applyKerningToSegment(currentSegment, nextSegment, options.kerning)
+  const kernedSegment = applyKerningToSegment(currentSegment, nextSegment, options.kerningRules)
 
   // ラテン文字のセグメントには 'latin' クラスを適用
   if (options.wrapLatin && LanguageClass.isLatin(currentSegment)) {

@@ -39,8 +39,8 @@ class Typesetter extends HTMLProcessor {
    * @return 修正されたオプション。
    */
   private static validateOptions(options: Partial<TypesettingOptions>): TypesettingOptions {
-    if (options.kerning) {
-      options.kerning = options.kerning.filter(Typesetter.isValidKerningRule)
+    if (options.kerningRules) {
+      options.kerningRules = options.kerningRules.filter(Typesetter.isValidKerningRule)
     }
 
     // デフォルトのオプションとマージ
@@ -50,7 +50,7 @@ class Typesetter extends HTMLProcessor {
       thinSpaceWidth: '50%',
       noSpaceForNoBreaks: true,
       wrapLatin: true,
-      kerning: [],
+      kerningRules: [],
       ...options,
     }
   }

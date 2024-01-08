@@ -47,7 +47,7 @@ export interface TypesettingOptions {
    * カーニングを適用するためのルールのリスト。
    * 各ルールは、特定の文字ペア間に適用されるカーニング値を指定します。
    */
-  kerning: KerningRule[]
+  kerningRules: KerningRule[]
 }
 
 /**
