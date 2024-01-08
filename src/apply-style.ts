@@ -1,5 +1,5 @@
 import { CharClass, LanguageClass } from './utils-text-classes'
-import { applyWbrStyle, applyLatinClass, applyNoBreakStyle, applyKerning } from './utils-tags'
+import { applyWrapperStyle, applyLatinStyle, applyNoBreakStyle, applyKerning } from './utils-tags'
 import { TypesettingOptions } from './types'
 
 /**
@@ -10,11 +10,11 @@ import { TypesettingOptions } from './types'
  */
 const applyStyleToText = (currentNodeValue: string, nextNodeValue: string, options: TypesettingOptions): string => {
   // ここでは nextNodeValue を使用していませんが、関数のシグネチャはTransformFunctionに合わせています。
-  if (!options.useWordBreak || currentNodeValue === ' ') {
+  if (currentNodeValue === ' ') {
     return currentNodeValue
   }
 
-  return applyWbrStyle(currentNodeValue)
+  return applyWrapperStyle(currentNodeValue, options.classNamePrefix, options.useWordBreak)
 }
 
 /**
@@ -35,7 +35,7 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
 
   // ラテン文字のセグメントには 'latin' クラスを適用
   if (options.wrapLatin && LanguageClass.isLatin(currentSegment)) {
-    return applyLatinClass(kernedSegment, options.classNamePrefix)
+    return applyLatinStyle(kernedSegment, options.classNamePrefix)
   }
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用

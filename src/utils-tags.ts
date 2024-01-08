@@ -1,4 +1,14 @@
-const uiIgnore = 'user-select:none;" aria-hidden="true" data-nosnippet=""'
+/**
+ * ユーザーインターフェースのアクセシビリティと検索エンジンの最適化に関連する設定を定義します。
+ * - preventSelectStyle: ユーザーがテキストを選択してコピーすることを防止します。
+ * - hiddenFromReader: スクリーンリーダーなどのアクセシビリティツールからこの要素を隠します。
+ * - noIndex: 検索エンジンがこの要素の内容を検索結果のスニペットとして表示しないようにします。
+ */
+const uiIgnoreSettings = {
+  preventSelectStyle: 'user-select:none;',
+  hiddenFromReader: 'aria-hidden="true"',
+  noIndex: 'data-nosnippet=""',
+}
 
 /**
  * `<wbr>`タグはHTML文書内で単語の区切りを示し、必要に応じて改行の挿入を許可するタグです。
@@ -7,37 +17,43 @@ const wbr = '<wbr>'
 
 /**
  * THIN SPACEを指定した幅で生成する関数です。
- * @param width - THIN SPACEの幅。
+ * @param thisSpaceWidth - THIN SPACEの幅。
  * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return スタイル適用されたTHIN SPACEを含むspanタグ。
  */
-const thinSpace = (width: string, classNamePrefix: string): string => {
+const thinSpace = (thisSpaceWidth: string, classNamePrefix: string): string => {
   const THIN_SPACE = String.fromCharCode(0x2009) // U+2009 THIN SPACE
-  const classname: string = classNamePrefix + '-thin-space'
-  return `<span class="${classname}" style="font-size: ${width}; ${uiIgnore}>${THIN_SPACE}</span>`
+  const className = classNamePrefix + '-thin-space'
+  const style = `font-size: ${thisSpaceWidth}; ${uiIgnoreSettings.preventSelectStyle}`
+  return `<span class="${className}" style="${style}" ${uiIgnoreSettings.hiddenFromReader} ${uiIgnoreSettings.noIndex}>${THIN_SPACE}</span>`
 }
 
 /**
  * 指定された文字にカーニング（文字間隔調整）を適用します。
  *
  * @param char - カーニングを適用する文字。
- * @param value - カーニング値（千分率）。例: 1000 は 1em のカーニングを意味します。
+ * @param kerningValue - カーニング値（千分率）。例: 1000 は 1em のカーニングを意味します。
  * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return カーニング適用後のHTMLコンテンツ。
  */
-const applyKerning = (char: string, value: number, classNamePrefix: string): string => {
-  const emValue = value / 1000 / 2 + 'em'
-  const classname: string = classNamePrefix + '-kerning'
-  return `${char}<span class="${classname}" style="margin: ${emValue}; ${uiIgnore}></span>`
+const applyKerning = (char: string, kerningValue: number, classNamePrefix: string): string => {
+  const emValue = kerningValue / 1000 / 2 + 'em'
+  const className = classNamePrefix + '-kerning'
+  const style = `margin: ${emValue}; ${uiIgnoreSettings.preventSelectStyle}`
+  return `${char}<span class="${className}" style="${style}" ${uiIgnoreSettings.hiddenFromReader} ${uiIgnoreSettings.noIndex}></span>`
 }
 
 /**
  * 与えられたテキストにword-breakとoverflow-wrapスタイルを適用します。
  * @param text - スタイルを適用するテキスト。
+ * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
+ * @param useWordBreak - 単語や助詞など、語単位での改行を行うかどうか。デフォルトは true。
  * @return スタイル適用されたテキストを含むspanタグ。
  */
-const applyWbrStyle = (text: string): string => {
-  return `<span style="word-break: keep-all; overflow-wrap: anywhere;">${text}</span>`
+const applyWrapperStyle = (text: string, classNamePrefix: string, useWordBreak: boolean): string => {
+  // <wbr> 以外の箇所で改行しないためのスタイリング
+  const style = useWordBreak ? 'word-break: keep-all; overflow-wrap: anywhere;' : ''
+  return `<span class="${classNamePrefix}" style="${style}">${text}</span>`
 }
 
 /**
@@ -46,9 +62,9 @@ const applyWbrStyle = (text: string): string => {
  * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return クラス適用されたセグメントを含むspanタグ。
  */
-const applyLatinClass = (segment: string, classNamePrefix: string): string => {
-  const classname: string = classNamePrefix + '-latin'
-  return `<span class="${classname}">${segment}</span>`
+const applyLatinStyle = (segment: string, classNamePrefix: string): string => {
+  const className = classNamePrefix + '-latin'
+  return `<span class="${className}">${segment}</span>`
 }
 
 /**
@@ -58,8 +74,8 @@ const applyLatinClass = (segment: string, classNamePrefix: string): string => {
  * @return スタイル適用されたセグメントを含むspanタグ。
  */
 const applyNoBreakStyle = (segment: string, classNamePrefix: string): string => {
-  const classname: string = classNamePrefix + '-no-breaks'
-  return `<span class="${classname}" style="letter-spacing: 0">${segment}</span>`
+  const className = classNamePrefix + '-no-breaks'
+  return `<span class="${className}" style="letter-spacing: 0">${segment}</span>`
 }
 
-export { wbr, thinSpace, applyKerning, applyWbrStyle, applyLatinClass, applyNoBreakStyle }
+export { wbr, thinSpace, applyKerning, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle }
