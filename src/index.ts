@@ -88,7 +88,7 @@ class TypeSet extends HTMLProcessor {
    *
    * @param elements - スタイルを適用するElementまたはHTMLElementの配列。
    */
-  renderFromElements(elements: Element | Element[] | null): void {
+  renderToElements(elements: Element | Element[] | null): void {
     if (!this.isSupported || !elements) {
       return
     }
@@ -109,13 +109,13 @@ class TypeSet extends HTMLProcessor {
    *
    * @param selector - スタイルを適用する要素を選択するCSSセレクタ。
    */
-  renderFromSelector(selector: string | null): void {
+  renderToSelector(selector: string | null): void {
     if (!this.isSupported || !selector) {
       return
     }
 
     const elements = win.document.querySelectorAll(selector)
-    this.renderFromElements(Array.from(elements))
+    this.renderToElements(Array.from(elements))
   }
 }
 
