@@ -103,7 +103,7 @@ const options = {
   // 英数を `.typeset-latin` でラップします。
   wrapLatin: true,
 
-  // 罫線などの分離禁則文字を `.typeset-nobreaks` でラップし、文字間を 0 に設定します。
+  // 罫線などの分離禁則文字を `.typeset-no-breaks` でラップし、文字間を 0 に設定します。
   noSpaceBetweenNoBreaks: true,
 
   // 四分アキスペースを自動で追加します。
@@ -131,15 +131,15 @@ typesetter.renderToSelector('.my-class')
 
 ### Typesetting Options
 
-| オプション名             | 説明                                                                                                                                      | 型                                                       | デフォルト値 |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------ |
-| `classNamePrefix`        | ライブラリで使用される CSS クラス名のプレフィックスを指定します。                                                                         | `string`                                                 | `'typeset' ` |
-| `useWordBreak`           | 単語や助詞など、語単位での改行を行います。                                                                                                | `boolean`                                                | `true`       |
-| `wrapLatin`              | 英数を `span.typeset-latin` でラップします。<br>`useWordBreak` が `true` の場合にのみ有効です。                                           | `boolean`                                                | `true`       |
-| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typeset-nobreaks` でラップし、文字間を 0 に設定します。<br>`useWordBreak` が `true` の場合にのみ有効です。 | `boolean`                                                | `true`       |
-| `addThinSpaces`          | 四分アキスペースを自動で追加します。                                                                                                      | `boolean`                                                | `true`       |
-| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`addThinSpaces` が `true` の場合にのみ有効です。                                                    | `string`                                                 | `'50%' `     |
-| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                              | `{between: [string, string], value: string \| number}[]` | `[]`         |
+| オプション名             | 説明                                                                                                                                       | 型                                                       | デフォルト値 |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- | ------------ |
+| `classNamePrefix`        | ライブラリで使用される CSS クラス名のプレフィックスを指定します。                                                                          | `string`                                                 | `'typeset' ` |
+| `useWordBreak`           | 単語や助詞など、語単位での改行を行います。                                                                                                 | `boolean`                                                | `true`       |
+| `wrapLatin`              | 英数を `span.typeset-latin` でラップします。<br>`useWordBreak` が `true` の場合にのみ有効です。                                            | `boolean`                                                | `true`       |
+| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typeset-no-breaks` でラップし、文字間を 0 に設定します。<br>`useWordBreak` が `true` の場合にのみ有効です。 | `boolean`                                                | `true`       |
+| `addThinSpaces`          | 四分アキスペースを自動で追加します。                                                                                                       | `boolean`                                                | `true`       |
+| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`addThinSpaces` が `true` の場合にのみ有効です。                                                     | `string`                                                 | `'50%' `     |
+| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                               | `{between: [string, string], value: string \| number}[]` | `[]`         |
 
 ## Notes
 
