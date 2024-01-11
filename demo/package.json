@@ -1,0 +1,21 @@
+{
+  "name": "palt-typesettng-demo",
+  "version": "0.1.0",
+  "description": "A demo app for Palt Typesetting.",
+  "scripts": {
+    "start": "parcel ./src/index.html",
+    "build": "parcel build ./src/index.html"
+  },
+  "author": {
+    "name": "Yamato Iizuka",
+    "email": "me@yamatoiizuka.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "parcel": "^2.11.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "palt-typesetting": "file:../"
+  }
+}

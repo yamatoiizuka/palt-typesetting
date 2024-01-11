@@ -1,0 +1,31 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main # ビルドをトリガーするブランチを指定
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # 使用するNode.jsのバージョン
+
+      - name: Install dependencies (/demo)
+        run: npm install
+        working-directory: ./demo # /demo ディレクトリを指定
+
+      - name: Build (/demo)
+        run: npm run build
+        working-directory: ./demo # /demo ディレクトリを指定
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages # GitHub Pagesにデプロイするブランチ
+          folder: demo/dist # ビルドされたファイルが保存されているディレクトリ
