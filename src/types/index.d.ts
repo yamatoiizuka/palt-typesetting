@@ -34,12 +34,12 @@ export interface TypesettingOptions {
    * HTML内のテキストにTHIN SPACEを自動的に追加するかどうかを指定します。
    * THIN SPACEは、視覚的なスペースを微調整するために使用されます。
    */
-  addThinSpaces: boolean
+  insertThinSpaces: boolean
 
   /**
    * THIN SPACEの幅を指定します。
    * 例えば'20%'と指定すると、THIN SPACEは通常のスペースの20%の幅になります。
-   * addThinSpaces が true の場合のみ有効です。
+   * insertThinSpaces が true の場合のみ有効です。
    */
   thinSpaceWidth: string
 
