@@ -61,6 +61,7 @@ typesetter.renderToSelector('.my-class')
 const typesetter = new Typesetter()
 
 // Render to Selector
+typesetter.renderToSelector('div')
 typesetter.renderToSelector('.my-class')
 typesetter.renderToSelector('#my-id')
 
@@ -107,7 +108,7 @@ const options = {
   noSpaceBetweenNoBreaks: true,
 
   // 四分アキスペースを自動で追加します。
-  addThinSpaces: true,
+  insertThinSpaces: true,
 
   // 四分アキスペースの幅を設定します。
   thinSpaceWidth: '50%',
@@ -137,8 +138,8 @@ typesetter.renderToSelector('.my-class')
 | `useWordBreak`           | 単語や助詞など、語単位での改行を行います。                                                                                                 | `boolean`                                                | `true`       |
 | `wrapLatin`              | 英数を `span.typeset-latin` でラップします。<br>`useWordBreak` が `true` の場合にのみ有効です。                                            | `boolean`                                                | `true`       |
 | `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typeset-no-breaks` でラップし、文字間を 0 に設定します。<br>`useWordBreak` が `true` の場合にのみ有効です。 | `boolean`                                                | `true`       |
-| `addThinSpaces`          | 四分アキスペースを自動で追加します。                                                                                                       | `boolean`                                                | `true`       |
-| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`addThinSpaces` が `true` の場合にのみ有効です。                                                     | `string`                                                 | `'50%' `     |
+| `insertThinSpaces`       | 四分アキスペースを自動で追加します。                                                                                                       | `boolean`                                                | `true`       |
+| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`insertThinSpaces` が `true` の場合にのみ有効です。                                                  | `string`                                                 | `'50%' `     |
 | `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                               | `{between: [string, string], value: string \| number}[]` | `[]`         |
 
 ## Notes
