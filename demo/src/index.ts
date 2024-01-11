@@ -7,7 +7,7 @@ interface KerningRule {
 
 interface Options {
   useWordBreak: boolean
-  addThinSpaces: boolean
+  insertThinSpaces: boolean
   noSpaceBetweenNoBreaks: boolean
   wrapLatin: boolean
   kerningRules: KerningRule[]
@@ -23,7 +23,7 @@ let isTypeset = true
 
 // オプションのDOM要素をキャッシュ
 const useWordBreakToggle = document.getElementById('useWordBreakToggle') as HTMLInputElement
-const addThinSpacesToggle = document.getElementById('addThinSpacesToggle') as HTMLInputElement
+const insertThinSpacesToggle = document.getElementById('insertThinSpacesToggle') as HTMLInputElement
 const wrapLatinToggle = document.getElementById('wrapLatinToggle') as HTMLInputElement
 const noSpaceBetweenNoBreaksToggle = document.getElementById('noSpaceBetweenNoBreaksToggle') as HTMLInputElement
 const kerningRulesToggle = document.getElementById('kerningRulesToggle') as HTMLInputElement
@@ -63,7 +63,7 @@ function toggleInputElements(enable: boolean) {
 function getDefaultOptions(): Options {
   return {
     useWordBreak: true,
-    addThinSpaces: true,
+    insertThinSpaces: true,
     noSpaceBetweenNoBreaks: true,
     wrapLatin: true,
     kerningRules: getKerningRules(true),
@@ -116,7 +116,7 @@ function synchronizeAndSetupTargetCheckboxes() {
 function updateOptions() {
   options = {
     useWordBreak: useWordBreakToggle.checked,
-    addThinSpaces: addThinSpacesToggle.checked,
+    insertThinSpaces: insertThinSpacesToggle.checked,
     wrapLatin: wrapLatinToggle.checked,
     noSpaceBetweenNoBreaks: noSpaceBetweenNoBreaksToggle.checked,
     kerningRules: getKerningRules(kerningRulesToggle.checked),
