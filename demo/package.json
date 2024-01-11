@@ -4,7 +4,7 @@
   "description": "A demo app for Palt Typesetting.",
   "scripts": {
     "start": "parcel ./src/index.html",
-    "build": "parcel build ./src/index.html"
+    "build": "parcel build ./src/index.html --public-url /palt-typesetting/"
   },
   "author": {
     "name": "Yamato Iizuka",
