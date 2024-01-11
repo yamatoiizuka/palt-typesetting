@@ -8,17 +8,29 @@
 }
 
 body {
-  margin: 5em 2.4em;
+  margin: 3.2em 1.6em;
   -webkit-font-smoothing: antialiased;
   font-family: aktiv-grotesk, a-otf-gothic-bbb-pr6n, sans-serif;
 }
 
+@media (min-width: 500px) {
+  body {
+    margin: 5em 3em;
+  }
+}
+
 p {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-weight: 300;
-  font-feature-settings: "palt";
+  font-feature-settings: 'palt';
   letter-spacing: 0.12em;
   line-height: var(--line-height);
+}
+
+@media (min-width: 500px) {
+  p {
+    font-size: 1.6rem;
+  }
 }
 
 .typeset {
@@ -75,7 +87,7 @@ a:hover {
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 26px;
   width: 26px;
   left: 4px;
