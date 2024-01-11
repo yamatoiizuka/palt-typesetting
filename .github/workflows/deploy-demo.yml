@@ -16,6 +16,12 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install dependencies (/)
+        run: npm install
+
+      - name: Build (/)
+        run: npm run build
+
       - name: Install dependencies (/demo)
         run: npm install
         working-directory: demo
