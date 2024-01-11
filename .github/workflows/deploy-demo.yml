@@ -35,3 +35,4 @@ jobs:
         with:
           branch: gh-pages
           folder: demo/dist
+          token: ${{ secrets.GH_PAGES_TOKEN }}
