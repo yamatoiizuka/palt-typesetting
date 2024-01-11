@@ -1,5 +1,6 @@
 .DS_Store
 
-/dist
-/bundle
-/node_modules
+dist
+bundle
+node_modules
+.parcel-cache
