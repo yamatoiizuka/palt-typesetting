@@ -134,4 +134,4 @@ class Typesetter extends HTMLProcessor {
   }
 }
 
-module.exports = Typesetter
+export default Typesetter
