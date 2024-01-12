@@ -1,3 +1,6 @@
+import './style.css'
+import './module/typekit'
+
 import Typesetter from 'palt-typesetting'
 
 interface KerningRule {

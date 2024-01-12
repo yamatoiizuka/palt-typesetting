@@ -8,23 +8,23 @@
 }
 
 body {
-  margin: 3.2em 1.6em;
   -webkit-font-smoothing: antialiased;
   font-family: aktiv-grotesk, a-otf-gothic-bbb-pr6n, sans-serif;
+  margin: 3.2rem 1.6rem;
 }
 
 @media (min-width: 500px) {
   body {
-    margin: 5em 3em;
+    margin: 5rem 3rem;
   }
 }
 
 p {
-  font-size: 1.2rem;
-  font-weight: 300;
   font-feature-settings: 'palt';
-  letter-spacing: 0.12em;
+  font-weight: 300;
+  font-size: 1.2rem;
   line-height: var(--line-height);
+  letter-spacing: 0.12em;
 }
 
 @media (min-width: 500px) {
@@ -42,8 +42,8 @@ p {
   --font-size-latin: 106%;
   font-size: var(--font-size-latin);
   line-height: calc(var(--line-height) / var(--font-size-latin));
-  -webkit-text-stroke: var(--text-stroke-weight) var(--main-color);
   letter-spacing: 0.05em;
+  -webkit-text-stroke: var(--text-stroke-weight) var(--main-color);
 }
 
 a {
