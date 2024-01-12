@@ -1,6 +1,6 @@
 {
   "name": "palt-typesetting",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A typesetting library, primarily focused on Japanese proportional spacing (font-feature-settings: 'palt').",
   "main": "./dist/index.js",
   "files": [
