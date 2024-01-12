@@ -21,12 +21,6 @@ const typesetter = new Typesetter()
 typesetter.renderToSelector('.my-class')
 ```
 
-### Use from CDN
-
-```html
-<script src="https://unpkg.com/palt-typesetting@0.1.10/bundle/palt-typesetting.min.js"></script>
-```
-
 ```html
 <script>
   const typesetter = new Typesetter()
@@ -107,7 +101,7 @@ const options = {
   // 罫線などの分離禁則文字を `.typeset-no-breaks` でラップし、文字間を 0 に設定します。
   noSpaceBetweenNoBreaks: true,
 
-  // 四分アキスペースを自動で追加します。
+  // 四分アキスペースを自動で挿入します。
   insertThinSpaces: true,
 
   // 四分アキスペースの幅を設定します。
