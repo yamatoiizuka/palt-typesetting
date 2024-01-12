@@ -21,13 +21,6 @@ const typesetter = new Typesetter()
 typesetter.renderToSelector('.my-class')
 ```
 
-```html
-<script>
-  const typesetter = new Typesetter()
-  typesetter.renderToSelector('.my-class')
-</script>
-```
-
 ### Add CSS (optional)
 
 ```css
