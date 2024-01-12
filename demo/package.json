@@ -4,6 +4,9 @@
   "description": "A demo app for Palt Typesetting.",
   "scripts": {
     "start": "parcel ./src/index.html",
+    "prebuild": "npm run clean:dist && npm run copy:public",
+    "clean:dist": "rm -rf dist && mkdir dist",
+    "copy:public": "cp -r public/* dist/",
     "build": "parcel build ./src/index.html"
   },
   "author": {

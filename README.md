@@ -9,7 +9,7 @@ Palt Typesetting は、読みやすく美しいテキスト表示を実現する
 ## Demo
 
 - [Interactive Demo](https://palt.typesetting.jp)
-- [Simple Demo in CodeSandbox](https://codesandbox.io/p/sandbox/a-simple-demo-of-palt-typesetting-rptqm7?file=%2Fsrc%2Ftypesetting.js%3A21%2C1)
+- [Simple Demo in CodeSandbox](https://codesandbox.io/p/sandbox/a-simple-demo-of-palt-typesetting-rptqm7?file=%2Fsrc%2Findex.js%3A12%2C1)
 
 ## Getting Started
 
