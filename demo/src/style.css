@@ -27,6 +27,12 @@ p {
   letter-spacing: 0.12em;
 }
 
+@media (max-width: 499px) {
+  .sp-large {
+    font-size: 1.6rem;
+  }
+}
+
 @media (min-width: 500px) {
   p {
     font-size: 1.6rem;
