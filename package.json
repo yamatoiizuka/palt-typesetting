@@ -1,8 +1,9 @@
 {
   "name": "palt-typesetting",
   "version": "0.1.10",
-  "description": "A typesetting library, primarily focused on Japanese proportional spacing (font-feature-settings: 'palt').",
+  "description": "A typesetting library",
   "main": "./dist/index.js",
+  "type": "module",
   "files": [
     "dist/**/*",
     "bundle/**/*"
@@ -12,11 +13,10 @@
     "url": "https://github.com/yamatoiizuka/palt-typesetting.git"
   },
   "scripts": {
-    "clean": "rm -rf ./dist && rm -rf ./bundle",
+    "clean": "rm -rf ./dist",
     "copy": "mkdir -p ./dist/types && cp -R ./src/types/* ./dist/types",
     "prebuild": "npm run clean && npm run copy",
-    "build": "tsc && npm run bundle",
-    "bundle": "esbuild ./dist/index.js --bundle --outfile=bundle/palt-typesetting.min.js --minify --sourcemap --platform=browser --target=es2016 --global-name=Typesetter",
+    "build": "tsc",
     "test": "jest",
     "lint": "eslint ./src/** --no-error-on-unmatched-pattern",
     "lint:fix": "eslint ./src/** --fix"
@@ -40,7 +40,6 @@
     "@typescript-eslint/eslint-plugin": "^6.18.0",
     "@typescript-eslint/parser": "^6.18.0",
     "babel-jest": "^29.7.0",
-    "esbuild": "^0.19.11",
     "eslint": "^8",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.1",
