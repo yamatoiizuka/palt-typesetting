@@ -137,11 +137,17 @@ input:checked + .slider:before {
 
 #options .option label {
   display: inline-block;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-right: 1rem;
   cursor: pointer;
   font-weight: 400;
   color: rgb(63 63 70);
+}
+
+@media (min-width: 500px) {
+  p {
+    font-size: 1.2rem;
+  }
 }
 
 #options .option input:disabled + label {
