@@ -2,6 +2,7 @@
   --line-height: 2;
   --main-color: rgb(9 9 11);
   --sub-color: rgb(176 171 178);
+  --color-switch: rgb(0 123 255);
   --text-stroke-weight: 0.01em;
   --text-decoration-thickness: 0.04em;
   --text-decoration-offset: 0.25em;
@@ -104,11 +105,11 @@ a:hover {
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: var(--color-switch);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+  box-shadow: 0 0 1px var(--color-switch);
 }
 
 input:checked + .slider:before {
