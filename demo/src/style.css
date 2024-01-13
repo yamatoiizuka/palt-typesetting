@@ -45,6 +45,10 @@ p {
   }
 }
 
+.en-section {
+  line-height: 1.8;
+}
+
 .typeset {
   /* for Safari Font Rendering 😭 */
   -webkit-text-stroke: 0.000000000000000001px transparent;
