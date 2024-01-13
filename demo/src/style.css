@@ -1,7 +1,7 @@
 :root {
-  --line-height: 2;
-  --main-color: rgb(9 9 11);
-  --sub-color: rgb(176 171 178);
+  --color-main: rgb(9 9 11);
+  --color-sub: rgb(176 171 178);
+  --color-switch: rgb(0 123 255);
   --text-stroke-weight: 0.01em;
   --text-decoration-thickness: 0.04em;
   --text-decoration-offset: 0.25em;
@@ -15,7 +15,7 @@ body {
 
 @media (min-width: 500px) {
   body {
-    margin: 5rem 3rem;
+    margin: 6rem 3rem;
   }
 }
 
@@ -23,37 +23,43 @@ p {
   font-feature-settings: 'palt';
   font-weight: 300;
   font-size: 1.2rem;
-  line-height: var(--line-height);
+  line-height: 2;
   letter-spacing: 0.12em;
-}
-
-@media (max-width: 499px) {
-  .sp-large {
-    font-size: 1.6rem;
-  }
 }
 
 @media (min-width: 500px) {
   p {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
 }
 
+.large {
+  font-size: 1.5rem;
+}
+
+@media (min-width: 500px) {
+  .large {
+    font-size: 1.8rem;
+  }
+}
+
+.en-section {
+  line-height: 1.8;
+}
+
 .typeset {
-  /* for Safari Font Rendering 😭 */
+  /* for Safari Font Rendering */
   -webkit-text-stroke: 0.000000000000000001px transparent;
 }
 
 .typeset-latin {
-  --font-size-latin: 106%;
-  font-size: var(--font-size-latin);
-  line-height: calc(var(--line-height) / var(--font-size-latin));
+  font-size: 106%;
   letter-spacing: 0.05em;
-  -webkit-text-stroke: var(--text-stroke-weight) var(--main-color);
+  -webkit-text-stroke: var(--text-stroke-weight) var(--color-main);
 }
 
 a {
-  color: var(--main-color);
+  color: var(--color-main);
   text-decoration: underline;
   text-decoration-thickness: var(--text-decoration-thickness);
   text-underline-offset: var(--text-decoration-offset);
@@ -104,11 +110,11 @@ a:hover {
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: var(--color-switch);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+  box-shadow: 0 0 1px var(--color-switch);
 }
 
 input:checked + .slider:before {
@@ -128,7 +134,7 @@ input:checked + .slider:before {
 
 /* オプションのチェックボックス */
 #options {
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 }
 
 #options .option {
@@ -141,17 +147,10 @@ input:checked + .slider:before {
   margin-right: 1rem;
   cursor: pointer;
   font-weight: 400;
-  color: rgb(63 63 70);
-}
-
-@media (min-width: 500px) {
-  p {
-    font-size: 1.2rem;
-  }
 }
 
 #options .option input:disabled + label {
-  color: var(--sub-color);
+  color: var(--color-sub);
 }
 
 /* テキスト内のチェックボックス */
@@ -162,13 +161,13 @@ input:checked + .slider:before {
 /* チェックボックスがチェックされていないときのテキストスタイル */
 #target label {
   cursor: pointer;
-  color: var(--sub-color);
+  color: var(--color-sub);
 }
 
 #target label .typeset-latin {
   cursor: pointer;
-  color: var(--sub-color);
-  -webkit-text-stroke: var(--text-stroke-weight) var(--sub-color);
+  color: var(--color-sub);
+  -webkit-text-stroke: var(--text-stroke-weight) var(--color-sub);
 }
 
 /* チェックボックスがチェックされていないときのホバースタイル */
@@ -182,16 +181,16 @@ input:checked + .slider:before {
 
 /* チェックボックスがチェックされているときのテキストスタイル */
 #target input:checked + label {
-  color: var(--main-color);
+  color: var(--color-main);
 }
 
 #target input:checked + label .typeset-latin {
-  color: var(--main-color);
-  -webkit-text-stroke: var(--text-stroke-weight) var(--main-color);
+  color: var(--color-main);
+  -webkit-text-stroke: var(--text-stroke-weight) var(--color-main);
 }
 
 /* チェックボックスがチェックされているときのホバースタイル */
 #target input:checked + label:hover {
-  color: var(--main-color);
-  text-decoration-color: var(--main-color);
+  color: var(--color-main);
+  text-decoration-color: var(--color-main);
 }

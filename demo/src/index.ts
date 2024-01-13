@@ -1,13 +1,27 @@
 import './style.css'
 import './module/typekit'
-
 import Typesetter from 'palt-typesetting'
 
+/**
+ * カーニングルールを定義するインターフェース
+ * @typedef {Object} KerningRule
+ * @property {[string, string]} between - カーニングを適用する文字のペア
+ * @property {number} value - カーニング値 (単位は任意)
+ */
 interface KerningRule {
   between: [string, string]
   value: number
 }
 
+/**
+ * Typesetter のオプションを定義するインターフェース
+ * @typedef {Object} Options
+ * @property {boolean} useWordBreak - 単語の改行を使用するかどうか
+ * @property {boolean} insertThinSpaces - 細いスペースを挿入するかどうか
+ * @property {boolean} noSpaceBetweenNoBreaks - 改行禁止エリア間にスペースを挿入しない
+ * @property {boolean} wrapLatin - ラテン文字をラップするかどうか
+ * @property {KerningRule[]} kerningRules - カーニングルールの配列
+ */
 interface Options {
   useWordBreak: boolean
   insertThinSpaces: boolean
@@ -16,23 +30,39 @@ interface Options {
   kerningRules: KerningRule[]
 }
 
-const toggleButton = document.getElementById('toggleButton') as HTMLInputElement
+/**
+ * オプションのデフォルト値を取得する関数
+ * @returns {Options} デフォルトのオプション設定
+ */
+function getDefaultOptions(): Options {
+  return {
+    useWordBreak: true,
+    insertThinSpaces: true,
+    noSpaceBetweenNoBreaks: true,
+    wrapLatin: true,
+    kerningRules: getKerningRules(true),
+  }
+}
 
-let options = getDefaultOptions()
+// HTML要素の取得
+const toggleButton = document.getElementById('toggleButton') as HTMLInputElement
 const target = document.getElementById('target') as HTMLElement
 const srcHtml = target.innerHTML
 let renderedHtml = ''
 let isTypeset = true
 
-// オプションのDOM要素をキャッシュ
+// オプション関連のDOM要素をキャッシュ
 const useWordBreakToggle = document.getElementById('useWordBreakToggle') as HTMLInputElement
 const insertThinSpacesToggle = document.getElementById('insertThinSpacesToggle') as HTMLInputElement
 const wrapLatinToggle = document.getElementById('wrapLatinToggle') as HTMLInputElement
 const noSpaceBetweenNoBreaksToggle = document.getElementById('noSpaceBetweenNoBreaksToggle') as HTMLInputElement
 const kerningRulesToggle = document.getElementById('kerningRulesToggle') as HTMLInputElement
 
-document.addEventListener('DOMContentLoaded', init)
+let options = getDefaultOptions()
 
+/**
+ * 初期化処理を行う関数
+ */
 function init() {
   toggleButton.addEventListener('click', () => {
     toggleTypesetting()
@@ -45,6 +75,9 @@ function init() {
   setupTargetEventListeners()
 }
 
+/**
+ * メールリンクの設定を行う関数
+ */
 function setupEmailLink() {
   const emailElement = document.getElementById('email') as HTMLAnchorElement
   if (emailElement) {
@@ -55,6 +88,10 @@ function setupEmailLink() {
   }
 }
 
+/**
+ * インプット要素の有効/無効を切り替える関数
+ * @param {boolean} enable - 有効にするかどうか
+ */
 function toggleInputElements(enable: boolean) {
   const inputElements = document.querySelectorAll('#options input[type="checkbox"], #target input[type="checkbox"]')
   inputElements.forEach(element => {
@@ -63,22 +100,18 @@ function toggleInputElements(enable: boolean) {
   })
 }
 
-function getDefaultOptions(): Options {
-  return {
-    useWordBreak: true,
-    insertThinSpaces: true,
-    noSpaceBetweenNoBreaks: true,
-    wrapLatin: true,
-    kerningRules: getKerningRules(true),
-  }
-}
-
+/**
+ * オプション関連のイベントリスナーを設定する関数
+ */
 function setupOptionEventListeners() {
   document.querySelectorAll('#options input[type="checkbox"]').forEach(button => {
     button.addEventListener('change', handleOptionChange)
   })
 }
 
+/**
+ * ターゲット要素のイベントリスナーを設定する関数
+ */
 function setupTargetEventListeners() {
   target.addEventListener('change', event => {
     const target = event.target as HTMLInputElement
@@ -88,6 +121,9 @@ function setupTargetEventListeners() {
   })
 }
 
+/**
+ * 組版の切り替えを行う関数
+ */
 function toggleTypesetting() {
   target.innerHTML = isTypeset ? srcHtml : renderedHtml
   isTypeset = !isTypeset
@@ -98,24 +134,36 @@ function toggleTypesetting() {
   }
 }
 
+/**
+ * オプション変更時の処理を行う関数
+ */
 function handleOptionChange() {
   updateOptions()
   updateTypesetting()
   synchronizeAndSetupTargetCheckboxes()
+  setupEmailLink()
 }
 
+/**
+ * ターゲットのチェックボックスの状態を同期し、設定を行う関数
+ */
 function synchronizeAndSetupTargetCheckboxes() {
   document.querySelectorAll('#target input[type="checkbox"]').forEach(checkbox => {
     checkbox.addEventListener('change', handleTargetCheckboxChange)
 
     const checkboxInput = checkbox as HTMLInputElement
-    const optionCheckbox = document.getElementById(checkboxInput.dataset.id) as HTMLInputElement
-    if (optionCheckbox && optionCheckbox.checked !== checkboxInput.checked) {
-      checkboxInput.checked = optionCheckbox.checked
+    if (checkboxInput.dataset.id) {
+      const optionCheckbox = document.getElementById(checkboxInput.dataset.id) as HTMLInputElement
+      if (optionCheckbox && optionCheckbox.checked !== checkboxInput.checked) {
+        checkboxInput.checked = optionCheckbox.checked
+      }
     }
   })
 }
 
+/**
+ * オプションを更新する関数
+ */
 function updateOptions() {
   options = {
     useWordBreak: useWordBreakToggle.checked,
@@ -126,6 +174,9 @@ function updateOptions() {
   }
 }
 
+/**
+ * 組版を更新する関数
+ */
 function updateTypesetting() {
   const typesetter = new Typesetter(options)
   renderedHtml = typesetter.render(srcHtml)
@@ -134,6 +185,10 @@ function updateTypesetting() {
   }
 }
 
+/**
+ * ターゲットのチェックボックス変更時の処理を行う関数
+ * @param {Event} event - 発生したイベント
+ */
 function handleTargetCheckboxChange(event: Event) {
   const checkbox = event.target as HTMLInputElement
   const optionCheckboxId = checkbox.dataset.id
@@ -146,6 +201,11 @@ function handleTargetCheckboxChange(event: Event) {
   }
 }
 
+/**
+ * カーニングルールを取得する関数
+ * @param {boolean} isEnabled - カーニングルールが有効かどうか
+ * @returns {KerningRule[]} カーニングルールの配列
+ */
 function getKerningRules(isEnabled: boolean): KerningRule[] {
   return isEnabled
     ? [
@@ -163,3 +223,6 @@ function getKerningRules(isEnabled: boolean): KerningRule[] {
       ]
     : []
 }
+
+// 初期化処理
+document.addEventListener('DOMContentLoaded', init)
