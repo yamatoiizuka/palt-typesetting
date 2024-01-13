@@ -102,6 +102,7 @@ function handleOptionChange() {
   updateOptions()
   updateTypesetting()
   synchronizeAndSetupTargetCheckboxes()
+  setupEmailLink()
 }
 
 function synchronizeAndSetupTargetCheckboxes() {
