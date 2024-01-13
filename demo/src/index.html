@@ -55,7 +55,12 @@
         <br /><br />──────<br /><br />
 
         <a href="https://github.com/yamatoiizuka/palt-typesetting" target="_balnk">Palt Typesetting ↗︎</a
-        >は、美しいテキスト表示を実現するためのJavaScriptライブラリです。和欧混植、およびツメ組み(font-feature-settings:
+        >は、美しいテキスト表示を実現するためのJavaScriptライブラリです。<input
+          type="checkbox"
+          id="wrapLatinJa"
+          data-id="wrapLatinToggle"
+          checked
+        /><label for="wrapLatinJa">和欧混植</label>、およびツメ組み(font-feature-settings:
         'palt';)の版面設計において、最大限の力を発揮します。<input
           type="checkbox"
           id="insertThinSpacesJa"
@@ -77,9 +82,12 @@
 
         <span class="en-section">
           <a href="https://github.com/yamatoiizuka/palt-typesetting" target="_balnk">Palt Typesetting ↗︎</a>
-          is a JavaScript library designed to render beautiful text displays. It excels in mixed typesetting utilizing
-          proportional spacing (enabled via font-feature-settings: 'palt';). This library offers sophisticated
-          typesetting features, including
+          is a JavaScript library designed to achieve beautiful text rendering. It excels in
+          <input type="checkbox" id="wrapLatinEn" data-id="wrapLatinToggle" checked /><label for="wrapLatinEn"
+            >mixed typesetting</label
+          >
+          utilizing proportional spacing (enabled via font-feature-settings: 'palt'; in CSS). This library offers
+          sophisticated typesetting features, including
           <input type="checkbox" id="insertThinSpacesEn" data-id="insertThinSpacesToggle" checked /><label
             for="insertThinSpacesEn"
             >automatic insertion of quarter em spaces</label
