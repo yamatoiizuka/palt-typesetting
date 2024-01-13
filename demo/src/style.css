@@ -34,9 +34,14 @@ p {
   }
 }
 
+.large {
+  font-size: 1.5rem;
+  line-height: 1.8;
+}
+
 @media (min-width: 500px) {
-  p {
-    font-size: 1.6rem;
+  .large {
+    font-size: 1.8rem;
   }
 }
 
