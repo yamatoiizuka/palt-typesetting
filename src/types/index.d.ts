@@ -31,7 +31,7 @@ export interface TypesettingOptions {
   noSpaceBetweenNoBreaks: boolean
 
   /**
-   * HTML内のテキストにTHIN SPACEを自動的に追加するかどうかを指定します。
+   * HTML内のテキストにTHIN SPACEを自動的に挿入するかどうかを指定します。
    * THIN SPACEは、視覚的なスペースを微調整するために使用されます。
    */
   insertThinSpaces: boolean

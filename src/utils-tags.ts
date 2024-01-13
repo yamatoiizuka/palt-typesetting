@@ -47,7 +47,7 @@ const applyKerning = (char: string, kerningValue: number, classNamePrefix: strin
  * 与えられたテキストにword-breakとoverflow-wrapスタイルを適用します。
  * @param text - スタイルを適用するテキスト。
  * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
- * @param useWordBreak - 単語や助詞など、語単位での改行を行うかどうか。デフォルトは true。
+ * @param useWordBreak - 単語や助詞など、単語区切りでの改行を行うかどうか。デフォルトは true。
  * @return スタイル適用されたテキストを含むspanタグ。
  */
 const applyWrapperStyle = (text: string, classNamePrefix: string, useWordBreak: boolean): string => {
