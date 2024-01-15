@@ -31,7 +31,7 @@ const typesetter = new Typesetter()
 typesetter.renderToSelector('.my-class')
 ```
 
-### Apply CSS (Examlple)
+### Apply CSS (Example)
 
 ```css
 /*
