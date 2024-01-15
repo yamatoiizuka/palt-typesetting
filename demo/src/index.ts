@@ -210,8 +210,10 @@ function getKerningRules(isEnabled: boolean): KerningRule[] {
   return isEnabled
     ? [
         { between: ['美', 'し'], value: 60 },
-        { between: ['ス', 'ト'], value: 140 },
+        { between: ['ス', 'ト'], value: 120 },
+        { between: ['イ', 'ブ'], value: 20 },
         { between: ['ブ', 'ラ'], value: -30 },
+        { between: ['ラ', 'リ'], value: 30 },
         { between: ['て', '、'], value: -60 },
         { between: ['す', '。'], value: -120 },
         { between: ['よ', 'う'], value: 60 },
