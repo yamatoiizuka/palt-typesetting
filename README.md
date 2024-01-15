@@ -2,7 +2,9 @@
 
 ## Typesetting Library for Proportional Spacing
 
-Palt Typesetting は、美しいテキスト表示を実現するための JavaScript ライブラリです。和欧混植、およびメトリクス詰め(`font-feature-settings: 'palt'`) の版面設計において、最大限の力を発揮します。
+![a demo of Palt Typesetting](assets/demo.gif)
+
+Palt Typesetting は、美しいテキスト表示を実現するための JavaScript ライブラリです。和欧混植、およびツメ組み (`font-feature-settings: 'palt'`) の版面設計において、最大限の力を発揮します。
 
 四分アキの自動挿入、カーニングルールの適用、英語のような単語区切りでの改行など、洗練された組版機能を提供します。
 
