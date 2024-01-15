@@ -29,23 +29,51 @@ const typesetter = new Typesetter()
 typesetter.renderToSelector('.my-class')
 ```
 
-### Apply CSS
+### Apply CSS (Examlple)
 
 ```css
-/* 共通のスタイリング */
+/*
+ * 共通のスタイリング
+ */
 .typeset {
+  /* プロポーショナルメトリクス（ツメ組み）の設定 */
   font-feature-settings: 'palt';
-  letter-spacing: 0.1em;
+
+  /* 行間 */
   line-height: 1.8;
+
+  /* 文字間 */
+  letter-spacing: 0.1em;
+
+  /*
+   * Safari のフォントレンダリング対策。
+   * 英数（.typeset-latin）で -webkit-text-stroke を使う場合は必須。
+   * text-stroke-weight > 0, text-stroke-color: transparent
+   */
+  -webkit-text-stroke: 0.01em transparent;
 }
 
-/* 英数のみのスタイリング */
+/*
+ * 英数のみのスタイリング
+ */
 .typeset-latin {
+  /* フォントの拡大・縮小 */
+  font-size: 105%;
+
+  /* ベースラインの調整 */
+  vertical-align: 0.02em;
+
+  /*
+   * 行間の調整。親要素 .typeset の行間と視覚的に合わせます。
+   * [.typeset の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+   */
+  line-height: calc(1.8 / 1.05 - 0.02 * 2);
+
+  /* 文字間の調整 */
   letter-spacing: 0.05em;
 
-  /* 必要に応じて */
-  font-size: 105%;
-  line-height: calc(1.8 / 1.05);
+  /* 文字の細らせ・太らせ */
+  -webkit-text-stroke: 0.01em #000;
 }
 ```
 
