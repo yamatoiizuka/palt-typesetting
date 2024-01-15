@@ -2,7 +2,6 @@
   --color-main: rgb(9 9 11);
   --color-sub: rgb(176 171 178);
   --color-switch: rgb(0 123 255);
-  --text-stroke-weight: 0.01em;
   --text-decoration-thickness: 0.04em;
   --text-decoration-offset: 0.25em;
 }
@@ -199,7 +198,7 @@ input:checked + .slider:before {
 #target label .typeset-latin {
   cursor: pointer;
   color: var(--color-sub);
-  -webkit-text-stroke: var(--text-stroke-weight) var(--color-sub);
+  -webkit-text-stroke-color: var(--color-sub);
 }
 
 /* チェックボックスがチェックされていないときのホバースタイル */
@@ -218,7 +217,7 @@ input:checked + .slider:before {
 
 #target input:checked + label .typeset-latin {
   color: var(--color-main);
-  -webkit-text-stroke: var(--text-stroke-weight) var(--color-main);
+  -webkit-text-stroke-color: var(--color-main);
 }
 
 /* チェックボックスがチェックされているときのホバースタイル */
