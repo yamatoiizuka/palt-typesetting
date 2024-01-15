@@ -2,6 +2,7 @@
   "name": "palt-typesetting-demo",
   "version": "0.1.0",
   "description": "A demo app for Palt Typesetting.",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "start": "parcel ./src/index.html",
     "prebuild": "npm run clean:dist && npm run copy:public",

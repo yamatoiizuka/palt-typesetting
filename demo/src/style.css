@@ -77,7 +77,7 @@ p {
   -webkit-text-stroke: 0.014em var(--color-main);
 }
 
-.en-section .typeset {
+.en-section {
   line-height: 1.8;
 }
 
