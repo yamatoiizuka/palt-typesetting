@@ -33,18 +33,17 @@ const createThinSpaceSpan = (thisSpaceWidth: string, classNamePrefix: string): s
 }
 
 /**
- * 指定された文字にカーニング（文字間隔調整）を適用します。
+ * 指定した数値でカーニング（文字間隔調整）タグを生成する関数です。
  *
- * @param char - カーニングを適用する文字。
  * @param kerningValue - カーニング値（千分率）。例: 1000 は 1em のカーニングを意味します。
  * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return カーニング適用後のHTMLコンテンツ。
  */
-const applyKerning = (char: string, kerningValue: number, classNamePrefix: string): string => {
+const createKerningSpan = (kerningValue: number, classNamePrefix: string): string => {
   const emValue = kerningValue / 1000 / 2 + 'em'
   const className = classNamePrefix + '-kerning'
-  const style = `margin: ${emValue}; ${uiIgnoreSettings.preventSelectStyle}`
-  return `${char}<span class="${className}" style="${style}" ${uiIgnoreSettings.hiddenFromReader} ${uiIgnoreSettings.noIndex}></span>`
+  const style = `margin: ${emValue}; ${uiIgnoreSettings.styles.preventSelect}`
+  return `<span class="${className}" style="${style}" ${uiIgnoreSettings.attributes.hiddenFromReader} ${uiIgnoreSettings.attributes.noIndex}></span>`
 }
 
 /**
@@ -82,4 +81,4 @@ const applyNoBreakStyle = (segment: string, classNamePrefix: string): string => 
   return `<span class="${className}" style="letter-spacing: 0">${segment}</span>`
 }
 
-export { wbr, createThinSpaceSpan, applyKerning, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle }
+export { wbr, createThinSpaceSpan, createKerningSpan, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle }
