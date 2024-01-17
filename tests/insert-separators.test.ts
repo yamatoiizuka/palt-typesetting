@@ -5,10 +5,10 @@ import insertSeparatorsToText, {
   shouldAddWbr,
   shouldAddThinSpace,
 } from '../src/insert-separators'
-import { wbr, thinSpace } from '../src/utils-tags'
+import { wbr, createThinSpaceSpan } from '../src/utils-tags'
 
 const options = Typesetter.defaultOptions
-const space = thinSpace(options.thinSpaceWidth, options.classNamePrefix)
+const space = createThinSpaceSpan(options.thinSpaceWidth, options.classNamePrefix)
 
 describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {
