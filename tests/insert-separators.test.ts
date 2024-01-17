@@ -1,14 +1,14 @@
 import Typesetter from '../src'
 import insertSeparatorsToText, {
-  generateSegments,
+  createSegments,
   addSeparatorsToSegment,
   shouldAddWbr,
   shouldAddThinSpace,
 } from '../src/insert-separators'
-import { wbr, thinSpace } from '../src/utils-tags'
+import { wbr, createThinSpaceSpan } from '../src/utils-tags'
 
 const options = Typesetter.defaultOptions
-const space = thinSpace(options.thinSpaceWidth, options.classNamePrefix)
+const space = createThinSpaceSpan(options.thinSpaceWidth, options.classNamePrefix)
 
 describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {
@@ -19,7 +19,7 @@ describe('insertSeparators', () => {
   })
 })
 
-describe('generateSegments', () => {
+describe('createSegments', () => {
   it('generates an array of text segments from a sentence, using word granularity', () => {
     const src = '──「こんにちは。」日本語とEnglish、晴れ・28度。'
     const expected = [
@@ -39,7 +39,7 @@ describe('generateSegments', () => {
       '度',
       '。',
     ]
-    expect(generateSegments(src)).toEqual(expected)
+    expect(createSegments(src)).toEqual(expected)
   })
 })
 
