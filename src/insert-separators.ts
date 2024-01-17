@@ -10,8 +10,8 @@ import { TypesettingOptions } from './types'
  * @return セパレーターを挿入したHTML文字列
  */
 const insertSeparatorsToText = (currentText: string, nextText: string, options: TypesettingOptions): string => {
-  const currentSegments = generateSegments(currentText)
-  const nextSegments = generateSegments(nextText)
+  const currentSegments = createSegments(currentText)
+  const nextSegments = createSegments(nextText)
 
   const formattedText = currentSegments.reduce((accumulatedText, segment, index, array) => {
     const current = segment
@@ -27,7 +27,7 @@ const insertSeparatorsToText = (currentText: string, nextText: string, options: 
  * @param src - ソーステキスト
  * @return 文章から生成されたセグメントの配列
  */
-const generateSegments = (src: string): string[] => {
+const createSegments = (src: string): string[] => {
   const segmenter = new Intl.Segmenter('ja-JP', { granularity: 'word' })
   return Array.from(segmenter.segment(src), ({ segment }) => segment)
 }
@@ -74,4 +74,4 @@ const shouldAddThinSpace = (current: string, next: string): boolean => {
 }
 
 export default insertSeparatorsToText
-export { generateSegments, addSeparatorsToSegment, shouldAddWbr, shouldAddThinSpace }
+export { createSegments, addSeparatorsToSegment, shouldAddWbr, shouldAddThinSpace }

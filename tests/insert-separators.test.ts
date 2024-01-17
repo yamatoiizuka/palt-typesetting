@@ -1,6 +1,6 @@
 import Typesetter from '../src'
 import insertSeparatorsToText, {
-  generateSegments,
+  createSegments,
   addSeparatorsToSegment,
   shouldAddWbr,
   shouldAddThinSpace,
@@ -19,7 +19,7 @@ describe('insertSeparators', () => {
   })
 })
 
-describe('generateSegments', () => {
+describe('createSegments', () => {
   it('generates an array of text segments from a sentence, using word granularity', () => {
     const src = '──「こんにちは。」日本語とEnglish、晴れ・28度。'
     const expected = [
@@ -39,7 +39,7 @@ describe('generateSegments', () => {
       '度',
       '。',
     ]
-    expect(generateSegments(src)).toEqual(expected)
+    expect(createSegments(src)).toEqual(expected)
   })
 })
 
