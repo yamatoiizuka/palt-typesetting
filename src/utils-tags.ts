@@ -1,13 +1,17 @@
 /**
  * ユーザーインターフェースのアクセシビリティと検索エンジンの最適化に関連する設定を定義します。
- * - preventSelectStyle: ユーザーがテキストを選択してコピーすることを防止します。
+ * - preventSelect: ユーザーがテキストを選択してコピーすることを防止します。
  * - hiddenFromReader: スクリーンリーダーなどのアクセシビリティツールからこの要素を隠します。
  * - noIndex: 検索エンジンがこの要素の内容を検索結果のスニペットとして表示しないようにします。
  */
 const uiIgnoreSettings = {
-  preventSelectStyle: 'user-select:none;',
-  hiddenFromReader: 'aria-hidden="true"',
-  noIndex: 'data-nosnippet=""',
+  styles: {
+    preventSelect: 'user-select:none;',
+  },
+  attributes: {
+    hiddenFromReader: 'aria-hidden="true"',
+    noIndex: 'data-nosnippet=""',
+  },
 }
 
 /**
