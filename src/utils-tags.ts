@@ -1,13 +1,17 @@
 /**
  * ユーザーインターフェースのアクセシビリティと検索エンジンの最適化に関連する設定を定義します。
- * - preventSelectStyle: ユーザーがテキストを選択してコピーすることを防止します。
+ * - preventSelect: ユーザーがテキストを選択してコピーすることを防止します。
  * - hiddenFromReader: スクリーンリーダーなどのアクセシビリティツールからこの要素を隠します。
  * - noIndex: 検索エンジンがこの要素の内容を検索結果のスニペットとして表示しないようにします。
  */
 const uiIgnoreSettings = {
-  preventSelectStyle: 'user-select:none;',
-  hiddenFromReader: 'aria-hidden="true"',
-  noIndex: 'data-nosnippet=""',
+  styles: {
+    preventSelect: 'user-select:none;',
+  },
+  attributes: {
+    hiddenFromReader: 'aria-hidden="true"',
+    noIndex: 'data-nosnippet=""',
+  },
 }
 
 /**
@@ -21,26 +25,25 @@ const wbr = '<wbr>'
  * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return スタイル適用されたTHIN SPACEを含むspanタグ。
  */
-const thinSpace = (thisSpaceWidth: string, classNamePrefix: string): string => {
+const createThinSpaceSpan = (thisSpaceWidth: string, classNamePrefix: string): string => {
   const THIN_SPACE = String.fromCharCode(0x2009) // U+2009 THIN SPACE
   const className = classNamePrefix + '-thin-space'
-  const style = `font-size: ${thisSpaceWidth}; ${uiIgnoreSettings.preventSelectStyle}`
-  return `<span class="${className}" style="${style}" ${uiIgnoreSettings.hiddenFromReader} ${uiIgnoreSettings.noIndex}>${THIN_SPACE}</span>`
+  const style = `font-size: ${thisSpaceWidth}; ${uiIgnoreSettings.styles.preventSelect}`
+  return `<span class="${className}" style="${style}" ${uiIgnoreSettings.attributes.hiddenFromReader} ${uiIgnoreSettings.attributes.noIndex}>${THIN_SPACE}</span>`
 }
 
 /**
- * 指定された文字にカーニング（文字間隔調整）を適用します。
+ * 指定した数値でカーニング（文字間隔調整）タグを生成する関数です。
  *
- * @param char - カーニングを適用する文字。
  * @param kerningValue - カーニング値（千分率）。例: 1000 は 1em のカーニングを意味します。
  * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return カーニング適用後のHTMLコンテンツ。
  */
-const applyKerning = (char: string, kerningValue: number, classNamePrefix: string): string => {
+const createKerningSpan = (kerningValue: number, classNamePrefix: string): string => {
   const emValue = kerningValue / 1000 / 2 + 'em'
   const className = classNamePrefix + '-kerning'
-  const style = `margin: ${emValue}; ${uiIgnoreSettings.preventSelectStyle}`
-  return `${char}<span class="${className}" style="${style}" ${uiIgnoreSettings.hiddenFromReader} ${uiIgnoreSettings.noIndex}></span>`
+  const style = `margin: ${emValue}; ${uiIgnoreSettings.styles.preventSelect}`
+  return `<span class="${className}" style="${style}" ${uiIgnoreSettings.attributes.hiddenFromReader} ${uiIgnoreSettings.attributes.noIndex}></span>`
 }
 
 /**
@@ -78,4 +81,4 @@ const applyNoBreakStyle = (segment: string, classNamePrefix: string): string => 
   return `<span class="${className}" style="letter-spacing: 0">${segment}</span>`
 }
 
-export { wbr, thinSpace, applyKerning, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle }
+export { wbr, createThinSpaceSpan, createKerningSpan, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle }
