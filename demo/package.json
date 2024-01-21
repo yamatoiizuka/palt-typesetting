@@ -4,11 +4,11 @@
   "description": "A demo app for Palt Typesetting.",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "start": "parcel ./src/index.html",
+    "start": "parcel ./src/index.html --no-cache",
     "prebuild": "npm run clean:dist && npm run copy:public",
     "clean:dist": "rm -rf dist && mkdir dist",
     "copy:public": "cp -r public/* dist/",
-    "build": "parcel build ./src/index.html"
+    "build": "parcel build ./src/index.html --no-cache"
   },
   "author": {
     "name": "Yamato Iizuka",
