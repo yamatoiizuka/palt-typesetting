@@ -31,6 +31,22 @@ const typesetter = new Typesetter()
 typesetter.renderToSelector('.my-class')
 ```
 
+### Use Typesetter from CDN
+
+```html
+<script src="https://unpkg.com/palt-typesetting@0.1.12/bundle/typesetter.min.js"></script>
+```
+
+```html
+<script>
+  // Typesetter のインスタンスを作成
+  const typesetter = new Typesetter()
+
+  // セレクターにマッチする要素に対して組版を適用
+  typesetter.renderToSelector('.my-class')
+</script>
+```
+
 ### Apply CSS (Example)
 
 ```css
