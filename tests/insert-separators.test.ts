@@ -12,16 +12,16 @@ const space = createThinSpaceSpan(options.thinSpaceWidth, options.classNamePrefi
 
 describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {
-    const currentText = '──「こんにちは。」日本語とEnglish、晴れ・28度。'
+    const currentText = '──「こんにちは。」日本語とEnglish、晴れ・28度à vous。'
     const nextText = '「合成フォント」の見本。'
-    const expected = `──${space}「こんにちは。」${space}${wbr}日本語${wbr}と${space}${wbr}English${space}、${space}${wbr}晴れ${space}・${space}${wbr}28${space}${wbr}度。${space}${wbr}`
+    const expected = `──${space}「こんにちは。」${space}${wbr}日本語${wbr}と${space}${wbr}English${space}、${space}${wbr}晴れ${space}・${space}${wbr}28${space}${wbr}度${space}${wbr}à ${wbr}vous${space}。${space}${wbr}`
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 })
 
 describe('createSegments', () => {
   it('generates an array of text segments from a sentence, using word granularity', () => {
-    const src = '──「こんにちは。」日本語とEnglish、晴れ・28度。'
+    const src = '──「こんにちは。」日本語とEnglish、晴れ・28度à vous。'
     const expected = [
       '─',
       '─',
@@ -37,6 +37,9 @@ describe('createSegments', () => {
       '・',
       '28',
       '度',
+      'à',
+      ' ',
+      'vous',
       '。',
     ]
     expect(createSegments(src)).toEqual(expected)
@@ -108,9 +111,24 @@ describe('addSeparatorsToSegment', () => {
     },
     {
       current: '度',
-      next: '。',
-      expected: '度',
+      next: 'à',
+      expected: '度' + space + wbr,
     },
+    {
+      current: 'à',
+      next: ' ',
+      expected: 'à',
+    },
+    {
+      current: ' ',
+      next: 'vous',
+      expected: ' ' + wbr,
+    },
+    {
+      current: 'vous',
+      next: '。',
+      expected: 'vous' + space,
+    }
   ]
 
   tests.forEach(({ current, next, expected }) => {
@@ -135,7 +153,10 @@ describe('shouldAddWbr', () => {
     { current: '晴れ', next: '・', expected: false },
     { current: '・', next: '28', expected: true },
     { current: '28', next: '度', expected: true },
-    { current: '度', next: '。', expected: false },
+    { current: '度', next: 'à', expected: true },
+    { current: 'à', next: ' ', expected: false },
+    { current: ' ', next: 'vous', expected: true },
+    { current: 'vous', next: '。', expected: false },
   ]
 
   tests.forEach(({ current, next, expected }) => {
@@ -160,7 +181,10 @@ describe('shouldAddThinSpace', () => {
     { current: '晴れ', next: '・', expected: true },
     { current: '・', next: '28', expected: true },
     { current: '28', next: '度', expected: true },
-    { current: '度', next: '。', expected: false },
+    { current: '度', next: 'à', expected: true },
+    { current: 'à', next: ' ', expected: false },
+    { current: ' ', next: 'vous', expected: false },
+    { current: 'vous', next: '。', expected: true },
   ]
 
   tests.forEach(({ current, next, expected }) => {
