@@ -12,10 +12,12 @@
     "url": "https://github.com/yamatoiizuka/palt-typesetting.git"
   },
   "scripts": {
-    "clean": "rm -rf ./dist",
-    "copy": "mkdir -p ./dist/types && cp -R ./src/types/* ./dist/types",
-    "prebuild": "npm run clean && npm run copy",
-    "build": "tsc",
+    "clean:dist": "rm -rf ./dist",
+    "copy:types": "mkdir -p ./dist/types && cp -R ./src/types/* ./dist/types",
+    "prebuild": "npm run clean:dist && npm run copy:types",
+    "build": "tsc && npm run bundle",
+    "postbuild": "rm -rf ./dist/bundle.js",
+    "bundle": "esbuild ./dist/bundle.js --bundle --outfile=./bundle/typesetter.min.js --minify --sourcemap --platform=browser --target=es2016 --global-name=Typesetter",
     "test": "jest",
     "lint": "eslint ./src/** --no-error-on-unmatched-pattern",
     "lint:fix": "eslint ./src/** --fix"
