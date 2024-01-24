@@ -3,7 +3,6 @@
   "version": "0.1.11",
   "description": "A typesetting library.",
   "main": "./dist/index.js",
-  "type": "module",
   "files": [
     "dist/**/*"
   ],
@@ -12,10 +11,12 @@
     "url": "https://github.com/yamatoiizuka/palt-typesetting.git"
   },
   "scripts": {
-    "clean": "rm -rf ./dist",
-    "copy": "mkdir -p ./dist/types && cp -R ./src/types/* ./dist/types",
-    "prebuild": "npm run clean && npm run copy",
-    "build": "tsc",
+    "clean:dist": "rm -rf ./dist",
+    "copy:types": "mkdir -p ./dist/types && cp -R ./src/types/* ./dist/types",
+    "prebuild": "npm run clean:dist && npm run copy:types",
+    "build": "tsc && npm run bundle",
+    "postbuild": "rm -rf ./dist/bundle.js",
+    "bundle": "esbuild ./dist/bundle.js --bundle --outfile=./bundle/typesetter.min.js --minify --sourcemap --platform=browser --target=es2016 --global-name=Typesetter",
     "test": "jest",
     "lint": "eslint ./src/** --no-error-on-unmatched-pattern",
     "lint:fix": "eslint ./src/** --fix"
@@ -39,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^6.18.0",
     "@typescript-eslint/parser": "^6.18.0",
     "babel-jest": "^29.7.0",
+    "esbuild": "^0.19.11",
     "eslint": "^8",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.1",
