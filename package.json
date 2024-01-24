@@ -1,7 +1,7 @@
 {
   "name": "palt-typesetting",
-  "version": "0.1.11",
-  "description": "A typesetting library.",
+  "version": "0.2.0",
+  "description": "A typesetting library for proportional spacing.",
   "main": "./dist/index.js",
   "files": [
     "dist/**/*"
