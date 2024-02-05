@@ -1,6 +1,7 @@
 import Typesetter from '../src/'
 import { wbr, createThinSpaceSpan, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle } from '../src/utils-tags'
 import win from '../src/win'
+import { describe, test, expect, beforeEach } from 'vitest'
 
 // prettier-ignore
 describe('Typesetter', () => {

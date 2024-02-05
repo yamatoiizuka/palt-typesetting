@@ -1,4 +1,5 @@
 import { parseFromString, getTextNodes } from '../src/html-processor'
+import { describe, it, expect } from 'vitest'
 
 describe('getTextNodes', () => {
   it('should return only valid text nodes from a given HTMLElement', () => {
