@@ -18,7 +18,7 @@
     "build": "tsc && npm run bundle",
     "postbuild": "rm -rf ./dist/bundle.js",
     "bundle": "esbuild ./dist/bundle.js --bundle --outfile=./bundle/typesetter.min.js --minify --sourcemap --platform=browser --target=es2016 --global-name=Typesetter",
-    "test": "jest",
+    "test": "vitest",
     "lint": "eslint ./src/** --no-error-on-unmatched-pattern",
     "lint:fix": "eslint ./src/** --fix"
   },
