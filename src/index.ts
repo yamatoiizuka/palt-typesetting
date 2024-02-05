@@ -10,16 +10,18 @@ import type { TypesettingOptions, KerningRule } from './types'
  */
 class Typesetter extends HTMLProcessor {
   /**
-   * Typesetter のデフォルトの設定です。
+   * Typesetter のデフォルトの設定を返します。
    */
-  static defaultOptions: TypesettingOptions = {
-    classNamePrefix: 'typeset',
-    useWordBreak: true,
-    wrapLatin: true,
-    noSpaceBetweenNoBreaks: true,
-    insertThinSpaces: true,
-    thinSpaceWidth: '50%',
-    kerningRules: [],
+  static getDefaultOptions(): TypesettingOptions {
+    return {
+      classNamePrefix: 'typeset',
+      useWordBreak: true,
+      wrapLatin: true,
+      noSpaceBetweenNoBreaks: true,
+      insertThinSpaces: true,
+      thinSpaceWidth: '50%',
+      kerningRules: [],
+    }
   }
 
   /**
@@ -61,7 +63,7 @@ class Typesetter extends HTMLProcessor {
 
     // デフォルトのオプションとマージ
     return {
-      ...Typesetter.defaultOptions,
+      ...Typesetter.getDefaultOptions(),
       ...options,
     }
   }
@@ -135,3 +137,4 @@ class Typesetter extends HTMLProcessor {
 }
 
 export default Typesetter
+export type { TypesettingOptions, KerningRule }

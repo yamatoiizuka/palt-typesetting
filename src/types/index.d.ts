@@ -64,3 +64,60 @@ export interface KerningRule {
   between: [string, string]
   value: string | number
 }
+
+export default class Typesetter extends HTMLProcessor {
+  /**
+   * Typesetter のデフォルトの設定を返します。
+   */
+  static getDefaultOptions(): TypesettingOptions
+
+  /**
+   * Intl.Segmenter API が現在の実行環境でサポートされているかどうかを示します。
+   */
+  private isIntlSegmenterSupported: boolean
+
+  /**
+   * コンストラクタ
+   */
+  constructor(options?: Partial<TypesettingOptions>)
+
+  /**
+   * 与えられたオプションを検証し、修正されたオプションを返します。
+   *
+   * @param options - 検証するオプション。
+   * @return 修正されたオプション。
+   */
+  private static validateOptions(options: Partial<TypesettingOptions>): TypesettingOptions
+
+  /**
+   * カーニングルールが適切かどうかを検証します。
+   *
+   * @param kerningRule - 検証するカーニングルール。
+   * @return ルールが有効な場合はtrue、そうでない場合はfalse。
+   */
+  private static isValidKerningRule(kerningRule: KerningRule): boolean
+
+  /**
+   * 与えられたHTML文字列を処理し、指定されたスタイルと区切り文字を適用した結果を返します。
+   *
+   * @param srcHtml - 処理するHTML文字列。
+   * @return 処理後のHTML文字列。
+   */
+  render(srcHtml: string): string
+
+  /**
+   * 与えられたElementまたはElementの配列に対して、スタイルと区切り文字を適用します。
+   * 各要素のinnerHTMLを取得し、変換処理を適用した後、変換されたHTMLで元の内容を置き換えます。
+   *
+   * @param elements - スタイルを適用するElementまたはHTMLElementの配列。
+   */
+  renderToElements(elements: Element | Element[] | null): void
+
+  /**
+   * 指定されたCSSセレクタに一致するすべての要素にスタイルを適用します。
+   * document.querySelectorAllを使用して要素を取得し、それぞれに対してスタイル適用処理を行います。
+   *
+   * @param selector - スタイルを適用する要素を選択するCSSセレクタ。
+   */
+  renderToSelector(selector: string | null): void
+}
