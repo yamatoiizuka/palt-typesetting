@@ -8,7 +8,7 @@ import insertSeparatorsToText, {
 import { wbr, createThinSpaceSpan } from '../src/utils-tags'
 import { describe, it, expect } from 'vitest'
 
-const options = Typesetter.defaultOptions
+const options = Typesetter.getDefaultOptions()
 const space = createThinSpaceSpan(options.thinSpaceWidth, options.classNamePrefix)
 
 describe('insertSeparators', () => {

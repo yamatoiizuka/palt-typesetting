@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest'
 
 describe('applyStyleToSegment', () => {
   const options: TypesettingOptions = {
-    ...Typesetter.defaultOptions,
+    ...Typesetter.getDefaultOptions(),
     kerningRules: [
       {
         between: ['す', '。'],

@@ -5,8 +5,8 @@ import { describe, test, expect, beforeEach } from 'vitest'
 
 // prettier-ignore
 describe('Typesetter', () => {
-  const prefix = Typesetter.defaultOptions.classNamePrefix
-  const addwbr = Typesetter.defaultOptions.useWordBreak
+  const prefix = Typesetter.getDefaultOptions().classNamePrefix
+  const addwbr = Typesetter.getDefaultOptions().useWordBreak
   const space = createThinSpaceSpan('50%', prefix)
   const srcHtml = `<p>──<b>こんにちは。</b>「日本語」とEnglish、晴れ・28度。</p>`
 
