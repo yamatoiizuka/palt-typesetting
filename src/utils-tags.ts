@@ -28,7 +28,7 @@ const wbr = '<wbr>'
 const createThinSpaceSpan = (thisSpaceWidth: string, classNamePrefix: string): string => {
   const THIN_SPACE = String.fromCharCode(0x2009) // U+2009 THIN SPACE
   const className = classNamePrefix + '-thin-space'
-  const style = `font-size: ${thisSpaceWidth}; ${uiIgnoreSettings.styles.preventSelect}`
+  const style = `font-size: ${thisSpaceWidth}; letter-spacing: 0; line-height: 0; ${uiIgnoreSettings.styles.preventSelect}`
   return `<span class="${className}" style="${style}" ${uiIgnoreSettings.attributes.hiddenFromReader} ${uiIgnoreSettings.attributes.noIndex}>${THIN_SPACE}</span>`
 }
 
