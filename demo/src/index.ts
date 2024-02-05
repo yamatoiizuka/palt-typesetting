@@ -1,48 +1,7 @@
 import './style.css'
 import './module/typekit'
 import Typesetter from 'palt-typesetting'
-
-/**
- * カーニングルールを定義するインターフェース
- * @typedef {Object} KerningRule
- * @property {[string, string]} between - カーニングを適用する文字のペア
- * @property {number} value - カーニング値 (単位は任意)
- */
-interface KerningRule {
-  between: [string, string]
-  value: number
-}
-
-/**
- * Typesetter のオプションを定義するインターフェース
- * @typedef {Object} Options
- * @property {boolean} useWordBreak - 単語の改行を使用するかどうか
- * @property {boolean} insertThinSpaces - 細いスペースを挿入するかどうか
- * @property {boolean} noSpaceBetweenNoBreaks - 改行禁止エリア間にスペースを挿入しない
- * @property {boolean} wrapLatin - ラテン文字をラップするかどうか
- * @property {KerningRule[]} kerningRules - カーニングルールの配列
- */
-interface Options {
-  useWordBreak: boolean
-  insertThinSpaces: boolean
-  noSpaceBetweenNoBreaks: boolean
-  wrapLatin: boolean
-  kerningRules: KerningRule[]
-}
-
-/**
- * オプションのデフォルト値を取得する関数
- * @returns {Options} デフォルトのオプション設定
- */
-function getDefaultOptions(): Options {
-  return {
-    useWordBreak: true,
-    insertThinSpaces: true,
-    noSpaceBetweenNoBreaks: true,
-    wrapLatin: true,
-    kerningRules: getKerningRules(true),
-  }
-}
+import type { KerningRule } from 'palt-typesetting'
 
 // HTML要素の取得
 const toggleButton = document.getElementById('toggleButton') as HTMLInputElement
@@ -58,7 +17,7 @@ const wrapLatinToggle = document.getElementById('wrapLatinToggle') as HTMLInputE
 const noSpaceBetweenNoBreaksToggle = document.getElementById('noSpaceBetweenNoBreaksToggle') as HTMLInputElement
 const kerningRulesToggle = document.getElementById('kerningRulesToggle') as HTMLInputElement
 
-let options = getDefaultOptions()
+let options = Typesetter.getDefaultOptions()
 
 /**
  * 初期化処理を行う関数
@@ -166,6 +125,7 @@ function synchronizeAndSetupTargetCheckboxes() {
  */
 function updateOptions() {
   options = {
+    ...options,
     useWordBreak: useWordBreakToggle.checked,
     insertThinSpaces: insertThinSpacesToggle.checked,
     wrapLatin: wrapLatinToggle.checked,
