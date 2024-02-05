@@ -194,9 +194,11 @@ Palt Typesetting ライブラリは、テキストを言語固有のセグメン
 - Node.js: 16.0.0 以上
 - ブラウザ: Intl.Segmenter をサポートしているブラウザ
 
-クライアントサイドで実行する場合、この機能は一部のブラウザで利用できません。Palt Typesetting ライブラリは、`Intl.Segmenter` がサポートされていない環境では組版処理をスキップし、元のテキストをそのまま返します。
+クライアントサイドで実行する場合、この機能は一部のブラウザで利用できません。Palt Typesetting ライブラリは、Firefox などの `Intl.Segmenter` がサポートされていない環境[^1] では組版処理をスキップし、元のテキストをそのまま返します。全てのモダンブラウザで同様の見え方を再現するには、サーバーサイドでの処理（SSG など）が必要になります。
 
-`Intl.Segmenter` の対応状況については、[MDN Web Docs](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter) で確認できます。
+`Intl.Segmenter` の対応状況については、[Can I use...](https://caniuse.com/?search=Intl.Segmenter) で確認できます。
+
+[^1]: Firefox では、バージョン 125 から Intl.Segmenter のサポートが予定されています。
 
 ### 注意事項
 
