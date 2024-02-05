@@ -1,4 +1,5 @@
 import { CharClass, LanguageClass } from '../src/utils-text-classes'
+import { describe, it, expect } from 'vitest'
 
 describe('CharClass.shouldAddThinSpace', () => {
   const tests = [

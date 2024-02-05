@@ -6,6 +6,7 @@ import insertSeparatorsToText, {
   shouldAddThinSpace,
 } from '../src/insert-separators'
 import { wbr, createThinSpaceSpan } from '../src/utils-tags'
+import { describe, it, expect } from 'vitest'
 
 const options = Typesetter.defaultOptions
 const space = createThinSpaceSpan(options.thinSpaceWidth, options.classNamePrefix)
@@ -128,7 +129,7 @@ describe('addSeparatorsToSegment', () => {
       current: 'vous',
       next: '。',
       expected: 'vous' + space,
-    }
+    },
   ]
 
   tests.forEach(({ current, next, expected }) => {
