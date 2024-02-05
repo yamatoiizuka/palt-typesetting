@@ -115,7 +115,7 @@ typesetter.renderToElements(elements)
 // 組版を適用した HTML の取得
 const srcHtml = '「日本語」とEnglish'
 console.log(typesetter.render(srcHtml))
-// <span class="typeset" /* 中略 */>「日本語」<span class="typeset-thin-space" style="font-size: 50%;" /* 中略 */> </span><wbr>と<span class="typeset-thin-space" style="font-size: 50%;" /* 中略 */> </span><wbr><span class="typeset-latin">English</span></span>
+// <span class="typeset" /* 中略 */>「日本語」<span class="typeset-thin-space" style="font-size: 100%;" /* 中略 */> </span><wbr>と<span class="typeset-thin-space" style="font-size: 100%;" /* 中略 */> </span><wbr><span class="typeset-latin">English</span></span>
 ```
 
 ### Constructor
@@ -154,7 +154,7 @@ const options = {
   insertThinSpaces: true,
 
   // 四分アキスペースの幅を設定します。
-  thinSpaceWidth: '50%',
+  thinSpaceWidth: '100%',
 
   // 特定の文字間のカーニングルールを設定します。
   kerningRules: [
@@ -182,7 +182,7 @@ typesetter.renderToSelector('.my-class')
 | `wrapLatin`              | 英数を `span.typeset-latin` でラップします。<br>`useWordBreak` が `true` の場合にのみ有効です。                                            | `boolean`                                                | `true`       |
 | `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typeset-no-breaks` でラップし、文字間を 0 に設定します。<br>`useWordBreak` が `true` の場合にのみ有効です。 | `boolean`                                                | `true`       |
 | `insertThinSpaces`       | 四分アキスペースを自動で挿入します。                                                                                                       | `boolean`                                                | `true`       |
-| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`insertThinSpaces` が `true` の場合にのみ有効です。                                                  | `string`                                                 | `'50%' `     |
+| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`insertThinSpaces` が `true` の場合にのみ有効です。                                                  | `string`                                                 | `'100%' `    |
 | `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                               | `{between: [string, string], value: string \| number}[]` | `[]`         |
 
 ## Notes
