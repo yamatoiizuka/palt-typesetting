@@ -1,6 +1,6 @@
 import LineBreaker from 'linebreak'
 import { CharClass, LanguageClass } from './utils-text-classes'
-import { wbr, createThinSpaceSpan } from './utils-tags'
+import { wbr, createThinSpace } from './utils-tags'
 import { TypesettingOptions } from './types'
 
 /**
@@ -44,9 +44,7 @@ const addSeparatorsToSegment = (current: string, next = '', options: Typesetting
   const addWbr = options.useWordBreak && shouldAddWbr(current, next)
   const addSpace = options.insertThinSpaces && shouldAddThinSpace(current, next)
   return (
-    current +
-    (addSpace ? createThinSpaceSpan(options.thinSpaceWidth, options.classNamePrefix) : '') +
-    (addWbr ? wbr : '')
+    current + (addSpace ? createThinSpace(options.thinSpaceWidth, options.classNamePrefix) : '') + (addWbr ? wbr : '')
   )
 }
 

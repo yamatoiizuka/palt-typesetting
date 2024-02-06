@@ -21,14 +21,14 @@ const wbr = '<wbr>'
 
 /**
  * THIN SPACEを指定した幅で生成する関数です。
- * @param thisSpaceWidth - THIN SPACEの幅。
+ * @param thinSpaceWidth - THIN SPACEの幅。
  * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return スタイル適用されたTHIN SPACEを含むspanタグ。
  */
-const createThinSpace = (thisSpaceWidth: string, classNamePrefix: string): string => {
+const createThinSpace = (thinSpaceWidth: string, classNamePrefix: string): string => {
   const THIN_SPACE = String.fromCharCode(0x2009) // U+2009 THIN SPACE
   const className = classNamePrefix + '-thin-space'
-  const style = `font-size: ${thisSpaceWidth}; letter-spacing: 0; line-height: 0; ${uiIgnoreSettings.styles.preventSelect}`
+  const style = `font-size: ${thinSpaceWidth}; letter-spacing: 0; line-height: 0; ${uiIgnoreSettings.styles.preventSelect}`
   return `<span class="${className}" style="${style}" ${uiIgnoreSettings.attributes.hiddenFromReader} ${uiIgnoreSettings.attributes.noIndex}>${THIN_SPACE}</span>`
 }
 
