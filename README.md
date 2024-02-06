@@ -206,4 +206,4 @@ Palt Typesetting ライブラリは HTML 入力をサポートしていますが
 
 ## Author
 
-飯塚 大和 (Yamato Iizuka)
+[飯塚 大和 (Yamato Iizuka)](https://yamatoiizuka.com)
