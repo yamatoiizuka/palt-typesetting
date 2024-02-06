@@ -11,7 +11,7 @@ Palt Typesetting は、美しいテキスト表示を実現するための JavaS
 ## Demo
 
 - [Interactive Demo](https://palt.typesetting.jp)
-- [Simple Demo in CodeSandbox](https://codesandbox.io/p/sandbox/a-simple-demo-of-palt-typesetting-rptqm7?file=%2Fsrc%2Findex.js%3A12%2C1)
+- [Try on CodePen](https://codepen.io/yamatoiizuka-the-animator/pen/PoLGrZe)
 
 ## Getting Started
 
