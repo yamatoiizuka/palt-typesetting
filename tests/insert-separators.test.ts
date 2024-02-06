@@ -9,7 +9,7 @@ import { wbr, createThinSpace } from '../src/utils-tags'
 import { describe, it, expect } from 'vitest'
 
 const options = Typesetter.getDefaultOptions()
-const space = createThinSpace(options.thinSpaceWidth, options.classNamePrefix)
+const space = createThinSpace(options.thinSpaceWidth)
 
 describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {

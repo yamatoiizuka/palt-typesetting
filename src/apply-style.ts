@@ -14,7 +14,7 @@ const applyStyleToText = (currentNodeValue: string, nextNodeValue: string, optio
     return currentNodeValue
   }
 
-  return applyWrapperStyle(currentNodeValue, options.classNamePrefix, options.useWordBreak)
+  return applyWrapperStyle(currentNodeValue, options.useWordBreak)
 }
 
 /**
@@ -35,12 +35,12 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
 
   // ラテン文字のセグメントには 'latin' クラスを適用
   if (options.wrapLatin && LanguageClass.isLatin(currentSegment)) {
-    return applyLatinStyle(kernedSegment, options.classNamePrefix)
+    return applyLatinStyle(kernedSegment)
   }
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用
   if (options.noSpaceBetweenNoBreaks && CharClass.shouldNotBreak(currentSegment)) {
-    return applyNoBreakStyle(kernedSegment, options.classNamePrefix)
+    return applyNoBreakStyle(kernedSegment)
   }
 
   return kernedSegment
@@ -65,7 +65,7 @@ const applyKerningToSegment = (currentSegment: string, nextSegment: string, opti
 
     if (kerningRule) {
       const kerningValue = typeof kerningRule.value === 'number' ? kerningRule.value : parseInt(kerningRule.value, 10)
-      return currentChar + createKerning(kerningValue, options.classNamePrefix)
+      return currentChar + createKerning(kerningValue)
     }
 
     return currentChar

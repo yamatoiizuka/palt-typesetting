@@ -48,11 +48,6 @@ export interface TypesettingOptions {
    * 各ルールは、特定の文字ペア間に適用されるカーニング値を指定します。
    */
   kerningRules: KerningRule[]
-
-  /**
-   * ライブラリで使用されるCSSクラス名のプレフィックスを指定します。
-   */
-  classNamePrefix: string
 }
 
 /**

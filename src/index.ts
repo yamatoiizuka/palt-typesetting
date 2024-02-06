@@ -14,7 +14,6 @@ class Typesetter extends HTMLProcessor {
    */
   static getDefaultOptions(): TypesettingOptions {
     return {
-      classNamePrefix: 'typeset',
       useWordBreak: true,
       wrapLatin: true,
       noSpaceBetweenNoBreaks: true,

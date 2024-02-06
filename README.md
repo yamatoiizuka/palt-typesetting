@@ -138,9 +138,6 @@ console.log(typesetter.render(srcHtml))
 
 ```javascript
 const options = {
-  // ライブラリで使用される CSS クラス名のプレフィックスを指定します。
-  classNamePrefix: 'typeset',
-
   // 単語や助詞など、単語区切りでの改行を行います。
   useWordBreak: true,
 
@@ -177,7 +174,6 @@ typesetter.renderToSelector('.my-class')
 
 | オプション名             | 説明                                                                                                                                       | 型                                                       | デフォルト値 |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- | ------------ |
-| `classNamePrefix`        | ライブラリで使用される CSS クラス名のプレフィックスを指定します。                                                                          | `string`                                                 | `'typeset' ` |
 | `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                                                                             | `boolean`                                                | `true`       |
 | `wrapLatin`              | 英数を `span.typeset-latin` でラップします。<br>`useWordBreak` が `true` の場合にのみ有効です。                                            | `boolean`                                                | `true`       |
 | `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typeset-no-breaks` でラップし、文字間を 0 に設定します。<br>`useWordBreak` が `true` の場合にのみ有効です。 | `boolean`                                                | `true`       |

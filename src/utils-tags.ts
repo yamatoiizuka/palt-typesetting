@@ -22,12 +22,11 @@ const wbr = '<wbr>'
 /**
  * THIN SPACEを指定した幅で生成する関数です。
  * @param thisSpaceWidth - THIN SPACEの幅。
- * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return スタイル適用されたTHIN SPACEを含むspanタグ。
  */
-const createThinSpace = (thisSpaceWidth: string, classNamePrefix: string): string => {
+const createThinSpace = (thisSpaceWidth: string): string => {
   const THIN_SPACE = String.fromCharCode(0x2009) // U+2009 THIN SPACE
-  const className = classNamePrefix + '-thin-space'
+  const className = 'typeset-thin-space'
   const style = `font-size: ${thisSpaceWidth}; letter-spacing: 0; line-height: 0; ${uiIgnoreSettings.styles.preventSelect}`
   return `<span class="${className}" style="${style}" ${uiIgnoreSettings.attributes.hiddenFromReader} ${uiIgnoreSettings.attributes.noIndex}>${THIN_SPACE}</span>`
 }
@@ -36,48 +35,45 @@ const createThinSpace = (thisSpaceWidth: string, classNamePrefix: string): strin
  * 指定した数値でカーニング（文字間隔調整）タグを生成する関数です。
  *
  * @param kerningValue - カーニング値（千分率）。例: 1000 は 1em のカーニングを意味します。
- * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return カーニング適用後のHTMLコンテンツ。
  */
-const createKerning = (kerningValue: number, classNamePrefix: string): string => {
+const createKerning = (kerningValue: number): string => {
   const emValue = kerningValue / 1000 / 2 + 'em'
-  const className = classNamePrefix + '-kerning'
+  const className = 'typeset-kerning'
   const style = `margin: ${emValue}; ${uiIgnoreSettings.styles.preventSelect}`
   return `<span class="${className}" style="${style}" ${uiIgnoreSettings.attributes.hiddenFromReader} ${uiIgnoreSettings.attributes.noIndex}></span>`
 }
 
 /**
- * 与えられたテキストにword-breakとoverflow-wrapスタイルを適用します。
+ * 与えられたテキストに typeset クラスを適用します。
  * @param text - スタイルを適用するテキスト。
- * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @param useWordBreak - 単語や助詞など、単語区切りでの改行を行うかどうか。デフォルトは true。
  * @return スタイル適用されたテキストを含むspanタグ。
  */
-const applyWrapperStyle = (text: string, classNamePrefix: string, useWordBreak: boolean): string => {
+const applyWrapperStyle = (text: string, useWordBreak: boolean): string => {
   // <wbr> 以外の箇所で改行しないためのスタイリング
+  const className = 'typeset'
   const style = useWordBreak ? 'word-break: keep-all; overflow-wrap: anywhere;' : ''
-  return `<span class="${classNamePrefix}" style="${style}">${text}</span>`
+  return `<span class="${className}" style="${style}">${text}</span>`
 }
 
 /**
- * 与えられたセグメントにクラス名を適用します。
+ * 与えられたセグメントに latin クラスを適用します。
  * @param segment - クラスを適用するセグメント。
- * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return クラス適用されたセグメントを含むspanタグ。
  */
-const applyLatinStyle = (segment: string, classNamePrefix: string): string => {
-  const className = classNamePrefix + '-latin'
+const applyLatinStyle = (segment: string): string => {
+  const className = 'typeset-latin'
   return `<span class="${className}">${segment}</span>`
 }
 
 /**
- * 与えられたセグメントにno-breakスタイルを適用します。
+ * 与えられたセグメントに no-breaks クラスを適用します。
  * @param segment - スタイルを適用するセグメント。
- * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return スタイル適用されたセグメントを含むspanタグ。
  */
-const applyNoBreakStyle = (segment: string, classNamePrefix: string): string => {
-  const className = classNamePrefix + '-no-breaks'
+const applyNoBreakStyle = (segment: string): string => {
+  const className = 'typeset-no-breaks'
   return `<span class="${className}" style="letter-spacing: 0">${segment}</span>`
 }
 
