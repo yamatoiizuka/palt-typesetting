@@ -25,7 +25,7 @@ const wbr = '<wbr>'
  * @param classNamePrefix - 適用するCSSクラス名のプレフィックス。デフォルトは 'typeset'。
  * @return スタイル適用されたTHIN SPACEを含むspanタグ。
  */
-const createThinSpaceSpan = (thisSpaceWidth: string, classNamePrefix: string): string => {
+const createThinSpace = (thisSpaceWidth: string, classNamePrefix: string): string => {
   const THIN_SPACE = String.fromCharCode(0x2009) // U+2009 THIN SPACE
   const className = classNamePrefix + '-thin-space'
   const style = `font-size: ${thisSpaceWidth}; letter-spacing: 0; line-height: 0; ${uiIgnoreSettings.styles.preventSelect}`
@@ -81,4 +81,4 @@ const applyNoBreakStyle = (segment: string, classNamePrefix: string): string => 
   return `<span class="${className}" style="letter-spacing: 0">${segment}</span>`
 }
 
-export { wbr, createThinSpaceSpan, createKerningSpan, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle }
+export { wbr, createThinSpace, createKerningSpan, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle }

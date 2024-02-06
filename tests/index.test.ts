@@ -1,5 +1,5 @@
 import Typesetter from '../src/'
-import { wbr, createThinSpaceSpan, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle } from '../src/utils-tags'
+import { wbr, createThinSpace, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle } from '../src/utils-tags'
 import win from '../src/win'
 import { describe, test, expect, beforeEach } from 'vitest'
 
@@ -8,7 +8,7 @@ describe('Typesetter', () => {
   const prefix = Typesetter.getDefaultOptions().classNamePrefix
   const addwbr = Typesetter.getDefaultOptions().useWordBreak
   const spaceWidth = Typesetter.getDefaultOptions().thinSpaceWidth
-  const space = createThinSpaceSpan(spaceWidth, prefix)
+  const space = createThinSpace(spaceWidth, prefix)
   const srcHtml = `<p>──<b>こんにちは。</b>「日本語」とEnglish、晴れ・28度。</p>`
 
   const expectedHtml = `<p>${applyWrapperStyle(`${applyNoBreakStyle('──', prefix)}${wbr}`, prefix, addwbr)}<b>${applyWrapperStyle(`こんにちは。${space}${wbr}`, prefix, addwbr)}</b>${applyWrapperStyle(`「日本語」${space}${wbr}と${space}${wbr}${applyLatinStyle('English', prefix)}${space}、${space}${wbr}晴れ${space}・${space}${wbr}${applyLatinStyle('28', prefix)}${space}${wbr}度。`, prefix, addwbr)}</p>`
