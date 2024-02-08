@@ -32,19 +32,17 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
     return currentSegment
   }
 
-  const kernedSegment = applyKerningToSegment(currentSegment, nextSegment, options)
-
   // ラテン文字のセグメントには 'latin' クラスを適用
   if (options.wrapLatin && LanguageClass.isLatin(currentSegment)) {
-    return applyLatinStyle(kernedSegment)
+    return applyLatinStyle(currentSegment)
   }
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用
   if (options.noSpaceBetweenNoBreaks && CharClass.shouldNotBreak(currentSegment)) {
-    return applyNoBreaksStyle(kernedSegment)
+    return applyNoBreaksStyle(currentSegment)
   }
 
-  return kernedSegment
+  return currentSegment
 }
 
 /**
@@ -76,4 +74,4 @@ const applyKerningToSegment = (currentSegment: string, nextSegment: string, opti
   return kernedChars.join('')
 }
 
-export { applyStyleToText, applyStyleToSegment }
+export { applyStyleToText, applyStyleToSegment, applyKerningToSegment }
