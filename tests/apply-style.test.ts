@@ -17,7 +17,7 @@ describe('applyStyleToSegment', () => {
   it("applies letter-spacing style to separation prohibited characters '──'", () => {
     const current = '──'
     const next = ''
-    const expected = '<span class="typeset-no-breaks" style="letter-spacing: 0">──</span>'
+    const expected = '<span class="typeset-no-breaks">──</span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
@@ -67,7 +67,7 @@ describe('applyStyleToSegment', () => {
     const current = 'す'
     const next = '。'
     const expected =
-      'す<span class="typeset-kerning" style="margin: -0.04em; user-select:none;" aria-hidden="true" data-nosnippet=""></span>'
+      'す<span class="typeset-kerning" style="margin: -0.04em;" aria-hidden="true" data-nosnippet=""></span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
@@ -75,7 +75,53 @@ describe('applyStyleToSegment', () => {
     const current = 'です。'
     const next = 'その'
     const expected =
-      'です<span class="typeset-kerning" style="margin: -0.04em; user-select:none;" aria-hidden="true" data-nosnippet=""></span>。'
+      'です<span class="typeset-kerning" style="margin: -0.04em;" aria-hidden="true" data-nosnippet=""></span>。'
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+  })
+})
+
+// `useWordBreak` が false の場合は、禁則処理に基づきカーニングタグのスペースを出し分けます。
+describe('applyStyleToSegment without useWordBreak option', () => {
+  const options: TypesettingOptions = {
+    ...Typesetter.getDefaultOptions(),
+    useWordBreak: false,
+    kerningRules: [
+      {
+        between: ['し', 'ま'],
+        value: '60',
+      },
+      {
+        between: ['す', '。'],
+        value: '20',
+      },
+      {
+        between: ['a', 'S'],
+        value: '20',
+      },
+    ],
+  }
+
+  it("adds breakable kerning tag after 'し'", () => {
+    const space = ' '
+    const current = 'し'
+    const next = 'ます。'
+    const expected = `し<span class="typeset-kerning" style="letter-spacing: 0.06em;" aria-hidden="true" data-nosnippet="">${space}</span>`
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+  })
+
+  it("adds unbreakable kerning tag after 'す'", () => {
+    const space = '&nbsp;'
+    const current = 'です'
+    const next = '。'
+    const expected = `です<span class="typeset-kerning" style="letter-spacing: 0.02em;" aria-hidden="true" data-nosnippet="">${space}</span>`
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+  })
+
+  it("adds unbreakable kerning tag after 'Java'", () => {
+    const space = '&nbsp;'
+    const current = 'Java'
+    const next = 'Script'
+    const expected = `<span class="typeset-latin">Java<span class="typeset-kerning" style="letter-spacing: 0.02em;" aria-hidden="true" data-nosnippet="">${space}</span></span>`
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 })

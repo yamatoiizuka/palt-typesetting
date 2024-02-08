@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "description": "A typesetting library.",
   "main": "./dist/index.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist/**/*",
     "bundle/**/*"
@@ -13,12 +13,12 @@
     "url": "https://github.com/yamatoiizuka/palt-typesetting.git"
   },
   "scripts": {
-    "clean:dist": "rm -rf ./dist",
+    "clean:dist": "rm -rf ./dist && mkdir ./dist",
     "copy:types": "mkdir -p ./dist/types && cp -R ./src/types/* ./dist/types",
-    "prebuild": "npm run clean:dist && npm run copy:types",
-    "build": "tsc && npm run bundle",
-    "postbuild": "rm -rf ./dist/bundle.js",
-    "bundle": "esbuild ./dist/bundle.js --bundle --outfile=./bundle/typesetter.min.js --minify --sourcemap --platform=browser --target=es2016 --global-name=Typesetter",
+    "copy:css": "mkdir -p ./dist/style && cp -R ./src/style/* ./dist/style",
+    "copy": "npm run copy:types && npm run copy:css",
+    "prebuild": "npm run clean:dist && npm run copy",
+    "build": "node ./scripts/build.js && node ./scripts/bundle.js",
     "test": "vitest",
     "lint": "eslint ./src/** --no-error-on-unmatched-pattern",
     "lint:fix": "eslint ./src/** --fix"

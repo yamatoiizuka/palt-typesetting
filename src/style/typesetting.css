@@ -1,0 +1,27 @@
+@font-face {
+  /* 
+   * カスタムフォント: 1/10000 UPM 幅のスペースとノンブレーキングスペースを定義。
+   * 注意：完全なゼロ幅スペースを使用すると、Safari では letter-spacing が無視される。
+   * @sharapeco による貢献に感謝します。{@link https://gist.github.com/sharapeco/1dd7f4433dad07648e1325e1fa5926ee}
+   */
+  font-family: ling-one;
+  src: url('data:font/woff2;base64,AAEAAAAKAIAAAwAgT1MvMhG03xcAAAEoAAAAYGNtYXAADABzAAABkAAAADRnbHlmJAM2GwAAAcwAAAAYaGVhZCLbfFwAAACsAAAANmhoZWEnEvkrAAAA5AAAACRobXR4AAEAAAAAAYgAAAAIbG9jYQAMABgAAAHEAAAACG1heHAAcQAiAAABCAAAACBuYW1lBbsdPAAAAeQAAACKcG9zdHQrY6cAAAJwAAAALQABAAAAAQAAsWqD8F8PPPUAAycQAAAAAOHcugAAAAAA4edeTwAAAAAAAQABAAAABwACAAAAAAAAAAEAACcQ+DAAAAB9AAAAfAABAAEAAAAAAAAAAAAAAAAAAAABAAEAAAADAAMAAQAAAAAAAQACAB4ABgAAAGQAAAAAAAAAAwB9AZAABQAIGWQXcAAAAu4ZZBdwAAANrAAyC7gAAAAABQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAc3N6bQBAACAAIB9A+DAH0CcQB9AAAAABAAAAABOIG1gAAAAgAAAAAQAAAAAAAAAAAAIAAAADAAAAFAADAAEAAAAUAAQAIAAAAAQABAABAAAAIP//AAAAIP///+EAAQAAAAAAAAAMAAwADAABAAAAAAABAAEAAgAANRcjAQEBAQAAAAAAAAYATgADAAEECQABAAgAAAADAAEECQACAAIACAADAAEECQADAB4ACgADAAEECQAEAAwAKAADAAEECQAFAAgANAADAAEECQAGAAwAKABMAGkAbgBnADEAMQAuADAAOwBzAHMAegBtADsATABpAG4AZwAtADEATABpAG4AZwAtADEAdgAxAC4AMAAAAAIAAAAAAAD/tQAyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAMBAgRuYnNwAAAA')
+    format('woff2');
+}
+
+.typeset-word-break {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.typeset-thin-space,
+.typeset-kerning {
+  font-family: ling-one; /* カスタムフォントのスペースを使用します。 */
+  line-height: 0; /* 空白による行の高さの影響を無視します。 */
+  letter-spacing: 0; /* 親要素から継承される letter-spacing の影響を無視します。 */
+  user-select: none; /* ユーザーによるテキストのコピーを無効にします。 */
+}
+
+.typeset-no-breaks {
+  letter-spacing: 0; /* 親要素から継承される letter-spacing の影響を無視します。 */
+}

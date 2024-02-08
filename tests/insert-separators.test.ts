@@ -1,21 +1,23 @@
-import Typesetter from '../src'
+import Typesetter, { TypesettingOptions } from '../src'
 import insertSeparatorsToText, {
   createSegments,
   addSeparatorsToSegment,
-  shouldAddWbr,
+  isBreakable,
   shouldAddThinSpace,
 } from '../src/insert-separators'
-import { wbr, createThinSpace } from '../src/utils-tags'
+import { createWbr, createThinSpace } from '../src/util-tags'
 import { describe, it, expect } from 'vitest'
 
 const options = Typesetter.getDefaultOptions()
-const space = createThinSpace(options.thinSpaceWidth, options.classNamePrefix)
+const wbr = createWbr()
+const space = createThinSpace(options.thinSpaceWidth, true)
+const nbsp = createThinSpace(options.thinSpaceWidth, false)
 
 describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {
     const currentText = '──「こんにちは。」日本語とEnglish、晴れ・28度à vous。'
     const nextText = '「合成フォント」の見本。'
-    const expected = `──${space}「こんにちは。」${space}${wbr}日本語${wbr}と${space}${wbr}English${space}、${space}${wbr}晴れ${space}・${space}${wbr}28${space}${wbr}度${space}${wbr}à ${wbr}vous${space}。${space}${wbr}`
+    const expected = `──${nbsp}「こんにちは。」${space}日本語${wbr}と${space}English${nbsp}、${space}晴れ${nbsp}・${space}28${space}度${space}à ${wbr}vous${nbsp}。${space}`
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 })
@@ -53,7 +55,7 @@ describe('addSeparatorsToSegment', () => {
     {
       current: '─',
       next: '「',
-      expected: '─' + space,
+      expected: '─' + nbsp,
     },
     {
       current: '「',
@@ -73,7 +75,7 @@ describe('addSeparatorsToSegment', () => {
     {
       current: '」',
       next: '日本語',
-      expected: '」' + space + wbr,
+      expected: '」' + space,
     },
     {
       current: '日本語',
@@ -83,37 +85,37 @@ describe('addSeparatorsToSegment', () => {
     {
       current: 'と',
       next: 'English',
-      expected: 'と' + space + wbr,
+      expected: 'と' + space,
     },
     {
       current: 'English',
       next: '、',
-      expected: 'English' + space,
+      expected: 'English' + nbsp,
     },
     {
       current: '、',
       next: '晴れ',
-      expected: '、' + space + wbr,
+      expected: '、' + space,
     },
     {
       current: '晴れ',
       next: '・',
-      expected: '晴れ' + space,
+      expected: '晴れ' + nbsp,
     },
     {
       current: '・',
       next: '28',
-      expected: '・' + space + wbr,
+      expected: '・' + space,
     },
     {
       current: '28',
       next: '度',
-      expected: '28' + space + wbr,
+      expected: '28' + space,
     },
     {
       current: '度',
       next: 'à',
-      expected: '度' + space + wbr,
+      expected: '度' + space,
     },
     {
       current: 'à',
@@ -128,7 +130,7 @@ describe('addSeparatorsToSegment', () => {
     {
       current: 'vous',
       next: '。',
-      expected: 'vous' + space,
+      expected: 'vous' + nbsp,
     },
   ]
 
@@ -139,7 +141,104 @@ describe('addSeparatorsToSegment', () => {
   })
 })
 
-describe('shouldAddWbr', () => {
+describe('addSeparatorsToSegment without useWordBreak', () => {
+  const customOptions: TypesettingOptions = {
+    ...options,
+    useWordBreak: false,
+  }
+
+  const tests = [
+    { current: '─', next: '─', expected: '─' },
+    {
+      current: '─',
+      next: '「',
+      expected: '─' + nbsp,
+    },
+    {
+      current: '「',
+      next: 'こんにちは',
+      expected: '「',
+    },
+    {
+      current: 'こんにちは',
+      next: '。',
+      expected: 'こんにちは',
+    },
+    {
+      current: '。',
+      next: '」',
+      expected: '。',
+    },
+    {
+      current: '」',
+      next: '日本語',
+      expected: '」' + space,
+    },
+    {
+      current: '日本語',
+      next: 'と',
+      expected: '日本語',
+    },
+    {
+      current: 'と',
+      next: 'English',
+      expected: 'と' + space,
+    },
+    {
+      current: 'English',
+      next: '、',
+      expected: 'English' + nbsp,
+    },
+    {
+      current: '、',
+      next: '晴れ',
+      expected: '、' + space,
+    },
+    {
+      current: '晴れ',
+      next: '・',
+      expected: '晴れ' + nbsp,
+    },
+    {
+      current: '・',
+      next: '28',
+      expected: '・' + space,
+    },
+    {
+      current: '28',
+      next: '度',
+      expected: '28' + space,
+    },
+    {
+      current: '度',
+      next: 'à',
+      expected: '度' + space,
+    },
+    {
+      current: 'à',
+      next: ' ',
+      expected: 'à',
+    },
+    {
+      current: ' ',
+      next: 'vous',
+      expected: ' ',
+    },
+    {
+      current: 'vous',
+      next: '。',
+      expected: 'vous' + nbsp,
+    },
+  ]
+
+  tests.forEach(({ current, next, expected }) => {
+    it(`adds separators to '${current}' considering '${next}', resulting in '${expected}'`, () => {
+      expect(addSeparatorsToSegment(current, next, customOptions)).toEqual(expected)
+    })
+  })
+})
+
+describe('isBreakable', () => {
   const tests = [
     { current: '─', next: '─', expected: false },
     { current: '─', next: '「', expected: false },
@@ -162,7 +261,7 @@ describe('shouldAddWbr', () => {
 
   tests.forEach(({ current, next, expected }) => {
     it(`returns ${expected} for adding <wbr> between '${current}' and '${next}'`, () => {
-      expect(shouldAddWbr(current, next)).toEqual(expected)
+      expect(isBreakable(current, next)).toEqual(expected)
     })
   })
 })

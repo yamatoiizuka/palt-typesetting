@@ -1,4 +1,4 @@
-import { CharClass, LanguageClass } from '../src/utils-text-classes'
+import { CharClass, LanguageClass } from '../src/util-text-classes'
 import { describe, it, expect } from 'vitest'
 
 describe('CharClass.shouldAddThinSpace', () => {

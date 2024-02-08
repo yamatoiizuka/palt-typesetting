@@ -28,7 +28,7 @@ import Typesetter from 'palt-typesetting'
 const typesetter = new Typesetter()
 
 // セレクターにマッチする要素に対して組版を適用
-typesetter.renderToSelector('.my-class')
+typesetter.renderToSelector('p')
 ```
 
 ### Use Typesetter from CDN
@@ -43,7 +43,7 @@ typesetter.renderToSelector('.my-class')
   const typesetter = new Typesetter()
 
   // セレクターにマッチする要素に対して組版を適用
-  typesetter.renderToSelector('.my-class')
+  typesetter.renderToSelector('p')
 </script>
 ```
 
@@ -53,7 +53,7 @@ typesetter.renderToSelector('.my-class')
 /*
  * 共通のスタイリング
  */
-.typeset {
+p {
   /* プロポーショナルメトリクス（ツメ組み）の設定 */
   font-feature-settings: 'palt';
 
@@ -74,7 +74,7 @@ typesetter.renderToSelector('.my-class')
 /*
  * 英数のみのスタイリング
  */
-.typeset-latin {
+p .typeset-latin {
   /* フォントの拡大・縮小 */
   font-size: 105%;
 
@@ -138,9 +138,6 @@ console.log(typesetter.render(srcHtml))
 
 ```javascript
 const options = {
-  // ライブラリで使用される CSS クラス名のプレフィックスを指定します。
-  classNamePrefix: 'typeset',
-
   // 単語や助詞など、単語区切りでの改行を行います。
   useWordBreak: true,
 
@@ -159,12 +156,12 @@ const options = {
   // 特定の文字間のカーニングルールを設定します。
   kerningRules: [
     {
-      between: ['す', '。'],
-      value: '-80',
+      between: ['し', 'ま'],
+      value: '60',
     },
     {
-      between: ['で', '、'],
-      value: '-120',
+      between: ['す', '。'],
+      value: '-80',
     },
   ],
 }
@@ -177,7 +174,6 @@ typesetter.renderToSelector('.my-class')
 
 | オプション名             | 説明                                                                                                                                       | 型                                                       | デフォルト値 |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- | ------------ |
-| `classNamePrefix`        | ライブラリで使用される CSS クラス名のプレフィックスを指定します。                                                                          | `string`                                                 | `'typeset' ` |
 | `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                                                                             | `boolean`                                                | `true`       |
 | `wrapLatin`              | 英数を `span.typeset-latin` でラップします。<br>`useWordBreak` が `true` の場合にのみ有効です。                                            | `boolean`                                                | `true`       |
 | `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typeset-no-breaks` でラップし、文字間を 0 に設定します。<br>`useWordBreak` が `true` の場合にのみ有効です。 | `boolean`                                                | `true`       |
