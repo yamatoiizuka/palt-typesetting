@@ -1,4 +1,4 @@
-import * as utils from './util-regex'
+import * as util from './util-regex'
 
 /**
  * 文字クラス関連の処理を提供するクラスです。
@@ -12,7 +12,7 @@ const CharClass = {
    * @return 分離禁則文字で構成されている場合はtrue、そうでない場合はfalse
    */
   shouldNotBreak: (segment: string): boolean => {
-    return utils.noBreakRulesRegex.test(segment)
+    return util.noBreakRulesRegex.test(segment)
   },
 
   /**
@@ -23,12 +23,12 @@ const CharClass = {
    */
   shouldAddThinSpace: (current: string, next: string): boolean => {
     const spaceAfterRegex = new RegExp(
-      `(${utils.closingsRegex.source}|${utils.commasRegex.source}|${utils.periodsRegex.source})`
+      `(${util.closingsRegex.source}|${util.commasRegex.source}|${util.periodsRegex.source})`
     )
 
     const settings = {
       spaceBefore: {
-        regex: utils.openingsRegex,
+        regex: util.openingsRegex,
         hasSpaceBefore: true,
         hasSpaceAfter: false,
       },
@@ -38,7 +38,7 @@ const CharClass = {
         hasSpaceAfter: true,
       },
       spaceBoth: {
-        regex: utils.middleDotsRegex,
+        regex: util.middleDotsRegex,
         hasSpaceBefore: true,
         hasSpaceAfter: true,
       },
@@ -71,7 +71,7 @@ const LanguageClass = {
    * @return ラテン文字で構成されている場合はtrue、そうでない場合はfalse
    */
   isLatin: (segment: string): boolean => {
-    return utils.latinRegex.test(segment)
+    return util.latinRegex.test(segment)
   },
 
   /**
@@ -80,7 +80,7 @@ const LanguageClass = {
    * @return 日本語文字で構成されている場合はtrue、そうでない場合はfalse
    */
   isJapanese: (segment: string): boolean => {
-    return utils.japaneseRegex.test(segment)
+    return util.japaneseRegex.test(segment)
   },
 
   /**
