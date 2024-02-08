@@ -1,6 +1,6 @@
 import LineBreaker from 'linebreak'
 import { CharClass, LanguageClass } from './utils-text-classes'
-import { wbr, createThinSpace } from './utils-tags'
+import { createWbr, createThinSpace } from './utils-tags'
 import { TypesettingOptions } from './types'
 
 /**
@@ -41,22 +41,14 @@ const createSegments = (src: string): string[] => {
 const addSeparatorsToSegment = (current: string, next = '', options: TypesettingOptions): string => {
   if (!next) return current
 
-  const addWbr = options.useWordBreak && shouldAddWbr(current, next)
-  const addSpace = options.insertThinSpaces && shouldAddThinSpace(current, next)
-  return current + (addSpace ? createThinSpace(options.thinSpaceWidth) : '') + (addWbr ? wbr : '')
-}
+  const breakable = options.useWordBreak && isBreakable(current, next)
+  const addThinSpace = options.insertThinSpaces && shouldAddThinSpace(current, next)
 
-/**
- * 2つのセグメント間に<wbr>を追加すべきかを判断します。
- * @param current - 現在のセグメント
- * @param next - 次のセグメント
- * @return <wbr>を追加すべきかどうか
- */
-const shouldAddWbr = (current: string, next: string): boolean | null => {
-  const combinedText = current.slice(-1) + next.slice(0, 1)
-  const lb = new LineBreaker(combinedText)
-  const breakOpportunity = lb.nextBreak()
-  return breakOpportunity && breakOpportunity.position === 1
+  if (addThinSpace) {
+    return current + createThinSpace(options.thinSpaceWidth, breakable)
+  } else {
+    return current + (breakable ? createWbr() : '')
+  }
 }
 
 /**
@@ -69,5 +61,18 @@ const shouldAddThinSpace = (current: string, next: string): boolean => {
   return LanguageClass.shouldAddThinSpace(current, next) || CharClass.shouldAddThinSpace(current, next)
 }
 
+/**
+ * 2つのセグメント間で改行可能かを判定します。
+ * @param current - 現在のセグメント
+ * @param next - 次のセグメント
+ * @return 改行可能かどうか
+ */
+const isBreakable = (current: string, next: string): boolean => {
+  const combinedText = current.slice(-1) + next.slice(0, 1)
+  const lb = new LineBreaker(combinedText)
+  const breakOpportunity = lb.nextBreak()
+  return breakOpportunity ? breakOpportunity.position === 1 : false
+}
+
 export default insertSeparatorsToText
-export { createSegments, addSeparatorsToSegment, shouldAddWbr, shouldAddThinSpace }
+export { createSegments, addSeparatorsToSegment, shouldAddThinSpace, isBreakable }
