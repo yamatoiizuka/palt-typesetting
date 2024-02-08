@@ -1,80 +1,107 @@
+import './style/typesetting.css'
+
 /**
- * ユーザーインターフェースのアクセシビリティと検索エンジンの最適化に関連する設定を定義します。
- * - preventSelect: ユーザーがテキストを選択してコピーすることを防止します。
- * - hiddenFromReader: スクリーンリーダーなどのアクセシビリティツールからこの要素を隠します。
- * - noIndex: 検索エンジンがこの要素の内容を検索結果のスニペットとして表示しないようにします。
+ * HTML文書内で単語の区切りを示し、必要に応じて改行の挿入を許可する`<wbr>`タグを生成します。
+ * @return `<wbr>`タグを含む文字列。
  */
-const uiIgnoreSettings = {
-  styles: {
-    preventSelect: 'user-select:none;',
-  },
-  attributes: {
-    hiddenFromReader: 'aria-hidden="true"',
-    noIndex: 'data-nosnippet=""',
-  },
+const createWbr = (): string => {
+  return '<wbr>'
 }
 
 /**
- * `<wbr>`タグはHTML文書内で単語の区切りを示し、必要に応じて改行の挿入を許可するタグです。
+ * 四分アキを指定した幅で生成します。この関数は、視覚的なテキストの区切りを改善するために使用されます。
+ * @param thisSpaceWidth - 四分アキの幅を指定します（例: "0.25em"）。
+ * @param breakable - 改行が許可されているかどうか。trueの場合、空白は通常のスペースとして扱われます。falseの場合、改行を防ぐためにノンブレーキングスペースが使用されます。
+ * @return 指定した幅の四分アキを適用したspanタグを含む文字列。
  */
-const wbr = '<wbr>'
-
-/**
- * THIN SPACEを指定した幅で生成する関数です。
- * @param thisSpaceWidth - THIN SPACEの幅。
- * @return スタイル適用されたTHIN SPACEを含むspanタグ。
- */
-const createThinSpace = (thisSpaceWidth: string): string => {
-  const THIN_SPACE = String.fromCharCode(0x2009) // U+2009 THIN SPACE
+const createThinSpace = (thisSpaceWidth: string, breakable?: boolean): string => {
+  const content = breakable ? ' ' : '&nbsp;'
   const className = 'typeset-thin-space'
-  const style = `font-size: ${thisSpaceWidth}; letter-spacing: 0; line-height: 0; ${uiIgnoreSettings.styles.preventSelect}`
-  return `<span class="${className}" style="${style}" ${uiIgnoreSettings.attributes.hiddenFromReader} ${uiIgnoreSettings.attributes.noIndex}>${THIN_SPACE}</span>`
+  const style = `letter-spacing: ${thisSpaceWidth};`
+  const uiIgnored = true
+  return createStyledSpan(content, className, style, uiIgnored)
 }
 
 /**
- * 指定した数値でカーニング（文字間隔調整）タグを生成する関数です。
+ * 指定した数値でカーニング（文字間隔調整）を適用します。カーニングは、テキストの読みやすさを向上させるために使用されます。
  *
- * @param kerningValue - カーニング値（千分率）。例: 1000 は 1em のカーニングを意味します。
- * @return カーニング適用後のHTMLコンテンツ。
+ * @param kerningValue - カーニング値（千分率）。1000 は 1em のカーニングを意味します。
+ * @param breakable - 改行が許可されているかどうか。trueの場合、空白は通常のスペースとして扱われます。falseの場合、改行を防ぐためにノンブレーキングスペースが使用されます。
+ * @return 指定した数値のカーニングを適用したspanタグ。
  */
-const createKerning = (kerningValue: number): string => {
-  const emValue = kerningValue / 1000 / 2 + 'em'
+const createKerning = (kerningValue: number, breakable?: boolean): string => {
+  if (kerningValue === 0) return ''
+
   const className = 'typeset-kerning'
-  const style = `margin: ${emValue}; ${uiIgnoreSettings.styles.preventSelect}`
-  return `<span class="${className}" style="${style}" ${uiIgnoreSettings.attributes.hiddenFromReader} ${uiIgnoreSettings.attributes.noIndex}></span>`
+  const uiIgnored = true
+
+  if (kerningValue < 0) {
+    const content = ''
+    const emValue = kerningValue / 1000 / 2 + 'em' // margin は上下左右にかかるので、1/2 にする
+    const style = `margin: ${emValue};`
+    return createStyledSpan(content, className, style, uiIgnored)
+  } else {
+    const content = breakable ? ' ' : '&nbsp;'
+    const emValue = kerningValue / 1000 + 'em'
+    const style = `letter-spacing: ${emValue};`
+    return createStyledSpan(content, className, style, uiIgnored)
+  }
 }
 
 /**
- * 与えられたテキストに typeset クラスを適用します。
- * @param text - スタイルを適用するテキスト。
- * @param useWordBreak - 単語や助詞など、単語区切りでの改行を行うかどうか。デフォルトは true。
- * @return スタイル適用されたテキストを含むspanタグ。
+ * 単語区切りでの改行を行う場合にのみ、与えられたテキストに`typeset-word-break`クラスを適用します。
+ * @param text - クラスを適用するテキスト。
+ * @param useWordBreak - 単語区切りでの改行を行うかどうか。
+ * @return クラス適用されたテキストを含むspanタグ。
  */
 const applyWrapperStyle = (text: string, useWordBreak: boolean): string => {
-  // <wbr> 以外の箇所で改行しないためのスタイリング
-  const className = 'typeset'
-  const style = useWordBreak ? 'word-break: keep-all; overflow-wrap: anywhere;' : ''
-  return `<span class="${className}" style="${style}">${text}</span>`
+  if (useWordBreak) {
+    const className = 'typeset-word-break'
+    return createStyledSpan(text, className)
+  } else {
+    return text
+  }
 }
 
 /**
- * 与えられたセグメントに latin クラスを適用します。
+ * 与えられたセグメントに`typeset-latin`クラスを適用します。
  * @param segment - クラスを適用するセグメント。
- * @return クラス適用されたセグメントを含むspanタグ。
+ * @return クラス適用されたセグメントを含むspanタグを返します。
  */
 const applyLatinStyle = (segment: string): string => {
   const className = 'typeset-latin'
-  return `<span class="${className}">${segment}</span>`
+  return createStyledSpan(segment, className)
 }
 
 /**
- * 与えられたセグメントに no-breaks クラスを適用します。
- * @param segment - スタイルを適用するセグメント。
- * @return スタイル適用されたセグメントを含むspanタグ。
+ * 与えられたセグメントに`typeset-no-breaks`クラスを適用します。このクラスは、指定されたセグメント内の`letter-spacing`を0にするために使用されます。
+ * @param segment - クラスを適用するセグメント。
+ * @return クラス適用されたセグメントを含むspanタグを返します。
  */
-const applyNoBreakStyle = (segment: string): string => {
+const applyNoBreaksStyle = (segment: string): string => {
   const className = 'typeset-no-breaks'
-  return `<span class="${className}" style="letter-spacing: 0">${segment}</span>`
+  return createStyledSpan(segment, className)
 }
 
-export { wbr, createThinSpace, createKerning, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle }
+/**
+ * スタイリングされた`span`タグを生成し、指定された内容とクラス名を適用します。オプショナルでスタイルとUI無視の属性も設定可能です。
+ *
+ * @param content - `span`タグ内に表示される内容。改行を防ぎたい場合は`&nbsp;`を、可能であれば普通の空白`' '`を使用します。
+ * @param className - この`span`タグに適用するCSSクラス名。
+ * @param style - `span`タグに適用するインラインスタイル（オプショナル）。デフォルトは空文字列で、スタイルが不要な場合に使用します。
+ * @param uiIgnored - `true`の場合、`aria-hidden="true"`と`data-nosnippet=""`属性が追加され、UIには表示されず検索エンジンのスニペットからも除外されます。
+ *                  これは主にアクセシビリティやSEOの目的で使用されます。デフォルトは`false`です。
+ * @return 指定されたパラメータに基づいて構築された`span`タグを含む文字列。
+ */
+const createStyledSpan = (
+  content: string,
+  className: string,
+  style: string = '',
+  uiIgnored: boolean = false
+): string => {
+  const styleAttr = style ? ` style="${style}"` : ''
+  const extraAttrs = uiIgnored ? ' aria-hidden="true" data-nosnippet=""' : ''
+  return `<span class="${className}"${styleAttr}${extraAttrs}>${content}</span>`
+}
+
+export { createWbr, createThinSpace, createKerning, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle }
