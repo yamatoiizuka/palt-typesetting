@@ -1,5 +1,6 @@
+import { isBreakable } from './insert-separators'
 import { CharClass, LanguageClass } from './utils-text-classes'
-import { applyWrapperStyle, applyLatinStyle, applyNoBreakStyle, createKerning } from './utils-tags'
+import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, createKerning } from './utils-tags'
 import { TypesettingOptions } from './types'
 
 /**
@@ -40,7 +41,7 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用
   if (options.noSpaceBetweenNoBreaks && CharClass.shouldNotBreak(currentSegment)) {
-    return applyNoBreakStyle(kernedSegment)
+    return applyNoBreaksStyle(kernedSegment)
   }
 
   return kernedSegment
@@ -65,7 +66,8 @@ const applyKerningToSegment = (currentSegment: string, nextSegment: string, opti
 
     if (kerningRule) {
       const kerningValue = typeof kerningRule.value === 'number' ? kerningRule.value : parseInt(kerningRule.value, 10)
-      return currentChar + createKerning(kerningValue)
+      const breakable = options.useWordBreak ? false : isBreakable(currentChar, nextChar)
+      return currentChar + createKerning(kerningValue, breakable)
     }
 
     return currentChar
