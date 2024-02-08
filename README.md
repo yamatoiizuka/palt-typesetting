@@ -28,7 +28,7 @@ import Typesetter from 'palt-typesetting'
 const typesetter = new Typesetter()
 
 // セレクターにマッチする要素に対して組版を適用
-typesetter.renderToSelector('.my-class')
+typesetter.renderToSelector('p')
 ```
 
 ### Use Typesetter from CDN
@@ -43,7 +43,7 @@ typesetter.renderToSelector('.my-class')
   const typesetter = new Typesetter()
 
   // セレクターにマッチする要素に対して組版を適用
-  typesetter.renderToSelector('.my-class')
+  typesetter.renderToSelector('p')
 </script>
 ```
 
@@ -53,7 +53,7 @@ typesetter.renderToSelector('.my-class')
 /*
  * 共通のスタイリング
  */
-.typeset {
+p {
   /* プロポーショナルメトリクス（ツメ組み）の設定 */
   font-feature-settings: 'palt';
 
@@ -74,7 +74,7 @@ typesetter.renderToSelector('.my-class')
 /*
  * 英数のみのスタイリング
  */
-.typeset-latin {
+p .typeset-latin {
   /* フォントの拡大・縮小 */
   font-size: 105%;
 
@@ -156,12 +156,12 @@ const options = {
   // 特定の文字間のカーニングルールを設定します。
   kerningRules: [
     {
-      between: ['す', '。'],
-      value: '-80',
+      between: ['し', 'ま'],
+      value: '60',
     },
     {
-      between: ['で', '、'],
-      value: '-120',
+      between: ['す', '。'],
+      value: '-80',
     },
   ],
 }
