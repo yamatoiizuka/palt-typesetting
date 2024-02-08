@@ -36,7 +36,7 @@ describe('LanguageClass.shouldAddThinSpace', () => {
     { current: '」', next: '日本語', expected: false },
     { current: '日本語', next: 'と', expected: false },
     { current: 'と', next: 'English', expected: true },
-    { current: 'English', next: '、', expected: true },
+    { current: 'English', next: '、', expected: false },
     { current: '、', next: '晴れ', expected: false },
     { current: '晴れ', next: '・', expected: false },
     { current: '・', next: '28', expected: true },
