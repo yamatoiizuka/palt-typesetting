@@ -12,7 +12,7 @@ describe('Typesetter', () => {
   const wbr = createWbr()
   const srcHtml = `<p>──<b>こんにちは。</b>「日本語」とEnglish、晴れ・28度。</p>`
 
-  const expectedHtml = `<p>${applyWrapperStyle(`${applyNoBreaksStyle('──')}${wbr}`, true)}<b>${applyWrapperStyle(`こんにちは。${space}`, true)}</b>${applyWrapperStyle(`「日本語」${space}と${space}${applyLatinStyle('English')}${nbsp}、${space}晴れ${nbsp}・${space}${applyLatinStyle('28')}${space}度。`, true)}</p>`
+  const expectedHtml = `<p>${applyWrapperStyle(`${applyNoBreaksStyle('──')}${wbr}`, true)}<b>${applyWrapperStyle(`こんにちは。${space}`, true)}</b>${applyWrapperStyle(`「日本語」${space}と${space}${applyLatinStyle('English')}、${space}晴れ${nbsp}・${space}${applyLatinStyle('28')}${space}度。`, true)}</p>`
 
   const typeset = new Typesetter()
 

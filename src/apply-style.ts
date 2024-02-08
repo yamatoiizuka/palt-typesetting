@@ -1,6 +1,7 @@
 import { isBreakable } from './insert-separators'
 import { CharClass, LanguageClass } from './util-text-classes'
 import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, createKerning } from './util-tags'
+import * as util from './util-regex'
 import { TypesettingOptions } from './types'
 
 /**
@@ -32,19 +33,17 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
     return currentSegment
   }
 
-  const kernedSegment = applyKerningToSegment(currentSegment, nextSegment, options)
-
   // ラテン文字のセグメントには 'latin' クラスを適用
   if (options.wrapLatin && LanguageClass.isLatin(currentSegment)) {
-    return applyLatinStyle(kernedSegment)
+    return currentSegment.replace(util.latinRegex, match => applyLatinStyle(match))
   }
 
   // 改行をしないセグメントにはゼロの文字間隔スタイルを適用
   if (options.noSpaceBetweenNoBreaks && CharClass.shouldNotBreak(currentSegment)) {
-    return applyNoBreaksStyle(kernedSegment)
+    return currentSegment.replace(util.noBreakRulesRegex, match => applyNoBreaksStyle(match))
   }
 
-  return kernedSegment
+  return currentSegment
 }
 
 /**
@@ -76,4 +75,4 @@ const applyKerningToSegment = (currentSegment: string, nextSegment: string, opti
   return kernedChars.join('')
 }
 
-export { applyStyleToText, applyStyleToSegment }
+export { applyStyleToText, applyStyleToSegment, applyKerningToSegment }

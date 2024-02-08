@@ -17,7 +17,7 @@ describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {
     const currentText = '──「こんにちは。」日本語とEnglish、晴れ・28度à vous。'
     const nextText = '「合成フォント」の見本。'
-    const expected = `──${nbsp}「こんにちは。」${space}日本語${wbr}と${space}English${nbsp}、${space}晴れ${nbsp}・${space}28${space}度${space}à ${wbr}vous${nbsp}。${space}`
+    const expected = `──${nbsp}「こんにちは。」${space}日本語${wbr}と${space}English、${space}晴れ${nbsp}・${space}28${space}度${space}à ${wbr}vous。${space}`
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 })
@@ -90,7 +90,7 @@ describe('addSeparatorsToSegment', () => {
     {
       current: 'English',
       next: '、',
-      expected: 'English' + nbsp,
+      expected: 'English',
     },
     {
       current: '、',
@@ -130,7 +130,7 @@ describe('addSeparatorsToSegment', () => {
     {
       current: 'vous',
       next: '。',
-      expected: 'vous' + nbsp,
+      expected: 'vous',
     },
   ]
 
@@ -187,7 +187,7 @@ describe('addSeparatorsToSegment without useWordBreak', () => {
     {
       current: 'English',
       next: '、',
-      expected: 'English' + nbsp,
+      expected: 'English',
     },
     {
       current: '、',
@@ -227,7 +227,7 @@ describe('addSeparatorsToSegment without useWordBreak', () => {
     {
       current: 'vous',
       next: '。',
-      expected: 'vous' + nbsp,
+      expected: 'vous',
     },
   ]
 
@@ -276,7 +276,7 @@ describe('shouldAddThinSpace', () => {
     { current: '」', next: '日本語', expected: true },
     { current: '日本語', next: 'と', expected: false },
     { current: 'と', next: 'English', expected: true },
-    { current: 'English', next: '、', expected: true },
+    { current: 'English', next: '、', expected: false },
     { current: '、', next: '晴れ', expected: true },
     { current: '晴れ', next: '・', expected: true },
     { current: '・', next: '28', expected: true },
@@ -284,7 +284,7 @@ describe('shouldAddThinSpace', () => {
     { current: '度', next: 'à', expected: true },
     { current: 'à', next: ' ', expected: false },
     { current: ' ', next: 'vous', expected: false },
-    { current: 'vous', next: '。', expected: true },
+    { current: 'vous', next: '。', expected: false },
   ]
 
   tests.forEach(({ current, next, expected }) => {

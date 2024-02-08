@@ -1,6 +1,6 @@
 import HTMLProcessor from './html-processor'
 import insertSeparatorsToText from './insert-separators'
-import { applyStyleToText, applyStyleToSegment } from './apply-style'
+import { applyStyleToText, applyStyleToSegment, applyKerningToSegment } from './apply-style'
 import win from './win'
 import type { TypesettingOptions, KerningRule } from './types'
 
@@ -29,7 +29,7 @@ class Typesetter extends HTMLProcessor {
   private isIntlSegmenterSupported: boolean
 
   constructor(options: Partial<TypesettingOptions> = {}) {
-    const transformFunctions = [applyStyleToText, insertSeparatorsToText, applyStyleToSegment]
+    const transformFunctions = [applyStyleToText, insertSeparatorsToText, applyStyleToSegment, applyKerningToSegment]
     const validatedOptions = Typesetter.validateOptions(options)
 
     super(transformFunctions, validatedOptions)

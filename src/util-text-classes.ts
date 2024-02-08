@@ -1,4 +1,4 @@
-import * as utils from './util-regex'
+import * as util from './util-regex'
 
 /**
  * 文字クラス関連の処理を提供するクラスです。
@@ -12,7 +12,7 @@ const CharClass = {
    * @return 分離禁則文字で構成されている場合はtrue、そうでない場合はfalse
    */
   shouldNotBreak: (segment: string): boolean => {
-    return utils.noBreakRulesRegex.test(segment)
+    return util.noBreakRulesRegex.test(segment)
   },
 
   /**
@@ -22,19 +22,23 @@ const CharClass = {
    * @return 四分アキを追加すべきかどうか
    */
   shouldAddThinSpace: (current: string, next: string): boolean => {
+    const spaceAfterRegex = new RegExp(
+      `(${util.closingsRegex.source}|${util.commasRegex.source}|${util.periodsRegex.source})`
+    )
+
     const settings = {
-      openings: {
-        regex: utils.openingsRegex,
+      spaceBefore: {
+        regex: util.openingsRegex,
         hasSpaceBefore: true,
         hasSpaceAfter: false,
       },
-      closings: {
-        regex: utils.closingsRegex,
+      spaceAfter: {
+        regex: spaceAfterRegex,
         hasSpaceBefore: false,
         hasSpaceAfter: true,
       },
-      middleDots: {
-        regex: utils.middleDotsRegex,
+      spaceBoth: {
+        regex: util.middleDotsRegex,
         hasSpaceBefore: true,
         hasSpaceAfter: true,
       },
@@ -53,6 +57,17 @@ const CharClass = {
 
     return false
   },
+
+  /**
+   * 与えられた文字列の最初の文字が句読点に一致するかどうか判断します。
+   * @param {string} segment - 判断対象の文字列
+   * @return {boolean} 最初の文字が句読点であればtrueを返します。
+   */
+  startsWithPunctuation: (segment: string): boolean => {
+    // periodsRegexとcommasRegexを組み合わせて一つの正規表現を作成
+    const combinedRegex = new RegExp(`^[${util.periodsRegex.source}${util.commasRegex.source}]`)
+    return combinedRegex.test(segment)
+  },
 }
 
 /**
@@ -67,7 +82,7 @@ const LanguageClass = {
    * @return ラテン文字で構成されている場合はtrue、そうでない場合はfalse
    */
   isLatin: (segment: string): boolean => {
-    return utils.latinRegex.test(segment)
+    return util.latinRegex.test(segment)
   },
 
   /**
@@ -76,7 +91,7 @@ const LanguageClass = {
    * @return 日本語文字で構成されている場合はtrue、そうでない場合はfalse
    */
   isJapanese: (segment: string): boolean => {
-    return utils.japaneseRegex.test(segment)
+    return util.japaneseRegex.test(segment)
   },
 
   /**
@@ -99,7 +114,7 @@ const LanguageClass = {
    * @return 四分アキを追加すべきかどうか
    */
   shouldAddThinSpace: (current: string, next: string): boolean => {
-    return LanguageClass.isDifferentLanguageClass(current, next)
+    return LanguageClass.isDifferentLanguageClass(current, next) && !CharClass.startsWithPunctuation(next)
   },
 }
 

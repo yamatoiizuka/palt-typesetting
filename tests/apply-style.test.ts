@@ -1,5 +1,5 @@
 import Typesetter from '../src'
-import { applyStyleToSegment } from '../src/apply-style'
+import { applyStyleToSegment, applyKerningToSegment } from '../src/apply-style'
 import { TypesettingOptions } from '../src/types'
 import { describe, it, expect } from 'vitest'
 
@@ -68,7 +68,7 @@ describe('applyStyleToSegment', () => {
     const next = '。'
     const expected =
       'す<span class="typeset-kerning" style="margin: -0.04em;" aria-hidden="true" data-nosnippet=""></span>'
-    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+    expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 
   it("adds kerning tag after 'で'", () => {
@@ -76,7 +76,7 @@ describe('applyStyleToSegment', () => {
     const next = 'その'
     const expected =
       'です<span class="typeset-kerning" style="margin: -0.04em;" aria-hidden="true" data-nosnippet=""></span>。'
-    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+    expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 })
 
@@ -106,7 +106,7 @@ describe('applyStyleToSegment without useWordBreak option', () => {
     const current = 'し'
     const next = 'ます。'
     const expected = `し<span class="typeset-kerning" style="letter-spacing: 0.06em;" aria-hidden="true" data-nosnippet="">${space}</span>`
-    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+    expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 
   it("adds unbreakable kerning tag after 'す'", () => {
@@ -114,14 +114,14 @@ describe('applyStyleToSegment without useWordBreak option', () => {
     const current = 'です'
     const next = '。'
     const expected = `です<span class="typeset-kerning" style="letter-spacing: 0.02em;" aria-hidden="true" data-nosnippet="">${space}</span>`
-    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+    expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 
   it("adds unbreakable kerning tag after 'Java'", () => {
     const space = '&nbsp;'
     const current = 'Java'
     const next = 'Script'
-    const expected = `<span class="typeset-latin">Java<span class="typeset-kerning" style="letter-spacing: 0.02em;" aria-hidden="true" data-nosnippet="">${space}</span></span>`
-    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+    const expected = `Java<span class="typeset-kerning" style="letter-spacing: 0.02em;" aria-hidden="true" data-nosnippet="">${space}</span>`
+    expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 })
