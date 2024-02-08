@@ -18,7 +18,7 @@ class Typesetter extends HTMLProcessor {
       wrapLatin: true,
       noSpaceBetweenNoBreaks: true,
       insertThinSpaces: true,
-      thinSpaceWidth: '100%',
+      thinSpaceWidth: '0.25em',
       kerningRules: [],
     }
   }
@@ -136,4 +136,4 @@ class Typesetter extends HTMLProcessor {
 }
 
 export default Typesetter
-export type { TypesettingOptions, KerningRule }
+export type { TypesettingOptions, KerningRule } from './types'
