@@ -1,7 +1,7 @@
 /**
  * ラテン文字、数字、基本的な記号類
  */
-export const latinRegex = /[\p{scx=Latin}0-9!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+/u
+export const latinRegex = /[\p{scx=Latin}0-9!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~\s]+/u
 
 /**
  * 日本語
