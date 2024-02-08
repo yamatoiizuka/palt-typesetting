@@ -17,7 +17,7 @@ describe('applyStyleToSegment', () => {
   it("applies letter-spacing style to separation prohibited characters '──'", () => {
     const current = '──'
     const next = ''
-    const expected = '<span class="typeset-no-breaks" style="letter-spacing: 0">──</span>'
+    const expected = '<span class="typeset-no-breaks">──</span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
@@ -67,7 +67,7 @@ describe('applyStyleToSegment', () => {
     const current = 'す'
     const next = '。'
     const expected =
-      'す<span class="typeset-kerning" style="margin: -0.04em; user-select:none;" aria-hidden="true" data-nosnippet=""></span>'
+      'す<span class="typeset-kerning" style="margin: -0.04em;" aria-hidden="true" data-nosnippet=""></span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
@@ -75,7 +75,7 @@ describe('applyStyleToSegment', () => {
     const current = 'です。'
     const next = 'その'
     const expected =
-      'です<span class="typeset-kerning" style="margin: -0.04em; user-select:none;" aria-hidden="true" data-nosnippet=""></span>。'
+      'です<span class="typeset-kerning" style="margin: -0.04em;" aria-hidden="true" data-nosnippet=""></span>。'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 })

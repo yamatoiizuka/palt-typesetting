@@ -1,16 +1,18 @@
 import Typesetter from '../src/'
-import { wbr, createThinSpace, applyWrapperStyle, applyLatinStyle, applyNoBreakStyle } from '../src/utils-tags'
+import { createWbr, createThinSpace, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle } from '../src/utils-tags'
 import win from '../src/win'
 import { describe, test, expect, beforeEach } from 'vitest'
 
 // prettier-ignore
 describe('Typesetter', () => {
-  const addwbr = Typesetter.getDefaultOptions().useWordBreak
-  const spaceWidth = Typesetter.getDefaultOptions().thinSpaceWidth
-  const space = createThinSpace(spaceWidth)
+  const options = Typesetter.getDefaultOptions()
+  const spaceWidth = options.thinSpaceWidth
+  const space = createThinSpace(spaceWidth, true)
+  const nbsp = createThinSpace(spaceWidth, false)
+  const wbr = createWbr()
   const srcHtml = `<p>──<b>こんにちは。</b>「日本語」とEnglish、晴れ・28度。</p>`
 
-  const expectedHtml = `<p>${applyWrapperStyle(`${applyNoBreakStyle('──')}${wbr}`, addwbr)}<b>${applyWrapperStyle(`こんにちは。${space}${wbr}`, addwbr)}</b>${applyWrapperStyle(`「日本語」${space}${wbr}と${space}${wbr}${applyLatinStyle('English')}${space}、${space}${wbr}晴れ${space}・${space}${wbr}${applyLatinStyle('28')}${space}${wbr}度。`, addwbr)}</p>`
+  const expectedHtml = `<p>${applyWrapperStyle(`${applyNoBreaksStyle('──')}${wbr}`, true)}<b>${applyWrapperStyle(`こんにちは。${space}`, true)}</b>${applyWrapperStyle(`「日本語」${space}と${space}${applyLatinStyle('English')}${nbsp}、${space}晴れ${nbsp}・${space}${applyLatinStyle('28')}${space}度。`, true)}</p>`
 
   const typeset = new Typesetter()
 
