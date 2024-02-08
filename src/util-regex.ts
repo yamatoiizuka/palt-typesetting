@@ -14,14 +14,24 @@ export const japaneseRegex = /[\p{scx=Hiragana}\p{scx=Katakana}|ｦ-ﾟ\p{scx=Ha
 export const openingsRegex = /（|［|｛|〔|〈|《|「|『|【|〘|〖|“|‘/
 
 /**
- * 終わり括弧類、句点類、読点類
+ * 終わり括弧類
  */
-export const closingsRegex = /）|］|｝|〕|〉|》|」|』|】|〙|〗|”|’|、|，|。|．/
+export const closingsRegex = /）|］|｝|〕|〉|》|」|』|】|〙|〗|”|’/
 
 /**
  * 中点類
  */
 export const middleDotsRegex = /・|：|；/
+
+/**
+ * 読点類
+ */
+export const commasRegex = /、|，/
+
+/**
+ * 句点類
+ */
+export const periodsRegex = /。|．/
 
 /**
  * 分離禁則文字

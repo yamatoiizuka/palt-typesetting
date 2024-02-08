@@ -22,18 +22,22 @@ const CharClass = {
    * @return 四分アキを追加すべきかどうか
    */
   shouldAddThinSpace: (current: string, next: string): boolean => {
+    const spaceAfterRegex = new RegExp(
+      `(${utils.closingsRegex.source}|${utils.commasRegex.source}|${utils.periodsRegex.source})`
+    )
+
     const settings = {
-      openings: {
+      spaceBefore: {
         regex: utils.openingsRegex,
         hasSpaceBefore: true,
         hasSpaceAfter: false,
       },
-      closings: {
-        regex: utils.closingsRegex,
+      spaceAfter: {
+        regex: spaceAfterRegex,
         hasSpaceBefore: false,
         hasSpaceAfter: true,
       },
-      middleDots: {
+      spaceBoth: {
         regex: utils.middleDotsRegex,
         hasSpaceBefore: true,
         hasSpaceAfter: true,
