@@ -1,6 +1,6 @@
 import { isBreakable } from './insert-separators'
-import { CharClass, LanguageClass } from './utils-text-classes'
-import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, createKerning } from './utils-tags'
+import { CharClass, LanguageClass } from './util-text-classes'
+import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, createKerning } from './util-tags'
 import { TypesettingOptions } from './types'
 
 /**

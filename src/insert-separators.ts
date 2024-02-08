@@ -1,6 +1,6 @@
 import LineBreaker from 'linebreak'
-import { CharClass, LanguageClass } from './utils-text-classes'
-import { createWbr, createThinSpace } from './utils-tags'
+import { CharClass, LanguageClass } from './util-text-classes'
+import { createWbr, createThinSpace } from './util-tags'
 import { TypesettingOptions } from './types'
 
 /**

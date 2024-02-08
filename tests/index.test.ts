@@ -1,5 +1,5 @@
 import Typesetter from '../src/'
-import { createWbr, createThinSpace, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle } from '../src/utils-tags'
+import { createWbr, createThinSpace, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle } from '../src/util-tags'
 import win from '../src/win'
 import { describe, test, expect, beforeEach } from 'vitest'
 

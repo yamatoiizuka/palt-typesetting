@@ -1,4 +1,4 @@
-import * as utils from './utils-regex'
+import * as utils from './util-regex'
 
 /**
  * 文字クラス関連の処理を提供するクラスです。

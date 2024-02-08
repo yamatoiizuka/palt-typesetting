@@ -5,7 +5,7 @@ import insertSeparatorsToText, {
   isBreakable,
   shouldAddThinSpace,
 } from '../src/insert-separators'
-import { createWbr, createThinSpace } from '../src/utils-tags'
+import { createWbr, createThinSpace } from '../src/util-tags'
 import { describe, it, expect } from 'vitest'
 
 const options = Typesetter.getDefaultOptions()
