@@ -151,7 +151,7 @@ const options = {
   insertThinSpaces: true,
 
   // 四分アキスペースの幅を設定します。
-  thinSpaceWidth: '100%',
+  thinSpaceWidth: '0.2em',
 
   // 特定の文字間のカーニングルールを設定します。
   kerningRules: [
