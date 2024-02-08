@@ -45,7 +45,7 @@ p {
 /*
  * 共通のスタイリング
  */
-.typeset {
+.typeset-wrapper {
   /*
    * Safari のフォントレンダリング対策。
    * 英数（.typeset-latin）で -webkit-text-stroke を使う場合は必須。
@@ -65,8 +65,8 @@ p {
   vertical-align: 0.02em;
 
   /*
-   * 行間の調整。親要素 .typeset の行間と視覚的に合わせます。
-   * [.typeset の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+   * 行間の調整。親要素 .typeset-wrapperの行間と視覚的に合わせます。
+   * [.typeset-wrapperの line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
   line-height: calc(2 / 1.04 - 0.02 * 2);
 
@@ -83,8 +83,8 @@ p {
 
 .en-section .typeset-latin {
   /*
-   * 行間の調整。親要素 .typeset の行間と視覚的に合わせます。
-   * [.typeset の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+   * 行間の調整。親要素 .typeset-wrapperの行間と視覚的に合わせます。
+   * [.typeset-wrapperの line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
   line-height: calc(1.8 / 1.05 - 0.02 * 2);
 }

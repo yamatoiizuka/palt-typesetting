@@ -28,7 +28,7 @@ import Typesetter from 'palt-typesetting'
 const typesetter = new Typesetter()
 
 // セレクターにマッチする要素に対して組版を適用
-typesetter.renderToSelector('p')
+typesetter.renderToSelector('.my-class')
 ```
 
 ### Use Typesetter from CDN
@@ -43,7 +43,7 @@ typesetter.renderToSelector('p')
   const typesetter = new Typesetter()
 
   // セレクターにマッチする要素に対して組版を適用
-  typesetter.renderToSelector('p')
+  typesetter.renderToSelector('.my-class')
 </script>
 ```
 
@@ -53,7 +53,7 @@ typesetter.renderToSelector('p')
 /*
  * 共通のスタイリング
  */
-p {
+.typeset-wrapper {
   /* プロポーショナルメトリクス（ツメ組み）の設定 */
   font-feature-settings: 'palt';
 
@@ -74,7 +74,7 @@ p {
 /*
  * 英数のみのスタイリング
  */
-p .typeset-latin {
+.typeset-latin {
   /* フォントの拡大・縮小 */
   font-size: 105%;
 
