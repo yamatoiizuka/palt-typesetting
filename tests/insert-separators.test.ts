@@ -1,4 +1,4 @@
-import Typesetter from '../src'
+import Typesetter, { TypesettingOptions } from '../src'
 import insertSeparatorsToText, {
   createSegments,
   addSeparatorsToSegment,
@@ -137,6 +137,103 @@ describe('addSeparatorsToSegment', () => {
   tests.forEach(({ current, next, expected }) => {
     it(`adds separators to '${current}' considering '${next}', resulting in '${expected}'`, () => {
       expect(addSeparatorsToSegment(current, next, options)).toEqual(expected)
+    })
+  })
+})
+
+describe('addSeparatorsToSegment without useWordBreak', () => {
+  const customOptions: TypesettingOptions = {
+    ...options,
+    useWordBreak: false,
+  }
+
+  const tests = [
+    { current: '─', next: '─', expected: '─' },
+    {
+      current: '─',
+      next: '「',
+      expected: '─' + nbsp,
+    },
+    {
+      current: '「',
+      next: 'こんにちは',
+      expected: '「',
+    },
+    {
+      current: 'こんにちは',
+      next: '。',
+      expected: 'こんにちは',
+    },
+    {
+      current: '。',
+      next: '」',
+      expected: '。',
+    },
+    {
+      current: '」',
+      next: '日本語',
+      expected: '」' + space,
+    },
+    {
+      current: '日本語',
+      next: 'と',
+      expected: '日本語',
+    },
+    {
+      current: 'と',
+      next: 'English',
+      expected: 'と' + space,
+    },
+    {
+      current: 'English',
+      next: '、',
+      expected: 'English' + nbsp,
+    },
+    {
+      current: '、',
+      next: '晴れ',
+      expected: '、' + space,
+    },
+    {
+      current: '晴れ',
+      next: '・',
+      expected: '晴れ' + nbsp,
+    },
+    {
+      current: '・',
+      next: '28',
+      expected: '・' + space,
+    },
+    {
+      current: '28',
+      next: '度',
+      expected: '28' + space,
+    },
+    {
+      current: '度',
+      next: 'à',
+      expected: '度' + space,
+    },
+    {
+      current: 'à',
+      next: ' ',
+      expected: 'à',
+    },
+    {
+      current: ' ',
+      next: 'vous',
+      expected: ' ',
+    },
+    {
+      current: 'vous',
+      next: '。',
+      expected: 'vous' + nbsp,
+    },
+  ]
+
+  tests.forEach(({ current, next, expected }) => {
+    it(`adds separators to '${current}' considering '${next}', resulting in '${expected}'`, () => {
+      expect(addSeparatorsToSegment(current, next, customOptions)).toEqual(expected)
     })
   })
 })
