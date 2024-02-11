@@ -20,6 +20,34 @@ describe('insertSeparators', () => {
     const expected = `──${nbsp}「こんにちは。」${space}日本語${wbr}と${space}English、${space}晴れ${nbsp}・${space}28${space}度${space}à ${wbr}vous。${space}`
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
+
+  it('inserts a thin space between Japanese–Cyrillic', () => {
+    const currentText = 'こんにちはДобрий день'
+    const nextText = ''
+    const expected = `こんにちは${space}Добрий ${wbr}день`
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('inserts a thin space between Japanese–Greek', () => {
+    const currentText = 'こんにちはΚαλησπέρα σας'
+    const nextText = ''
+    const expected = `こんにちは${space}Καλησπέρα ${wbr}σας`
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('inserts a thin space between Japanese–Korean', () => {
+    const currentText = 'こんにちは안녕하세요'
+    const nextText = ''
+    const expected = `こんにちは${space}안녕하세요`
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space between Japanese–Chinese', () => {
+    const currentText = 'こんにちは下午好'
+    const nextText = ''
+    const expected = `こんにちは<wbr>下午<wbr>好`
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
 })
 
 describe('createSegments', () => {

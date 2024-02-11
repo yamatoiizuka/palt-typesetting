@@ -95,16 +95,14 @@ const LanguageClass = {
   },
 
   /**
-   * 2つのセグメントが異なる言語で構成されているかどうかを判定します。
-   * @param current - 現在のセグメント
-   * @param next - 次のセグメント
-   * @return 2つのセグメントが異なる言語がどうか
+   * 現在のセグメントと次のセグメントの言語が異なるかどうかを判定します。
+   * この関数は、一方が日本語で他方が非日本語の場合にtrueを返します。
+   * @param current - 現在のテキストセグメント
+   * @param next - 次のテキストセグメント
+   * @return 両セグメント間で言語が異なる場合にtrueを返す
    */
-  isDifferentLanguageClass: (current: string, next: string): boolean => {
-    return (
-      (LanguageClass.isJapanese(current) && LanguageClass.isLatin(next)) ||
-      (LanguageClass.isLatin(current) && LanguageClass.isJapanese(next))
-    )
+  hasLanguageTransition: (current: string, next: string): boolean => {
+    return LanguageClass.isJapanese(current) !== LanguageClass.isJapanese(next)
   },
 
   /**
@@ -114,7 +112,7 @@ const LanguageClass = {
    * @return 四分アキを追加すべきかどうか
    */
   shouldAddThinSpace: (current: string, next: string): boolean => {
-    return LanguageClass.isDifferentLanguageClass(current, next) && !CharClass.startsWithPunctuation(next)
+    return LanguageClass.hasLanguageTransition(current, next) && !CharClass.startsWithPunctuation(next)
   },
 }
 
