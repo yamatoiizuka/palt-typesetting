@@ -29,7 +29,7 @@ describe('CharClass.shouldAddThinSpace', () => {
 describe('LanguageClass.shouldAddThinSpace', () => {
   const tests = [
     { current: '─', next: '─', expected: false },
-    { current: '─', next: '「', expected: false },
+    { current: '─', next: '「', expected: true },
     { current: '「', next: 'こんにちは', expected: false },
     { current: 'こんにちは', next: '。', expected: false },
     { current: '。', next: '」', expected: false },
