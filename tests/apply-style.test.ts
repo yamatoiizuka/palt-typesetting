@@ -63,6 +63,13 @@ describe('applyStyleToSegment', () => {
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
+  it("applies 'latin' class to currency symbols", () => {
+    const current = '¥1,400'
+    const next = ''
+    const expected = '<span class="typeset-latin">¥1,400</span>'
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+  })
+
   it("adds kerning tag after 'で'", () => {
     const current = 'す'
     const next = '。'
