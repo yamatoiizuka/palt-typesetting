@@ -63,6 +63,27 @@ describe('applyStyleToSegment', () => {
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
+  it("applies 'latin' class to currency symbols", () => {
+    const current = '¥1,400'
+    const next = ''
+    const expected = '<span class="typeset-latin">¥1,400</span>'
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+  })
+
+  it("applies 'latin' class to subscript numbers", () => {
+    const current = 'CO₂'
+    const next = ''
+    const expected = '<span class="typeset-latin">CO₂</span>'
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+  })
+
+  it("applies 'latin' class to superscript numbers", () => {
+    const current = '¹³⁷Cs'
+    const next = ''
+    const expected = '<span class="typeset-latin">¹³⁷Cs</span>'
+    expect(applyStyleToSegment(current, next, options)).toEqual(expected)
+  })
+
   it("adds kerning tag after 'で'", () => {
     const current = 'す'
     const next = '。'
