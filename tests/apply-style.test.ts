@@ -1,6 +1,5 @@
-import Typesetter from '../src'
+import Typesetter, { TypesettingOptions } from '../src'
 import { applyStyleToSegment, applyKerningToSegment } from '../src/apply-style'
-import { TypesettingOptions } from '../src/types'
 import { describe, it, expect } from 'vitest'
 
 describe('applyStyleToSegment', () => {

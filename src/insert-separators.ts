@@ -1,7 +1,7 @@
 import LineBreaker from 'linebreak'
 import { CharClass, LanguageClass } from './util-text-classes'
 import { createWbr, createThinSpace } from './util-tags'
-import { TypesettingOptions } from './types'
+import { TypesettingOptions } from '../types'
 
 /**
  * HTMLテキストノードにセパレーター（四分アキ、<wbr>）を挿入します。

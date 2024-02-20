@@ -5,7 +5,7 @@
     "target": "es2016",
     "lib": ["esnext", "DOM"],
     "module": "commonjs",
-    "typeRoots": ["src/types", "./node_modules/@types"],
+    "typeRoots": ["types", "./node_modules/@types"],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -19,5 +19,5 @@
     "outDir": "./dist"
   },
   "exclude": ["node_modules", "**/*.test.ts"],
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "types"]
 }
