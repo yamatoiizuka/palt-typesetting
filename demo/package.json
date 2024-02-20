@@ -8,7 +8,8 @@
     "prebuild": "npm run clean:dist && npm run copy:public",
     "clean:dist": "rm -rf dist && mkdir dist",
     "copy:public": "cp -r public/* dist/",
-    "build": "parcel build ./src/index.html --no-cache"
+    "build": "parcel build ./src/index.html --no-cache",
+    "serve": "parcel ./src/index.html --host 0.0.0.0 --no-cache"
   },
   "author": {
     "name": "Yamato Iizuka",
@@ -20,6 +21,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "palt-typesetting": "file:../"
+    "palt-typesetting": "file:../src"
   }
 }
