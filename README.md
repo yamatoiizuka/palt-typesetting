@@ -53,7 +53,7 @@ typesetter.renderToSelector('.my-class')
 /*
  * 共通のスタイリング（例）
  */
-.typeset-wrapper {
+.typeset {
   /* プロポーショナルメトリクス（ツメ組み）の設定 */
   font-feature-settings: 'palt';
 
