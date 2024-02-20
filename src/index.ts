@@ -2,7 +2,7 @@ import HTMLProcessor from './html-processor'
 import insertSeparatorsToText from './insert-separators'
 import { applyStyleToText, applyStyleToSegment, applyKerningToSegment } from './apply-style'
 import win from './win'
-import type { TypesettingOptions, KerningRule } from './types'
+import type { TypesettingOptions, KerningRule } from '../types'
 
 /**
  * HTMLテキストを処理し、カスタムスタイルと区切り文字を適用するためのクラス。
@@ -136,4 +136,4 @@ class Typesetter extends HTMLProcessor {
 }
 
 export default Typesetter
-export type { TypesettingOptions, KerningRule } from './types'
+export type { TypesettingOptions, KerningRule } from '../types'

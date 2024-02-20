@@ -1,5 +1,5 @@
 import win from './win'
-import type { TransformFunction, TypesettingOptions } from './types'
+import type { TransformFunction, TypesettingOptions } from '../types'
 
 /**
  * HTMLコンテンツの変換と処理を行うクラスです。

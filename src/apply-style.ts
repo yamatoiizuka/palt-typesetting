@@ -2,7 +2,7 @@ import { isBreakable } from './insert-separators'
 import { CharClass, LanguageClass } from './util-text-classes'
 import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, createKerning } from './util-tags'
 import * as util from './util-regex'
-import { TypesettingOptions } from './types'
+import { TypesettingOptions } from '../types'
 
 /**
  * 与えられたテキストに対して、word-breakとoverflow-wrapスタイルを持つspanタグでラップします。
