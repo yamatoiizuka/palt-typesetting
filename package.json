@@ -13,11 +13,9 @@
     "url": "https://github.com/yamatoiizuka/palt-typesetting.git"
   },
   "scripts": {
-    "clean:dist": "rm -rf ./dist && mkdir ./dist",
-    "copy:types": "mkdir -p ./dist/types && cp -R ./src/types/* ./dist/types",
+    "clean:dist": "rm -rf ./dist",
     "copy:css": "mkdir -p ./dist/style && cp -R ./src/style/* ./dist/style",
-    "copy": "npm run copy:types && npm run copy:css",
-    "prebuild": "npm run clean:dist && npm run copy",
+    "prebuild": "npm run clean:dist && npm run copy:css",
     "build": "node ./scripts/build.js && webpack",
     "test": "vitest",
     "lint": "eslint ./src/** --no-error-on-unmatched-pattern",
