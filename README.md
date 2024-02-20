@@ -51,7 +51,7 @@ typesetter.renderToSelector('.my-class')
 
 ```css
 /*
- * 共通のスタイリング
+ * 共通のスタイリング（例）
  */
 .typeset-wrapper {
   /* プロポーショナルメトリクス（ツメ組み）の設定 */
@@ -72,7 +72,7 @@ typesetter.renderToSelector('.my-class')
 }
 
 /*
- * 英数のみのスタイリング
+ * 英数のみのスタイリング（例）
  */
 .typeset-latin {
   /* フォントの拡大・縮小 */
