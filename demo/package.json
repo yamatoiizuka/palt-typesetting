@@ -21,7 +21,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "palt-typesetting": "file:../src",
-    "path-browserify": "^1.0.1"
+    "palt-typesetting": "file:../"
   }
 }
