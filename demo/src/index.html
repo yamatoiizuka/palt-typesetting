@@ -16,7 +16,7 @@
     <meta name="twitter:creator" content="@yamatoiizuka" />
   </head>
   <body>
-    <div id="app">
+    <nav>
       <label class="switch">
         <input type="checkbox" id="toggleButton" checked />
         <span class="slider round"></span>
@@ -48,11 +48,13 @@
           <label for="kerningRulesToggle">kerningRules</label>
         </div>
       </div>
+    </nav>
 
-      <p id="target">
-        <span class="large en-section">Typesetting Library for Proportional Spacing</span>
+    <main>
+      <article id="target">
+        <h1 class="en-section">Typesetting Library for Proportional Spacing</h1>
 
-        <br /><br />──────<br /><br />
+        <br />──────<br /><br />
 
         <a href="https://github.com/yamatoiizuka/palt-typesetting" target="_balnk">Palt Typesetting ↗︎</a
         >は、美しいテキスト表示を実現するためのJavaScriptライブラリです。<input
@@ -100,19 +102,17 @@
           >.
         </span>
 
-        <br /><br />─────<br /><br />
+        <br /><br />──────<br /><br />
 
-        Author: 飯塚大和（Yamato Iizuka）<br /><br />
-        GitHub:
-        <a href="https://github.com/yamatoiizuka" target="_balnk">@yamatoiizuka</a><br />
-        Twitter: <a href="https://twitter.com/yamatoiizuka">@yamatoiizuka</a><br />
-        E-mail: <a id="email">me[-]yamatoiizuka.com</a>
-
+        Author: 飯塚大和（Yamato Iizuka）
         <br /><br />
-
+        GitHub:<a href="https://github.com/yamatoiizuka" target="_balnk">@yamatoiizuka</a><br />Twitter:
+        <a href="https://twitter.com/yamatoiizuka">@yamatoiizuka</a><br />E-mail:
+        <a id="email">me[-]yamatoiizuka.com</a>
+        <br /><br />
         <a href="https://codepen.io/yamatoiizuka-the-animator/pen/PoLGrZe" target="_balnk">Try on CodePen ↗︎</a>
-      </p>
-    </div>
+      </article>
+    </main>
     <script type="module" src="./index.ts"></script>
   </body>
 </html>

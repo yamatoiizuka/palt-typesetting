@@ -8,7 +8,7 @@
 
 body {
   -webkit-font-smoothing: antialiased;
-  font-family: aktiv-grotesk, a-otf-gothic-bbb-pr6n, sans-serif;
+  font-family: aktiv-grotesk, a-otf-gothic-bbb-pr6n, BlinkMacSystemFont, -system-ui, sans-serif;
   margin: 3.2rem 1.6rem;
 }
 
@@ -18,7 +18,7 @@ body {
   }
 }
 
-p {
+article {
   font-feature-settings: 'palt';
   font-weight: 300;
   font-size: 1.2rem;
@@ -27,17 +27,19 @@ p {
 }
 
 @media (min-width: 500px) {
-  p {
+  article {
     font-size: 1.4rem;
   }
 }
 
-.large {
+h1 {
+  font-weight: 300;
+  margin: 0;
   font-size: 1.5rem;
 }
 
 @media (min-width: 500px) {
-  .large {
+  h1 {
     font-size: 1.8rem;
   }
 }
