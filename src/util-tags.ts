@@ -84,22 +84,15 @@ const applyNoBreaksStyle = (segment: string): string => {
 /**
  * スタイリングされた`span`タグを生成し、指定された内容とクラス名を適用します。オプショナルでスタイルとUI無視の属性も設定可能です。
  *
- * @param content - `span`タグ内に表示される内容。改行を防ぎたい場合は`&nbsp;`を、可能であれば普通の空白`' '`を使用します。
+ * @param content - `span`タグ内に表示される内容。
  * @param className - この`span`タグに適用するCSSクラス名。
- * @param style - `span`タグに適用するインラインスタイル（オプショナル）。デフォルトは空文字列で、スタイルが不要な場合に使用します。
- * @param uiIgnored - `true`の場合、`aria-hidden="true"`と`data-nosnippet=""`属性が追加され、UIには表示されず検索エンジンのスニペットからも除外されます。
- *                  これは主にアクセシビリティやSEOの目的で使用されます。デフォルトは`false`です。
+ * @param style - `span`タグに適用するインラインスタイル（オプショナル）。デフォルトは空文字列で、スタイルが必要な場合に使用します。
+ * @param attr - `span`タグに適用する属性（オプショナル）。デフォルトは空文字列で、class/style 以外の属性が必要な場合に使用します。
  * @return 指定されたパラメータに基づいて構築された`span`タグを含む文字列。
  */
-const createStyledSpan = (
-  content: string,
-  className: string,
-  style: string = '',
-  uiIgnored: boolean = false
-): string => {
+const createStyledSpan = (content: string, className: string, style: string = '', attr: string = ''): string => {
   const styleAttr = style ? ` style="${style}"` : ''
-  const extraAttrs = uiIgnored ? ' aria-hidden="true" data-nosnippet=""' : ''
-  return `<span class="${className}"${styleAttr}${extraAttrs}>${content}</span>`
+  return `<span class="${className}"${styleAttr}${attr}>${content}</span>`
 }
 
 export { createWbr, createThinSpace, createKerning, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle }
