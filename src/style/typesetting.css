@@ -9,6 +9,14 @@
     format('woff2');
 }
 
+/* 
+ * Safari のリーダーモード対応
+ * See: {@link https://github.com/yamatoiizuka/palt-typesetting/issues/96}
+ */
+.typeset wbr {
+  visibility: hidden;
+}
+
 .typeset-word-break {
   word-break: keep-all;
   overflow-wrap: anywhere;
