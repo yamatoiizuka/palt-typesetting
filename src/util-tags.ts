@@ -14,12 +14,10 @@ const createWbr = (): string => {
  * @param breakable - 改行が許可されているかどうか。trueの場合、空白は通常のスペースとして扱われます。falseの場合、改行を防ぐためにノンブレーキングスペースが使用されます。
  * @return 指定した幅の四分アキを適用したspanタグを含む文字列。
  */
-const createThinSpace = (thisSpaceWidth: string, breakable?: boolean): string => {
-  const content = breakable ? ' ' : '&nbsp;'
-  const className = 'typeset-thin-space'
-  const style = `letter-spacing: ${thisSpaceWidth};`
-  const uiIgnored = true
-  return createStyledSpan(content, className, style, uiIgnored)
+const createThinSpace = (thinSpaceWidth: string, breakable?: boolean): string => {
+  const content = ''
+  const className = `typeset-thin-space`
+  return createSpacer(content, className, thinSpaceWidth, breakable)
 }
 
 /**
@@ -32,19 +30,16 @@ const createThinSpace = (thisSpaceWidth: string, breakable?: boolean): string =>
 const createKerning = (kerningValue: number, breakable?: boolean): string => {
   if (kerningValue === 0) return ''
 
-  const className = 'typeset-kerning'
-  const uiIgnored = true
+  const content = ''
+  const className = `typeset-kerning`
 
   if (kerningValue < 0) {
-    const content = ''
     const emValue = kerningValue / 1000 / 2 + 'em' // margin は上下左右にかかるので、1/2 にする
     const style = `margin: ${emValue};`
-    return createStyledSpan(content, className, style, uiIgnored)
+    return createStyledSpan(content, className, style)
   } else {
-    const content = breakable ? ' ' : '&nbsp;'
     const emValue = kerningValue / 1000 + 'em'
-    const style = `letter-spacing: ${emValue};`
-    return createStyledSpan(content, className, style, uiIgnored)
+    return createSpacer(content, className, emValue, breakable)
   }
 }
 
