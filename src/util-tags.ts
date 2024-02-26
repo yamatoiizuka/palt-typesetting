@@ -1,5 +1,7 @@
 import './style/typesetting.css'
 
+const prefix = 'typeset'
+
 /**
  * HTML文書内で単語の区切りを示し、必要に応じて改行の挿入を許可する`<wbr>`タグを生成します。
  * @return `<wbr>`タグを含む文字列。
@@ -16,7 +18,7 @@ const createWbr = (): string => {
  */
 const createThinSpace = (thinSpaceWidth: string, breakable?: boolean): string => {
   const content = ''
-  const className = `typeset-thin-space`
+  const className = `${prefix}-thin-space`
   return createSpacer(content, className, thinSpaceWidth, breakable)
 }
 
@@ -31,7 +33,7 @@ const createKerning = (kerningValue: number, breakable?: boolean): string => {
   if (kerningValue === 0) return ''
 
   const content = ''
-  const className = `typeset-kerning`
+  const className = `${prefix}-kerning`
 
   if (kerningValue < 0) {
     const emValue = kerningValue / 1000 / 2 + 'em' // margin は上下左右にかかるので、1/2 にする
@@ -50,8 +52,8 @@ const createKerning = (kerningValue: number, breakable?: boolean): string => {
  * @return クラス適用されたテキストを含むspanタグ。
  */
 const applyWrapperStyle = (text: string, useWordBreak: boolean): string => {
-  const wrapperName = 'typeset'
-  const wordBreakName = 'typeset-word-break'
+  const wrapperName = prefix
+  const wordBreakName = `${prefix}-word-break`
   const className = useWordBreak ? `${wrapperName} ${wordBreakName}` : wrapperName
   return createStyledSpan(text, className)
 }
@@ -62,7 +64,7 @@ const applyWrapperStyle = (text: string, useWordBreak: boolean): string => {
  * @return クラス適用されたセグメントを含むspanタグを返します。
  */
 const applyLatinStyle = (segment: string): string => {
-  const className = 'typeset-latin'
+  const className = `${prefix}-latin`
   return createStyledSpan(segment, className)
 }
 
@@ -72,7 +74,7 @@ const applyLatinStyle = (segment: string): string => {
  * @return クラス適用されたセグメントを含むspanタグを返します。
  */
 const applyNoBreaksStyle = (segment: string): string => {
-  const className = 'typeset-no-breaks'
+  const className = `${prefix}-no-breaks`
   return createStyledSpan(segment, className)
 }
 
