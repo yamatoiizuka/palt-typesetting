@@ -2,8 +2,14 @@
   --color-main: rgb(9 9 11);
   --color-sub: rgb(176 171 178);
   --color-switch: rgb(0 123 255);
+  --color-select: rgb(228, 228, 231);
   --text-decoration-thickness: 0.04em;
   --text-decoration-offset: 0.25em;
+}
+
+::selection,
+::-moz-selection {
+  background: var(--color-select);
 }
 
 body {
