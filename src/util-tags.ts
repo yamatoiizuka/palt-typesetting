@@ -95,4 +95,22 @@ const createStyledSpan = (content: string, className: string, style: string = ''
   return `<span class="${className}"${styleAttr}${attr}>${content}</span>`
 }
 
+/**
+ * 指定された値でスペーシングを適用した`span`タグを生成します。この関数は、テキスト間の視覚的な空白を管理し、
+ * テキストの区切りや読みやすさを向上させるために使用されます。また、改行の挙動を制御するオプションを提供し、
+ * 改行が許可されている場合は通常の空白（Space）、許可されていない場合は改行を防ぐ空白（No-Break Space）を
+ * 使用します。
+ *
+ * @param content - `span`タグ内に表示される内容。この関数では主に空文字列が使用されます。
+ * @param className - `span`タグに適用する CSS クラス名。スタイリングのために使用されます。
+ * @param value - `letter-spacing`の値として適用するスペーシングの幅。例: "0.2em"。
+ * @param breakable - 改行が許可されているかどうか。true の場合、スペーサーは改行可能とみなされ、false の場合は改行不可。
+ * @return 指定されたスタイリングと挙動を持つ`span`タグを含む文字列。
+ */
+const createSpacer = (content: string, className: string, value: string, breakable?: boolean): string => {
+  const style = `letter-spacing: ${value};`
+  const data = ` data-content="${breakable ? ' ' : '&nbsp;'}"`
+  return createStyledSpan(content, className, style, data)
+}
+
 export { createWbr, createThinSpace, createKerning, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle }
