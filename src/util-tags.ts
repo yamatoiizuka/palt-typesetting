@@ -12,9 +12,9 @@ const createWbr = (): string => {
 
 /**
  * 四分アキを指定した幅で生成します。この関数は、視覚的なテキストの区切りを改善するために使用されます。
- * @param thisSpaceWidth - 四分アキの幅を指定します（例: "0.2em"）。
- * @param breakable - 改行が許可されているかどうか。trueの場合、空白は通常のスペースとして扱われます。falseの場合、改行を防ぐためにノンブレーキングスペースが使用されます。
- * @return 指定した幅の四分アキを適用したspanタグを含む文字列。
+ * @param thinSpaceWidth - 四分アキの幅を指定します（例: "0.2em"）。
+ * @param breakable - 改行が許可されているかどうか。true の場合、空白は通常の Space として扱われます。false の場合、改行を防ぐために No-Break Space が使用されます。
+ * @return 指定した幅の四分アキを適用した`span`タグを含む文字列。
  */
 const createThinSpace = (thinSpaceWidth: string, breakable?: boolean): string => {
   const content = ''
@@ -26,8 +26,8 @@ const createThinSpace = (thinSpaceWidth: string, breakable?: boolean): string =>
  * 指定した数値でカーニング（文字間隔調整）を適用します。カーニングは、テキストの読みやすさを向上させるために使用されます。
  *
  * @param kerningValue - カーニング値（千分率）。1000 は 1em のカーニングを意味します。
- * @param breakable - 改行が許可されているかどうか。trueの場合、空白は通常のスペースとして扱われます。falseの場合、改行を防ぐためにノンブレーキングスペースが使用されます。
- * @return 指定した数値のカーニングを適用したspanタグ。
+ * @param breakable - 改行が許可されているかどうか。true の場合、空白は通常の Space として扱われます。false の場合、改行を防ぐために No-Break Space が使用されます。
+ * @return 指定した数値のカーニングを適用した`span`タグ。
  */
 const createKerning = (kerningValue: number, breakable?: boolean): string => {
   if (kerningValue === 0) return ''
@@ -49,7 +49,7 @@ const createKerning = (kerningValue: number, breakable?: boolean): string => {
  * 単語区切りでの改行を行う場合にのみ、与えられたテキストに`typeset-word-break`クラスを適用します。
  * @param text - クラスを適用するテキスト。
  * @param useWordBreak - 単語区切りでの改行を行うかどうか。
- * @return クラス適用されたテキストを含むspanタグ。
+ * @return クラス適用されたテキストを含む`span`タグ。
  */
 const applyWrapperStyle = (text: string, useWordBreak: boolean): string => {
   const wrapperName = prefix
@@ -71,7 +71,7 @@ const applyLatinStyle = (segment: string): string => {
 /**
  * 与えられたセグメントに`typeset-no-breaks`クラスを適用します。このクラスは、指定されたセグメント内の`letter-spacing`を0にするために使用されます。
  * @param segment - クラスを適用するセグメント。
- * @return クラス適用されたセグメントを含むspanタグを返します。
+ * @return クラス適用されたセグメントを含む`span`タグを返します。
  */
 const applyNoBreaksStyle = (segment: string): string => {
   const className = `${prefix}-no-breaks`

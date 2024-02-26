@@ -1,6 +1,6 @@
 @font-face {
   /* 
-   * カスタムフォント: 1/10000 UPM 幅のスペースとノンブレーキングスペースを定義。
+   * カスタムフォント: 1/10000 UPM 幅の Space と No-Break Space を定義。
    * 注意：完全なゼロ幅スペースを使用すると、Safari では letter-spacing が無視される。
    * @sharapeco による貢献に感謝します。{@link https://gist.github.com/sharapeco/1dd7f4433dad07648e1325e1fa5926ee}
    */
