@@ -34,7 +34,7 @@ typesetter.renderToSelector('.my-class')
 ### Use Typesetter from CDN
 
 ```html
-<script src="https://unpkg.com/palt-typesetting@0.4.0/bundle/typesetter.min.js"></script>
+<script src="https://unpkg.com/palt-typesetting@0.5.0/bundle/typesetter.min.js"></script>
 ```
 
 ```html
