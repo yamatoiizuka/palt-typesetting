@@ -28,8 +28,8 @@
   user-select: none; /* ユーザーによるテキストのコピーを無効にします。 */
 }
 
-.typeset-thin-space::after,
-.typeset-kerning::after {
+.typeset-thin-space[data-content]::after,
+.typeset-kerning[data-content]::after {
   content: attr(data-content); /* Space または No-Break Space */
   font-family: ling-one; /* カスタムフォントのスペースを使用します。 */
   line-height: 0; /* 空白による行の高さの影響を無視します。 */
