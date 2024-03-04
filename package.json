@@ -31,7 +31,7 @@
     "./dist/win.js": "./dist/win-browser.js"
   },
   "dependencies": {
-    "jsdom": "^23.0.1",
+    "jsdom": "^24.0.0",
     "linebreak": "^1.1.0"
   },
   "devDependencies": {
