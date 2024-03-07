@@ -21,6 +21,27 @@ describe('insertSeparators', () => {
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 
+  it('does not insert a thin space before a space', () => {
+    const currentText = 'です。'
+    const nextText = ' '
+    const expected = 'です。'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space after a space', () => {
+    const currentText = ' '
+    const nextText = '「こんにちは」'
+    const expected = ' <wbr>'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space before a line fead', () => {
+    const currentText = 'です。'
+    const nextText = '\n'
+    const expected = 'です。'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
   it('inserts a thin space between Japanese–Cyrillic', () => {
     const currentText = 'こんにちはДобрий день'
     const nextText = ''
