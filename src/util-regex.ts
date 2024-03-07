@@ -40,3 +40,8 @@ export const periodsRegex = /。|．/
 export const noBreakRulesRegex = new RegExp(
   `[${'—‥…＿'}${String.fromCharCode(0x2500)}-${String.fromCharCode(0x257f)}]+`
 )
+
+/**
+ * 空白文字、制御文字
+ */
+export const whitespaceRegex = /[\s\u00A0]/

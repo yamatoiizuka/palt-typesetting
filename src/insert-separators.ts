@@ -2,6 +2,7 @@ import LineBreaker from 'linebreak'
 import { CharClass, LanguageClass } from './util-text-classes'
 import { createWbr, createThinSpace } from './util-tags'
 import { TypesettingOptions } from '../types'
+import { whitespaceRegex } from './util-regex'
 
 /**
  * HTMLテキストノードにセパレーター（四分アキ、<wbr>）を挿入します。
@@ -62,6 +63,8 @@ const addSeparatorsToSegment = (current: string, next = '', options: Typesetting
  * @return 四分アキを追加すべきかどうか
  */
 const shouldAddThinSpace = (current: string, next: string): boolean => {
+  if (whitespaceRegex.test(current) || whitespaceRegex.test(next)) return false
+
   return LanguageClass.shouldAddThinSpace(current, next) || CharClass.shouldAddThinSpace(current, next)
 }
 
