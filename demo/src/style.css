@@ -14,6 +14,7 @@
 
 body {
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-family: aktiv-grotesk, a-otf-gothic-bbb-pr6n, BlinkMacSystemFont, -system-ui, sans-serif;
   margin: 3.2rem 1.6rem;
 }
