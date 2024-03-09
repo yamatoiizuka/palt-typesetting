@@ -91,9 +91,7 @@ class Typesetter extends HTMLProcessor {
    * @return 処理後のHTML文字列。
    */
   render(srcHtml: string): string {
-    if (!this.isIntlSegmenterSupported || !srcHtml) {
-      return srcHtml
-    }
+    if (!srcHtml) return ''
 
     return this.processHtmlWithFunctions(srcHtml)
   }
@@ -105,9 +103,7 @@ class Typesetter extends HTMLProcessor {
    * @param elements - スタイルを適用するElementまたはHTMLElementの配列。
    */
   renderToElements(elements: Element | Element[] | null): void {
-    if (!this.isIntlSegmenterSupported || !elements) {
-      return
-    }
+    if (!elements) return
 
     if (!Array.isArray(elements)) {
       elements = [elements]
@@ -126,9 +122,7 @@ class Typesetter extends HTMLProcessor {
    * @param selector - スタイルを適用する要素を選択するCSSセレクタ。
    */
   renderToSelector(selector: string | null): void {
-    if (!this.isIntlSegmenterSupported || !selector) {
-      return
-    }
+    if (!selector) return
 
     const elements = win.document.querySelectorAll(selector)
     this.renderToElements(Array.from(elements))
