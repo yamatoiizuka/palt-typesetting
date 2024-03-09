@@ -34,7 +34,7 @@ typesetter.renderToSelector('.my-class')
 ### Use Typesetter from CDN
 
 ```html
-<script src="https://unpkg.com/palt-typesetting@0.5.1/bundle/typesetter.min.js"></script>
+<script src="https://unpkg.com/palt-typesetting@0.5.2/bundle/typesetter.min.js"></script>
 ```
 
 ```html
@@ -195,7 +195,7 @@ Palt Typesetting ライブラリは、テキストを言語固有のセグメン
 
 - Intl.Segmenter をサポートしているブラウザ
 
-クライアントサイドで実行する場合、この機能は一部のブラウザで利用できません。Palt Typesetting ライブラリは、Firefox などの `Intl.Segmenter` がサポートされていない環境[^1] では組版処理をスキップし、元のテキストをそのまま返します。全てのモダンブラウザで同様の見え方を再現するには、サーバーサイドでの処理（SSG など）が必要になります。
+クライアントサイドで実行する場合、この機能は一部のブラウザで利用できません。Palt Typesetting ライブラリは、Firefox などの `Intl.Segmenter` がサポートされていない環境[^1] では、`useWordBreak`（単語区切りでの改行）と `insertThinSpaces`（四分アキの自動挿入）オプションがスキップされます。全てのモダンブラウザで同様の見え方を再現するには、サーバーサイドでの事前処理（SSG など）が必要となります。
 
 `Intl.Segmenter` の対応状況については、[Can I use...](https://caniuse.com/?search=Intl.Segmenter) で確認できます。
 
