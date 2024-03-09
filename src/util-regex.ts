@@ -2,7 +2,7 @@
  * ラテン文字、数字、基本的な記号類
  */
 export const latinRegex =
-  /[\p{scx=Latin}0-9⁰¹²³⁴-⁾₀-₎¢¤$€£¥+−×÷=≠><≥≤±≈~¬∅∞∫∏∑√∂%‰@&.,:;!¡?¿'"‘’“”\-(){}[\]|/\\^_`*#\s]+/u
+  /[\p{scx=Latin}0-9⁰¹²³⁴-⁾₀-₎¢¤$€£¥+−×÷=≠><≥≤±≈~¬∅∞∫∏∑√∂%‰@&.,:;!¡?¿'"‘’“”\-(){}[\]|/\\^_`*#\s]+/gu
 
 /**
  * 日本語
@@ -38,7 +38,8 @@ export const periodsRegex = /。|．/
  * 分離禁則文字
  */
 export const noBreakRulesRegex = new RegExp(
-  `[${'—‥…＿'}${String.fromCharCode(0x2500)}-${String.fromCharCode(0x257f)}]+`
+  `[${'—‥…＿'}${String.fromCharCode(0x2500)}-${String.fromCharCode(0x257f)}]+`,
+  'g'
 )
 
 /**
