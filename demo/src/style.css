@@ -15,7 +15,7 @@
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: aktiv-grotesk, a-otf-gothic-bbb-pr6n, BlinkMacSystemFont, -system-ui, sans-serif;
+  font-family: aktiv-grotesk, a-otf-gothic-bbb-pr6n, BlinkMacSystemFont, -apple-system, -system-ui, sans-serif;
   margin: 3.2rem 1.6rem;
 }
 
@@ -192,10 +192,10 @@ input:checked + .slider:before {
 #options .option label {
   display: inline-block;
   font-size: 1.1rem;
-  margin-right: 1rem;
+  margin-right: 1.2rem;
   cursor: pointer;
   font-weight: 400;
-  font-family: BlinkMacSystemFont, -system-ui, Helvetica, alial, sans-serif;
+  font-family: BlinkMacSystemFont, -apple-system, -system-ui, Helvetica, alial, sans-serif;
 }
 
 #options .option input:disabled + label {
