@@ -186,6 +186,7 @@ input:checked + .slider:before {
 
 #options .option {
   display: inline-block;
+  margin-bottom: 0.95em;
 }
 
 #options .option label {
@@ -194,6 +195,7 @@ input:checked + .slider:before {
   margin-right: 1rem;
   cursor: pointer;
   font-weight: 400;
+  font-family: BlinkMacSystemFont, -system-ui, Helvetica, alial, sans-serif;
 }
 
 #options .option input:disabled + label {
