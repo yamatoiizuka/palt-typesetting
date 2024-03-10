@@ -27,7 +27,7 @@ body {
 
 article {
   font-feature-settings: 'palt';
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.2rem;
   line-height: 2;
   letter-spacing: 0.12em;
@@ -40,7 +40,7 @@ article {
 }
 
 h1 {
-  font-weight: 300;
+  font-weight: 400;
   margin: 0;
   font-size: 1.5rem;
 }
@@ -84,6 +84,13 @@ h1 {
 
   /* 文字の細らせ・太らせ */
   -webkit-text-stroke: 0.014em var(--color-main);
+
+  /*
+   * フォールバックフォントのウェイト：
+   * Web フォント読み込み時のチラつきを低減するための設定
+   * -webkit-text-stroke の値に応じて変更
+   */
+  font-weight: 200;
 }
 
 .en-section {
