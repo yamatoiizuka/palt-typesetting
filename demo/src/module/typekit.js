@@ -88,7 +88,9 @@
     f = true
     clearTimeout(t)
     try {
+      /* eslint no-undef: 0 */
       Typekit.load(config)
+    /* eslint no-empty: 0 */
     } catch (e) {}
   }
   s.parentNode.insertBefore(tk, s)
