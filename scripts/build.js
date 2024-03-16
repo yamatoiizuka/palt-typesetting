@@ -21,7 +21,6 @@ files.forEach(file => {
       entryPoints: [path.join(srcDir, file)],
       outfile: path.join(outDir, file.replace('.ts', '.js')),
       bundle: false,
-      format: 'esm',
       platform: 'browser',
     })
     .catch(() => process.exit(1))
