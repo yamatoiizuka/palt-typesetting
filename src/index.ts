@@ -1,7 +1,7 @@
-import HTMLProcessor from './html-processor'
-import insertSeparatorsToText from './insert-separators'
-import { applyStyleToText, applyStyleToSegment, applyKerningToSegment } from './apply-style'
-import win from './win'
+import HTMLProcessor from './html-processor.js'
+import insertSeparatorsToText from './insert-separators.js'
+import { applyStyleToText, applyStyleToSegment, applyKerningToSegment } from './apply-style.js'
+import win from './win.js'
 import type { TypesettingOptions, KerningRule } from '../types'
 
 /**

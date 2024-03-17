@@ -1,4 +1,4 @@
-import win from './win'
+import win from './win.js'
 import type { TransformFunction, TypesettingOptions } from '../types'
 
 /**
