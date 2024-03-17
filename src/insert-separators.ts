@@ -1,8 +1,8 @@
 import LineBreaker from 'linebreak'
-import { CharClass, LanguageClass } from './util-text-classes'
-import { createWbr, createThinSpace } from './util-tags'
+import { CharClass, LanguageClass } from './util-text-classes.js'
+import { createWbr, createThinSpace } from './util-tags.js'
 import { TypesettingOptions } from '../types'
-import { whitespaceRegex } from './util-regex'
+import { whitespaceRegex } from './util-regex.js'
 
 /**
  * HTMLテキストノードにセパレーター（四分アキ、<wbr>）を挿入します。

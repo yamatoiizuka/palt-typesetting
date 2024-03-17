@@ -1,5 +1,3 @@
-import './style/typesetting.css'
-
 const prefix = 'typeset'
 
 /**

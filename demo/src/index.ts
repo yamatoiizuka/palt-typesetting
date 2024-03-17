@@ -2,6 +2,7 @@ import './style.css'
 import './module/typekit'
 import Typesetter from 'palt-typesetting'
 import type { TypesettingOptions, KerningRule } from 'palt-typesetting'
+import 'palt-typesetting/dist/typesetter.css'
 
 // HTML要素の取得
 const toggleButton = document.getElementById('toggleButton') as HTMLInputElement
