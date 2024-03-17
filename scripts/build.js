@@ -1,7 +1,7 @@
-const esbuild = require('esbuild')
-const fs = require('fs')
-const path = require('path')
-const { execSync } = require('child_process')
+import esbuild from 'esbuild'
+import fs from 'fs'
+import path from 'path'
+import { execSync } from 'child_process'
 
 // トランスパイルしたいファイルが含まれるディレクトリ
 const srcDir = './src'
@@ -21,6 +21,7 @@ files.forEach(file => {
       entryPoints: [path.join(srcDir, file)],
       outfile: path.join(outDir, file.replace('.ts', '.js')),
       bundle: false,
+      format: 'esm',
       platform: 'browser',
     })
     .catch(() => process.exit(1))
