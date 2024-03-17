@@ -15,10 +15,12 @@
     "url": "https://github.com/yamatoiizuka/palt-typesetting.git"
   },
   "scripts": {
-    "clean:dist": "rm -rf ./dist",
-    "copy:css": "mkdir -p ./dist/style && cp -R ./src/style/* ./dist/style",
-    "prebuild": "npm run clean:dist && npm run copy:css",
-    "build": "node ./scripts/build.js && webpack",
+    "clean": "rm -rf ./dist && rm -rf ./bundle",
+    "copy:css": "mkdir ./dist && cp -R ./src/*.css ./dist/",
+    "prebuild": "npm run clean && npm run copy:css",
+    "bundle:css": "mkdir ./bundle && cleancss -o ./bundle/typesetter.min.css ./src/*.css",
+    "bundle": "npm run bundle:css && webpack",
+    "build": "node ./scripts/build.js && npm run bundle",
     "test": "vitest",
     "lint": "eslint ./src/** --no-error-on-unmatched-pattern",
     "lint:fix": "eslint ./src/** --fix"
