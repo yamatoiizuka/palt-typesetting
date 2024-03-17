@@ -23,6 +23,7 @@ npm install palt-typesetting
 
 ```javascript
 import Typesetter from 'palt-typesetting'
+import 'palt-typesetting/dist/typesetter.css'
 
 // Typesetter のインスタンスを作成
 const typesetter = new Typesetter()
@@ -34,7 +35,8 @@ typesetter.renderToSelector('.my-class')
 ### Use Typesetter from CDN
 
 ```html
-<script src="https://unpkg.com/palt-typesetting@0.5.4/bundle/typesetter.min.js"></script>
+<script src="https://unpkg.com/palt-typesetting@0.6.0/bundle/typesetter.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/palt-typesetting@0.6.0/bundle/typesetter.min.css" />
 ```
 
 ```html
