@@ -202,7 +202,7 @@ const typesetter = new Typesetter();
 
 <Fragment set:html={typesetter.render(srcHtml)}></Fragment>
 
-<style>
+<style is:global>
   /* 合成フォントのイメージでスタイルを設定 */
 
  .typeset {
@@ -231,7 +231,7 @@ import Typesetting from '../components/Typesetting.astro'
 
 <p>
   <Typesetting>
-    Palt Typesetting ↗︎は、美しいテキスト表示を実現するためのJavaScriptライブラリです。
+    「日本語」とEnglish、晴れ・28度。
   </Typesetting>
 </p>
 
