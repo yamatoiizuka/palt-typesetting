@@ -22,7 +22,7 @@
     "bundle": "npm run bundle:css && webpack",
     "build": "node ./scripts/build.js && npm run bundle",
     "test": "vitest",
-    "lint": "eslint ./src/** --no-error-on-unmatched-pattern",
+    "lint": "eslint \"./src/**/*.ts\" --no-error-on-unmatched-pattern",
     "lint:fix": "eslint ./src/** --fix"
   },
   "author": {
