@@ -181,6 +181,65 @@ typesetter.renderToSelector('.my-class')
 | `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`insertThinSpaces` が `true` の場合にのみ有効です。                                                  | `string`                                                 | `'0.2em' `   |
 | `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                               | `{between: [string, string], value: string \| number}[]` | `[]`         |
 
+## for Frameworks
+
+### Astro.js
+
+#### Typesetting コンポーネントの作成
+
+`components/Typesetting.astro`
+
+```astro
+---
+import Typesetter from 'palt-typesetting';
+import 'palt-typesetting/dist/typesetter.css';
+
+const srcHtml = await Astro.slots.render('default');
+const typesetter = new Typesetter();
+---
+
+<Fragment set:html={typesetter.render(srcHtml)}></Fragment>
+
+<style>
+  /* 合成フォントのイメージでスタイルを設定 */
+
+ .typeset {
+  font-feature-settings: 'palt';
+  line-height: 1.8;
+  letter-spacing: 0.1em;
+  /* ...その他のスタイル */
+}
+
+.typeset-latin {
+  font-size: 105%;
+  letter-spacing: 0.05em;
+  /* ...その他のスタイル */
+}
+</style>
+```
+
+#### Typesetting コンポーネントの読み込み
+
+`pages/index.astro`
+
+```astro
+---
+import Typesetting from '../components/Typesetting.astro'
+---
+
+<p>
+  <Typesetting>
+    Palt Typesetting ↗︎は、美しいテキスト表示を実現するためのJavaScriptライブラリです。
+  </Typesetting>
+</p>
+
+<style>
+ p {
+  font-size: 1.8rem;
+ }
+</style>
+```
+
 ## Notes
 
 ### 環境要件
