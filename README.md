@@ -13,6 +13,8 @@ Palt Typesetting は、美しいテキスト表示を実現するための JavaS
 - [Interactive Demo](https://palt.typesetting.jp)
 - [Try on CodePen](https://codepen.io/yamatoiizuka-the-animator/pen/PoLGrZe)
 
+---
+
 ## Getting Started
 
 ### Install from NPM
@@ -96,6 +98,8 @@ typesetter.renderToSelector('.my-class')
   -webkit-text-stroke: 0.01em #000;
 }
 ```
+
+---
 
 ## Typesetter Class
 
@@ -294,6 +298,8 @@ import Typesetting from '../components/Typesetting.astro'
  }
 </style>
 ```
+
+---
 
 ## Notes
 
