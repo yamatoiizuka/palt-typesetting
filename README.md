@@ -19,6 +19,8 @@ Palt Typesetting は、美しいテキスト表示を実現するための JavaS
 
 ### Install from NPM
 
+npm でパッケージをインストールする場合
+
 ```shell
 npm install palt-typesetting
 ```
@@ -34,7 +36,9 @@ const typesetter = new Typesetter()
 typesetter.renderToSelector('.my-class')
 ```
 
-### Use Typesetter from CDN
+### Use from CDN
+
+WordPress や jQuery などの環境で使用する場合
 
 ```html
 <head>
@@ -58,7 +62,9 @@ typesetter.renderToSelector('.my-class')
 </script>
 ```
 
-### Apply CSS (Example)
+### Apply Custom CSS
+
+生成された組版用 HTML にカスタム CSS を適用します。
 
 ```css
 /*
@@ -110,11 +116,28 @@ typesetter.renderToSelector('.my-class')
 
 ## Typesetter Class
 
-### Usage
+Palt Typesetting では、Typesetter クラスを使用して組版を適用します。ライブラリの機能はオプションを通じてカスタマイズできます。
+
+### サンプルコード
 
 ```javascript
+// オプションの設定
+const options = {
+  thinSpaceWidth: '0.2em',
+  kerningRules: [
+    {
+      between: ['し', 'ま'],
+      value: '60',
+    },
+    {
+      between: ['す', '。'],
+      value: '-80',
+    },
+  ],
+}
+
 // Typesetter のインスタンスを作成
-const typesetter = new Typesetter()
+const typesetter = new Typesetter(options)
 
 // セレクターにマッチする要素に対して組版を適用
 typesetter.renderToSelector('div')
@@ -131,13 +154,13 @@ console.log(typesetter.render(srcHtml))
 // <span class="typeset" /* 中略 */>「日本語」<span class="typeset-thin-space" style="font-size: 100%;" /* 中略 */> </span><wbr>と<span class="typeset-thin-space" style="font-size: 100%;" /* 中略 */> </span><wbr><span class="typeset-latin">English</span></span>
 ```
 
-### Constructor
+### コンストラクタ
 
 | コンストラクタ         | 説明                                                                                                  | 引数                            |
 | ---------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------- |
 | `Typesetter(options?)` | Typesetter インスタンスを作成します。<br>オプションを指定することでカスタムの組版設定を適用できます。 | `options`: オプション（任意）。 |
 
-### Methods
+### メソッド
 
 | メソッド名                   | 説明                                                                  | 引数                                                         | 戻り値                                   |
 | ---------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------- |
@@ -145,45 +168,7 @@ console.log(typesetter.render(srcHtml))
 | `renderToElements(elements)` | 指定された Element または Element の配列にスタイルを適用します。      | `elements`: スタイルを適用する Element または Element の配列 | `void`                                   |
 | `renderToSelector(selector)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。 | `selector`: スタイルを適用する要素を選択する CSS セレクタ    | `void`                                   |
 
-## Options
-
-### Usage
-
-```javascript
-const options = {
-  // 単語や助詞など、単語区切りでの改行を行います。
-  useWordBreak: true,
-
-  // 英数を `.typeset-latin` でラップします。
-  wrapLatin: true,
-
-  // 罫線などの分離禁則文字を `.typeset-no-breaks` でラップし、文字間を 0 に設定します。
-  noSpaceBetweenNoBreaks: true,
-
-  // 四分アキスペースを自動で挿入します。
-  insertThinSpaces: true,
-
-  // 四分アキスペースの幅を設定します。
-  thinSpaceWidth: '0.2em',
-
-  // 特定の文字間のカーニングルールを設定します。
-  kerningRules: [
-    {
-      between: ['し', 'ま'],
-      value: '60',
-    },
-    {
-      between: ['す', '。'],
-      value: '-80',
-    },
-  ],
-}
-
-const typeset = new Typesetter(options)
-typesetter.renderToSelector('.my-class')
-```
-
-### Typesetting Options
+### オプション
 
 | オプション名             | 説明                                                                                                                                       | 型                                                       | デフォルト値 |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- | ------------ |
@@ -196,29 +181,11 @@ typesetter.renderToSelector('.my-class')
 
 ---
 
-## Typescript Support
+## for Typescript
 
-### Type Definitions
+TypeScript をサポートするための型定義を提供しています。
 
-```typescript
-/* オプションの型定義 */
-
-interface TypesettingOptions {
-  useWordBreak?: boolean
-  wrapLatin?: boolean
-  noSpaceBetweenNoBreaks?: boolean
-  insertThinSpaces?: boolean
-  thinSpaceWidth?: string
-  kerningRules?: KerningRule[]
-}
-
-interface KerningRule {
-  between: [string, string]
-  value: string | number
-}
-```
-
-### Usage
+### サンプルコード
 
 ```typescript
 import Typesetter from 'palt-typesetting'
@@ -245,13 +212,35 @@ const typeset = new Typesetter(options)
 typesetter.renderToSelector('.my-class')
 ```
 
+### 型定義
+
+```typescript
+/* オプションの型定義 */
+
+interface TypesettingOptions {
+  useWordBreak?: boolean
+  wrapLatin?: boolean
+  noSpaceBetweenNoBreaks?: boolean
+  insertThinSpaces?: boolean
+  thinSpaceWidth?: string
+  kerningRules?: KerningRule[]
+}
+
+interface KerningRule {
+  between: [string, string]
+  value: string | number
+}
+```
+
 ---
 
 ## for Frameworks
 
+モダンな JavaScript フレームワーク用のサンプル集です。
+
 ### Astro.js
 
-#### Typesetting コンポーネントの作成
+Typesetting コンポーネントの作成
 
 `components/Typesetting.astro`
 
@@ -284,7 +273,7 @@ const typesetter = new Typesetter();
 </style>
 ```
 
-#### Typesetting コンポーネントの読み込み
+Typesetting コンポーネントの読み込み
 
 `pages/index.astro`
 
