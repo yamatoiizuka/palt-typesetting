@@ -183,7 +183,7 @@ console.log(typesetter.render(srcHtml))
 
 ## for Typescript
 
-TypeScript をサポートするための型定義を提供しています。
+TypeScript の型定義を提供しています。
 
 ### サンプルコード
 
