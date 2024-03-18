@@ -183,6 +183,59 @@ typesetter.renderToSelector('.my-class')
 | `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`insertThinSpaces` が `true` の場合にのみ有効です。                                                  | `string`                                                 | `'0.2em' `   |
 | `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                               | `{between: [string, string], value: string \| number}[]` | `[]`         |
 
+---
+
+## Typescript Support
+
+### Type Definitions
+
+```typescript
+/* オプションの型定義 */
+
+interface TypesettingOptions {
+  useWordBreak: boolean
+  wrapLatin: boolean
+  noSpaceBetweenNoBreaks: boolean
+  insertThinSpaces: boolean
+  thinSpaceWidth: string
+  kerningRules: KerningRule[]
+}
+
+interface KerningRule {
+  between: [string, string]
+  value: string | number
+}
+```
+
+### Usage
+
+```typescript
+import Typesetter from 'palt-typesetting'
+import type { TypesettingOptions, KerningRule } from 'palt-typesetting'
+import 'palt-typesetting/dist/typesetter.css'
+
+const kerning: KerningRule[] = [
+  {
+    between: ['し', 'ま'],
+    value: '60',
+  },
+  {
+    between: ['す', '。'],
+    value: '-80',
+  },
+]
+
+const options: TypesettingOptions = {
+  thinSpaceWidth: '0.25em',
+  kerningRules: kerning,
+}
+
+const typeset = new Typesetter(options)
+typesetter.renderToSelector('.my-class')
+```
+
+---
+
 ## for Frameworks
 
 ### Astro.js
