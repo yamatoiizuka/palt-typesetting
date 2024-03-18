@@ -245,8 +245,6 @@ typesetter.renderToSelector('.my-class')
 ### 型定義
 
 ```typescript
-/* オプションの型定義 */
-
 interface TypesettingOptions {
   useWordBreak?: boolean
   wrapLatin?: boolean
