@@ -55,7 +55,7 @@ typesetter.renderToSelector('.my-class')
 /*
  * 共通のスタイリング（例）
  */
-.typeset {
+.typeset-wrapper {
   /* プロポーショナルメトリクス（ツメ組み）の設定 */
   font-feature-settings: 'palt';
 
@@ -84,8 +84,8 @@ typesetter.renderToSelector('.my-class')
   vertical-align: 0.02em;
 
   /*
-   * 行間の調整。親要素 .typeset の行間と視覚的に合わせます。
-   * [.typeset の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+   * 行間の調整。親要素 .typeset-wrapper の行間と視覚的に合わせます。
+   * [.typeset-wrapper の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
   line-height: calc(1.8 / 1.05 - 0.02 * 2);
 
@@ -205,7 +205,7 @@ const typesetter = new Typesetter();
 <style is:global>
   /* 合成フォントのイメージでスタイルを設定 */
 
- .typeset {
+ .typeset-wrapper {
   font-feature-settings: 'palt';
   line-height: 1.8;
   letter-spacing: 0.1em;

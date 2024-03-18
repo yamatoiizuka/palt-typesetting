@@ -54,7 +54,7 @@ h1 {
 /*
  * 共通のスタイリング
  */
-.typeset {
+.typeset-wrapper {
   /*
    * Safari のフォントレンダリング対策。
    * 英数（.typeset-latin）で -webkit-text-stroke を使う場合は必須。
