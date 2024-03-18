@@ -46,7 +46,8 @@ const addSeparatorsToSegment = (current: string, next = '', options: Typesetting
   const breakable = isBreakable(current, next)
 
   if (addThinSpace) {
-    return current + createThinSpace(options.thinSpaceWidth, breakable)
+    const thinSpaceWidth = options.thinSpaceWidth ?? ''
+    return current + createThinSpace(thinSpaceWidth, breakable)
   }
 
   if (options.useWordBreak && breakable) {

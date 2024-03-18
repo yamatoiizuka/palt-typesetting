@@ -49,7 +49,7 @@ const createKerning = (kerningValue: number, breakable?: boolean): string => {
  * @param useWordBreak - 単語区切りでの改行を行うかどうか。
  * @return クラス適用されたテキストを含む`span`タグ。
  */
-const applyWrapperStyle = (text: string, useWordBreak: boolean): string => {
+const applyWrapperStyle = (text: string, useWordBreak?: boolean): string => {
   // 後方互換性のため、.typeset を保持
   const wrapperName = `${prefix} ${prefix}-wrapper`
   const wordBreakName = `${prefix}-word-break`
