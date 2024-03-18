@@ -67,7 +67,7 @@ WordPress や jQuery などの環境で使用する場合
 生成された組版用 HTML にカスタム CSS を適用します。
 
 ```css
-/*
+/**
  * 共通のスタイリング（例）
  */
 .typeset-wrapper {
@@ -80,7 +80,7 @@ WordPress や jQuery などの環境で使用する場合
   /* 文字間 */
   letter-spacing: 0.1em;
 
-  /*
+  /**
    * Safari のフォントレンダリング対策。
    * 英数（.typeset-latin）で -webkit-text-stroke を使う場合は必須。
    * text-stroke-weight > 0, text-stroke-color: transparent
@@ -88,7 +88,7 @@ WordPress や jQuery などの環境で使用する場合
   -webkit-text-stroke: 0.01em transparent;
 }
 
-/*
+/**
  * 英数のみのスタイリング（例）
  */
 .typeset-latin {
@@ -98,7 +98,7 @@ WordPress や jQuery などの環境で使用する場合
   /* ベースラインの調整 */
   vertical-align: 0.02em;
 
-  /*
+  /**
    * 行間の調整。親要素 .typeset-wrapper の行間と視覚的に合わせます。
    * [.typeset-wrapper の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
@@ -121,7 +121,7 @@ Palt Typesetting では、Typesetter クラスを使用して HTML コードに�
 ### サンプルコード
 
 ```javascript
-/*
+/**
  * options: TypesettingOptions
  * オプションの設定
  */
@@ -154,13 +154,13 @@ const options = {
   ],
 }
 
-/*
+/**
  * Typesetter(options?: TypesettingOptions)
  * インスタンスの作成
  */
 const typesetter = new Typesetter(options)
 
-/*
+/**
  * renderToSelector(selector: string): void
  * セレクターにマッチする要素に対して組版を適用
  */
@@ -168,14 +168,14 @@ typesetter.renderToSelector('div')
 typesetter.renderToSelector('.my-class')
 typesetter.renderToSelector('#my-id')
 
-/*
+/**
  * renderToElements(elements: string): void
  * HTML 要素に組版を適用
  */
 const elements = document.querySelectorAll('.my-class')
 typesetter.renderToElements(elements)
 
-/*
+/**
  * render(srcHtml: string): string
  * 組版を適用した HTML の取得
  */
