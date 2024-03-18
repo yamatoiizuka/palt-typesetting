@@ -12,7 +12,7 @@ class Typesetter extends HTMLProcessor {
   /**
    * Typesetter のデフォルトの設定を返します。
    */
-  static getDefaultOptions(): TypesettingOptions {
+  static getDefaultOptions(): Required<TypesettingOptions> {
     return {
       useWordBreak: true,
       wrapLatin: true,
@@ -23,7 +23,7 @@ class Typesetter extends HTMLProcessor {
     }
   }
 
-  constructor(options: Partial<TypesettingOptions> = {}) {
+  constructor(options: TypesettingOptions = {}) {
     /**
      * 現在の実行環境で Intl.Segmenter がサポートされているかどうかを確認します。
      * Intl.Segmenter は、テキストを言語固有のセグメントに分割する機能を提供します。
@@ -55,7 +55,7 @@ class Typesetter extends HTMLProcessor {
    * @param options - 検証するオプション。
    * @return 修正されたオプション。
    */
-  private static validateOptions(options: Partial<TypesettingOptions>): TypesettingOptions {
+  private static validateOptions(options: TypesettingOptions): Required<TypesettingOptions> {
     if (options.kerningRules) {
       options.kerningRules = options.kerningRules.filter(Typesetter.isValidKerningRule)
     }

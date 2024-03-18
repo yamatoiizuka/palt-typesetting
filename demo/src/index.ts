@@ -18,7 +18,7 @@ const wrapLatinToggle = document.getElementById('wrapLatinToggle') as HTMLInputE
 const noSpaceBetweenNoBreaksToggle = document.getElementById('noSpaceBetweenNoBreaksToggle') as HTMLInputElement
 const kerningRulesToggle = document.getElementById('kerningRulesToggle') as HTMLInputElement
 
-let options: Partial<TypesettingOptions> = {
+let options: TypesettingOptions = {
   kerningRules: getKerningRules(true),
 }
 
