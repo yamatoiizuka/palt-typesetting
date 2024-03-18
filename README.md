@@ -204,12 +204,12 @@ typesetter.renderToSelector('.my-class')
 /* オプションの型定義 */
 
 interface TypesettingOptions {
-  useWordBreak: boolean
-  wrapLatin: boolean
-  noSpaceBetweenNoBreaks: boolean
-  insertThinSpaces: boolean
-  thinSpaceWidth: string
-  kerningRules: KerningRule[]
+  useWordBreak?: boolean
+  wrapLatin?: boolean
+  noSpaceBetweenNoBreaks?: boolean
+  insertThinSpaces?: boolean
+  thinSpaceWidth?: string
+  kerningRules?: KerningRule[]
 }
 
 interface KerningRule {
