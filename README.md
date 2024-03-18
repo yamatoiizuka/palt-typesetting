@@ -116,14 +116,32 @@ WordPress や jQuery などの環境で使用する場合
 
 ## Typesetter Class
 
-Palt Typesetting では、Typesetter クラスを使用して組版を適用します。ライブラリの機能はオプションを通じてカスタマイズできます。
+Palt Typesetting では、Typesetter クラスを使用して HTML コードに組版を適用します。ライブラリの機能はオプションを通じてカスタマイズできます。
 
 ### サンプルコード
 
 ```javascript
-// オプションの設定
+/*
+ * options: TypesettingOptions
+ * オプションの設定
+ */
 const options = {
+  // 単語や助詞など、単語区切りでの改行を行います。
+  useWordBreak: true,
+
+  // 英数を `.typeset-latin` でラップします。
+  wrapLatin: true,
+
+  // 罫線などの分離禁則文字を `.typeset-no-breaks` でラップし、文字間を 0 に設定します。
+  noSpaceBetweenNoBreaks: true,
+
+  // 四分アキスペースを自動で挿入します。
+  insertThinSpaces: true,
+
+  // 四分アキスペースの幅を設定します。
   thinSpaceWidth: '0.2em',
+
+  // 特定の文字間のカーニングルールを設定します。
   kerningRules: [
     {
       between: ['し', 'ま'],
@@ -136,22 +154,34 @@ const options = {
   ],
 }
 
-// Typesetter のインスタンスを作成
+/*
+ * Typesetter(options?: TypesettingOptions)
+ * インスタンスの作成
+ */
 const typesetter = new Typesetter(options)
 
-// セレクターにマッチする要素に対して組版を適用
+/*
+ * renderToSelector(selector: string): void
+ * セレクターにマッチする要素に対して組版を適用
+ */
 typesetter.renderToSelector('div')
 typesetter.renderToSelector('.my-class')
 typesetter.renderToSelector('#my-id')
 
-// HTML 要素に組版を適用
+/*
+ * renderToElements(elements: string): void
+ * HTML 要素に組版を適用
+ */
 const elements = document.querySelectorAll('.my-class')
 typesetter.renderToElements(elements)
 
-// 組版を適用した HTML の取得
+/*
+ * render(srcHtml: string): string
+ * 組版を適用した HTML の取得
+ */
 const srcHtml = '「日本語」とEnglish'
-console.log(typesetter.render(srcHtml))
-// <span class="typeset" /* 中略 */>「日本語」<span class="typeset-thin-space" style="font-size: 100%;" /* 中略 */> </span><wbr>と<span class="typeset-thin-space" style="font-size: 100%;" /* 中略 */> </span><wbr><span class="typeset-latin">English</span></span>
+console.log('output: ' + typesetter.render(srcHtml))
+// output: <span class="typeset typeset-wrapper typeset-word-break">「日本語」<span class="typeset-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span>と<span class="typeset-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span><span class="typeset-latin">English </span></span>
 ```
 
 ### コンストラクタ
