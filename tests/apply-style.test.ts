@@ -16,7 +16,7 @@ describe('applyStyleToSegment', () => {
   it("applies letter-spacing style to separation prohibited characters '──'", () => {
     const current = '──'
     const next = ''
-    const expected = '<span class="typeset-no-breaks">──</span>'
+    const expected = '<span class="typesetting-no-breaks">──</span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
@@ -44,56 +44,56 @@ describe('applyStyleToSegment', () => {
   it("applies 'latin' class to English words 'English'", () => {
     const current = 'English'
     const next = ''
-    const expected = '<span class="typeset-latin">English</span>'
+    const expected = '<span class="typesetting-latin">English</span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("applies 'latin' class to half-width numbers '28'", () => {
     const current = '28'
     const next = ''
-    const expected = '<span class="typeset-latin">28</span>'
+    const expected = '<span class="typesetting-latin">28</span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("applies 'latin' class to half-width symbol ':'", () => {
     const current = ':'
     const next = ''
-    const expected = '<span class="typeset-latin">:</span>'
+    const expected = '<span class="typesetting-latin">:</span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("applies 'latin' class to currency symbols", () => {
     const current = '¥1,400'
     const next = ''
-    const expected = '<span class="typeset-latin">¥1,400</span>'
+    const expected = '<span class="typesetting-latin">¥1,400</span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("applies 'latin' class to subscript numbers", () => {
     const current = 'CO₂'
     const next = ''
-    const expected = '<span class="typeset-latin">CO₂</span>'
+    const expected = '<span class="typesetting-latin">CO₂</span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("applies 'latin' class to superscript numbers", () => {
     const current = '¹³⁷Cs'
     const next = ''
-    const expected = '<span class="typeset-latin">¹³⁷Cs</span>'
+    const expected = '<span class="typesetting-latin">¹³⁷Cs</span>'
     expect(applyStyleToSegment(current, next, options)).toEqual(expected)
   })
 
   it("adds kerning tag after 'で'", () => {
     const current = 'す'
     const next = '。'
-    const expected = 'す<span class="typeset-kerning" style="margin: -0.04em;"></span>'
+    const expected = 'す<span class="typesetting-kerning" style="margin: -0.04em;"></span>'
     expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 
   it("adds kerning tag after 'で'", () => {
     const current = 'です。'
     const next = 'その'
-    const expected = 'です<span class="typeset-kerning" style="margin: -0.04em;"></span>。'
+    const expected = 'です<span class="typesetting-kerning" style="margin: -0.04em;"></span>。'
     expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 })
@@ -123,7 +123,7 @@ describe('applyStyleToSegment without useWordBreak option', () => {
     const space = ' '
     const current = 'し'
     const next = 'ます。'
-    const expected = `し<span class="typeset-kerning" style="letter-spacing: 0.06em;" data-content="${space}"></span>`
+    const expected = `し<span class="typesetting-kerning" style="letter-spacing: 0.06em;" data-content="${space}"></span>`
     expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 
@@ -131,7 +131,7 @@ describe('applyStyleToSegment without useWordBreak option', () => {
     const space = '&nbsp;'
     const current = 'です'
     const next = '。'
-    const expected = `です<span class="typeset-kerning" style="letter-spacing: 0.02em;" data-content="${space}"></span>`
+    const expected = `です<span class="typesetting-kerning" style="letter-spacing: 0.02em;" data-content="${space}"></span>`
     expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 
@@ -139,7 +139,7 @@ describe('applyStyleToSegment without useWordBreak option', () => {
     const space = '&nbsp;'
     const current = 'Java'
     const next = 'Script'
-    const expected = `Java<span class="typeset-kerning" style="letter-spacing: 0.02em;" data-content="${space}"></span>`
+    const expected = `Java<span class="typesetting-kerning" style="letter-spacing: 0.02em;" data-content="${space}"></span>`
     expect(applyKerningToSegment(current, next, options)).toEqual(expected)
   })
 })

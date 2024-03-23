@@ -19,13 +19,13 @@ export interface TypesettingOptions {
   useWordBreak?: boolean
 
   /**
-   * 英数を .typeset-latin でラップします。
+   * 英数を .typesetting-latin でラップします。
    * useWordBreak が true の場合にのみ有効です。
    */
   wrapLatin?: boolean
 
   /**
-   * 分離禁則文字を .typeset-nobreaks でラップし、文字間を 0 に設定します。
+   * 分離禁則文字を .typesetting-no-breaks でラップし、文字間を 0 に設定します。
    * useWordBreak が true の場合にのみ有効です。
    */
   noSpaceBetweenNoBreaks?: boolean
