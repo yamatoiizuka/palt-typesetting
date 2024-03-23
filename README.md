@@ -277,21 +277,19 @@ const typesetter = new Typesetter();
 <!-- content が空でなければ組版を適用 -->
 {content && <Fragment set:html={typesetter.render(content)} />}
 
+<!-- 合成フォントのイメージでスタイルを設定 -->
 <style is:global>
-  /* 合成フォントのイメージでスタイルを設定 */
+  /* 共通のスタイル */
+  .typesetting-wrapper {
+    font-feature-settings: 'palt';
+    letter-spacing: 0.1em;
+  }
 
- .typesetting-wrapper {
-  font-feature-settings: 'palt';
-  line-height: 1.8;
-  letter-spacing: 0.1em;
-  /* ...その他のスタイル */
-}
-
-.typesetting-latin {
-  font-size: 105%;
-  letter-spacing: 0.05em;
-  /* ...その他のスタイル */
-}
+  /* 英数のスタイル */
+  .typesetting-latin {
+    font-size: 105%;
+    letter-spacing: 0.05em;
+  }
 </style>
 ```
 
