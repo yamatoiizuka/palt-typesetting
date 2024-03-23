@@ -50,7 +50,7 @@ const createKerning = (kerningValue: number, breakable?: boolean): string => {
  * @return クラス適用されたテキストを含む`span`タグ。
  */
 const applyWrapperStyle = (text: string, useWordBreak?: boolean): string => {
-  const wrapperName = `$${prefix}-wrapper`
+  const wrapperName = `${prefix}-wrapper`
   const wordBreakName = `${prefix}-word-break`
   const className = useWordBreak ? `${wrapperName} ${wordBreakName}` : wrapperName
   return createStyledSpan(text, className)
