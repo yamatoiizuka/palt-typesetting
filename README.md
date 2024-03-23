@@ -116,7 +116,7 @@ WordPress や jQuery などの環境で使用する場合
 
 ## Typesetter Class
 
-Palt Typesetting では、Typesetter クラスを使用して HTML テキストに組版を適用します。  
+Palt Typesetting では、Typesetter クラスを使用して HTML 文字列に組版を適用します。  
 ライブラリの機能はオプションを通じてカスタマイズできます。
 
 ### サンプルコード
@@ -171,14 +171,14 @@ typesetter.renderToSelector('#my-id')
 
 /**
  * renderToElements(elements: string): void
- * HTML 要素に組版を適用
+ * HTML 文字列に組版を適用
  */
 const elements = document.querySelectorAll('.my-class')
 typesetter.renderToElements(elements)
 
 /**
  * render(srcHtml: string): string
- * 組版を適用した HTML の取得
+ * 組版を適用した HTML 文字列の取得
  */
 const srcHtml = '「日本語」とEnglish'
 console.log('output: ' + typesetter.render(srcHtml))
@@ -212,14 +212,14 @@ console.log('output: ' + typesetter.render(srcHtml))
 
 ### 生成される CSS クラス
 
-| CSS クラス名              | 説明                                                           | オプションによる生成の条件     |
-| ------------------------- | -------------------------------------------------------------- | ------------------------------ |
-| `.typesetting-wrapper`    | ソースとなる HTML 文字列中のテキストコンテンツをラップします。 | 常に生成                       |
-| `.typesetting-word-break` | ソースとなる HTML 文字列中のテキストコンテンツをラップします。 | `useWordBreak: true`           |
-| `.typesetting-latin`      | テキストコンテンツ中の英数をラップします。                     | `wrapLatin: true`              |
-| `.typesetting-no-breaks`  | テキストコンテンツ中の分離禁則文字をラップします。             | `noSpaceBetweenNoBreaks: true` |
-| `.typesetting-thin-space` | 挿入される四分アキスペースエレメントの CSS クラスです。        | `insertThinSpaces: true`       |
-| `.typesetting-kerning`    | 挿入されるカーニングエレメントの CSS クラスです。              | 有効な `kerningRules` が存在   |
+| CSS クラス名              | 説明                                                    | オプションによる生成の条件     |
+| ------------------------- | ------------------------------------------------------- | ------------------------------ |
+| `.typesetting-wrapper`    | HTML 文字列中のテキストコンテンツをラップします。       | 常に生成                       |
+| `.typesetting-word-break` | HTML 文字列中のテキストコンテンツをラップします。       | `useWordBreak: true`           |
+| `.typesetting-latin`      | テキストコンテンツ中の英数をラップします。              | `wrapLatin: true`              |
+| `.typesetting-no-breaks`  | テキストコンテンツ中の分離禁則文字をラップします。      | `noSpaceBetweenNoBreaks: true` |
+| `.typesetting-thin-space` | 挿入される四分アキスペースエレメントの CSS クラスです。 | `insertThinSpaces: true`       |
+| `.typesetting-kerning`    | 挿入されるカーニングエレメントの CSS クラスです。       | 有効な `kerningRules` が存在   |
 
 ---
 
