@@ -1,4 +1,4 @@
-const prefix = 'typeset'
+const prefix = 'typesetting'
 
 /**
  * HTML文書内で単語の区切りを示し、必要に応じて改行の挿入を許可する`<wbr>`タグを生成します。
@@ -44,21 +44,20 @@ const createKerning = (kerningValue: number, breakable?: boolean): string => {
 }
 
 /**
- * 単語区切りでの改行を行う場合にのみ、与えられたテキストに`typeset-word-break`クラスを適用します。
+ * 単語区切りでの改行を行う場合にのみ、与えられたテキストに`typesetting-word-break`クラスを適用します。
  * @param text - クラスを適用するテキスト。
  * @param useWordBreak - 単語区切りでの改行を行うかどうか。
  * @return クラス適用されたテキストを含む`span`タグ。
  */
 const applyWrapperStyle = (text: string, useWordBreak?: boolean): string => {
-  // 後方互換性のため、.typeset を保持
-  const wrapperName = `${prefix} ${prefix}-wrapper`
+  const wrapperName = `$${prefix}-wrapper`
   const wordBreakName = `${prefix}-word-break`
   const className = useWordBreak ? `${wrapperName} ${wordBreakName}` : wrapperName
   return createStyledSpan(text, className)
 }
 
 /**
- * 与えられたセグメントに`typeset-latin`クラスを適用します。
+ * 与えられたセグメントに`typesetting-latin`クラスを適用します。
  * @param segment - クラスを適用するセグメント。
  * @return クラス適用されたセグメントを含むspanタグを返します。
  */
@@ -68,7 +67,7 @@ const applyLatinStyle = (segment: string): string => {
 }
 
 /**
- * 与えられたセグメントに`typeset-no-breaks`クラスを適用します。このクラスは、指定されたセグメント内の`letter-spacing`を0にするために使用されます。
+ * 与えられたセグメントに`typesetting-no-breaks`クラスを適用します。このクラスは、指定されたセグメント内の`letter-spacing`を0にするために使用されます。
  * @param segment - クラスを適用するセグメント。
  * @return クラス適用されたセグメントを含む`span`タグを返します。
  */

@@ -70,7 +70,7 @@ WordPress や jQuery などの環境で使用する場合
 /**
  * 共通のスタイリング（例）
  */
-.typeset-wrapper {
+.typesetting-wrapper {
   /* プロポーショナルメトリクス（ツメ組み）の設定 */
   font-feature-settings: 'palt';
 
@@ -82,7 +82,7 @@ WordPress や jQuery などの環境で使用する場合
 
   /**
    * Safari のフォントレンダリング対策。
-   * 英数（.typeset-latin）で -webkit-text-stroke を使う場合は必須。
+   * 英数（.typesetting-latin）で -webkit-text-stroke を使う場合は必須。
    * text-stroke-weight > 0, text-stroke-color: transparent
    */
   -webkit-text-stroke: 0.01em transparent;
@@ -91,7 +91,7 @@ WordPress や jQuery などの環境で使用する場合
 /**
  * 英数のみのスタイリング（例）
  */
-.typeset-latin {
+.typesetting-latin {
   /* フォントの拡大・縮小 */
   font-size: 105%;
 
@@ -99,8 +99,8 @@ WordPress や jQuery などの環境で使用する場合
   vertical-align: 0.02em;
 
   /**
-   * 行間の調整。親要素 .typeset-wrapper の行間と視覚的に合わせます。
-   * [.typeset-wrapper の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+   * 行間の調整。親要素 .typesetting-wrapper の行間と視覚的に合わせます。
+   * [.typesetting-wrapper の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
   line-height: calc(1.8 / 1.05 - 0.02 * 2);
 
@@ -130,10 +130,10 @@ const options = {
   // 単語や助詞など、単語区切りでの改行を行います。
   useWordBreak: true,
 
-  // 英数を `.typeset-latin` でラップします。
+  // 英数を `.typesetting-latin` でラップします。
   wrapLatin: true,
 
-  // 罫線などの分離禁則文字を `.typeset-no-breaks` でラップし、文字間を 0 に設定します。
+  // 罫線などの分離禁則文字を `.typesetting-no-breaks` でラップし、文字間を 0 に設定します。
   noSpaceBetweenNoBreaks: true,
 
   // 四分アキスペースを自動で挿入します。
@@ -182,7 +182,7 @@ typesetter.renderToElements(elements)
  */
 const srcHtml = '「日本語」とEnglish'
 console.log('output: ' + typesetter.render(srcHtml))
-// output: <span class="typeset typeset-wrapper typeset-word-break">「日本語」<span class="typeset-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span>と<span class="typeset-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span><span class="typeset-latin">English </span></span>
+// output: <span class="typeset typesetting-wrapper typesetting-word-break">「日本語」<span class="typesetting-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span>と<span class="typesetting-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span><span class="typesetting-latin">English </span></span>
 ```
 
 ### コンストラクタ
@@ -201,25 +201,25 @@ console.log('output: ' + typesetter.render(srcHtml))
 
 ### オプション
 
-| オプション名             | 説明                                                                                    | オプションの型                                                                | デフォルト値 |
-| ------------------------ | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------ |
-| `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                          | `boolean`                                                                     | `true`       |
-| `wrapLatin`              | 英数を `span.typeset-latin` でラップします。                                            | `boolean`                                                                     | `true`       |
-| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typeset-no-breaks` でラップし、文字間を 0 に設定します。 | `boolean`                                                                     | `true`       |
-| `insertThinSpaces`       | 四分アキスペースを自動で挿入します。                                                    | `boolean`                                                                     | `true`       |
-| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。`insertThinSpaces: true` のときのみ有効です。         | `string`                                                                      | `'0.2em' `   |
-| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                            | `{`<br>`　between: [string, string],`<br>`　value: string \| number`<br>`}[]` | `[]`         |
+| オプション名             | 説明                                                                                        | オプションの型                                                                | デフォルト値 |
+| ------------------------ | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------ |
+| `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                              | `boolean`                                                                     | `true`       |
+| `wrapLatin`              | 英数を `span.typesetting-latin` でラップします。                                            | `boolean`                                                                     | `true`       |
+| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typesetting-no-breaks` でラップし、文字間を 0 に設定します。 | `boolean`                                                                     | `true`       |
+| `insertThinSpaces`       | 四分アキスペースを自動で挿入します。                                                        | `boolean`                                                                     | `true`       |
+| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。`insertThinSpaces: true` のときのみ有効です。             | `string`                                                                      | `'0.2em' `   |
+| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                | `{`<br>`　between: [string, string],`<br>`　value: string \| number`<br>`}[]` | `[]`         |
 
 ### 生成される CSS クラス
 
-| CSS クラス名          | 説明                                                           | オプションによる生成の条件     |
-| --------------------- | -------------------------------------------------------------- | ------------------------------ |
-| `.typeset-wrapper`    | ソースとなる HTML 文字列中のテキストコンテンツをラップします。 | 常に生成                       |
-| `.typeset-word-break` | ソースとなる HTML 文字列中のテキストコンテンツをラップします。 | `useWordBreak: true`           |
-| `.typeset-latin`      | テキストコンテンツ中の英数をラップします。                     | `wrapLatin: true`              |
-| `.typeset-no-breaks`  | テキストコンテンツ中の分離禁則文字をラップします。             | `noSpaceBetweenNoBreaks: true` |
-| `.typeset-thin-space` | 挿入される四分アキスペースエレメントの CSS クラスです。        | `insertThinSpaces: true`       |
-| `.typeset-kerning`    | 挿入されるカーニングエレメントの CSS クラスです。              | 有効な `kerningRules` が存在   |
+| CSS クラス名              | 説明                                                           | オプションによる生成の条件     |
+| ------------------------- | -------------------------------------------------------------- | ------------------------------ |
+| `.typesetting-wrapper`    | ソースとなる HTML 文字列中のテキストコンテンツをラップします。 | 常に生成                       |
+| `.typesetting-word-break` | ソースとなる HTML 文字列中のテキストコンテンツをラップします。 | `useWordBreak: true`           |
+| `.typesetting-latin`      | テキストコンテンツ中の英数をラップします。                     | `wrapLatin: true`              |
+| `.typesetting-no-breaks`  | テキストコンテンツ中の分離禁則文字をラップします。             | `noSpaceBetweenNoBreaks: true` |
+| `.typesetting-thin-space` | 挿入される四分アキスペースエレメントの CSS クラスです。        | `insertThinSpaces: true`       |
+| `.typesetting-kerning`    | 挿入されるカーニングエレメントの CSS クラスです。              | 有効な `kerningRules` が存在   |
 
 ---
 
@@ -280,14 +280,14 @@ const typesetter = new Typesetter();
 <style is:global>
   /* 合成フォントのイメージでスタイルを設定 */
 
- .typeset-wrapper {
+ .typesetting-wrapper {
   font-feature-settings: 'palt';
   line-height: 1.8;
   letter-spacing: 0.1em;
   /* ...その他のスタイル */
 }
 
-.typeset-latin {
+.typesetting-latin {
   font-size: 105%;
   letter-spacing: 0.05em;
   /* ...その他のスタイル */

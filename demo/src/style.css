@@ -54,10 +54,10 @@ h1 {
 /*
  * 共通のスタイリング
  */
-.typeset-wrapper {
+.typesetting-wrapper {
   /*
    * Safari のフォントレンダリング対策。
-   * 英数（.typeset-latin）で -webkit-text-stroke を使う場合は必須。
+   * 英数（.typesetting-latin）で -webkit-text-stroke を使う場合は必須。
    * text-stroke-weight > 0, text-stroke-color: transparent
    */
   -webkit-text-stroke: 0.01em transparent;
@@ -66,7 +66,7 @@ h1 {
 /*
  * 英数のみのスタイリング
  */
-.typeset-latin {
+.typesetting-latin {
   /* フォントの拡大・縮小 */
   font-size: 104%;
 
@@ -74,8 +74,8 @@ h1 {
   vertical-align: 0.02em;
 
   /*
-   * 行間の調整。親要素 .typeset の行間と視覚的に合わせます。
-   * [.typesetの line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+   * 行間の調整。親要素 .typesetting の行間と視覚的に合わせます。
+   * [.typesettingの line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
   line-height: calc(2 / 1.04 - 0.02 * 2);
 
@@ -97,10 +97,10 @@ h1 {
   line-height: 1.8;
 }
 
-.en-section .typeset-latin {
+.en-section .typesetting-latin {
   /*
-   * 行間の調整。親要素 .typesetの行間と視覚的に合わせます。
-   * [.typesetの line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+   * 行間の調整。親要素 .typesetting-wrapper の行間と視覚的に合わせます。
+   * [.typesetting-wrapper の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
   line-height: calc(1.8 / 1.05 - 0.02 * 2);
 }
@@ -213,7 +213,7 @@ input:checked + .slider:before {
   color: var(--color-sub);
 }
 
-#target label .typeset-latin {
+#target label .typesetting-latin {
   cursor: pointer;
   color: var(--color-sub);
   -webkit-text-stroke-color: var(--color-sub);
@@ -233,7 +233,7 @@ input:checked + .slider:before {
   color: var(--color-main);
 }
 
-#target input:checked + label .typeset-latin {
+#target input:checked + label .typesetting-latin {
   color: var(--color-main);
   -webkit-text-stroke-color: var(--color-main);
 }
