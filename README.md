@@ -219,7 +219,7 @@ TypeScript の型定義を提供しています。
 
 ```typescript
 import Typesetter from 'palt-typesetting'
-import type { TypesettingOptions, KerningRule } from 'palt-typesetting'
+import type { TypesettingOptions, KerningRule } from 'palt-typesetting/types'
 import 'palt-typesetting/dist/typesetter.css'
 
 const kerning: KerningRule[] = [

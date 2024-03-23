@@ -1,7 +1,7 @@
 import './style.css'
 import './module/typekit'
 import Typesetter from 'palt-typesetting'
-import type { TypesettingOptions, KerningRule } from 'palt-typesetting'
+import type { TypesettingOptions, KerningRule } from 'palt-typesetting/types'
 import 'palt-typesetting/dist/typesetter.css'
 
 // HTML要素の取得
