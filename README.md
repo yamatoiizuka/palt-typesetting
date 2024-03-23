@@ -64,7 +64,7 @@ WordPress や jQuery などの環境で使用する場合
 
 ### Apply Custom CSS
 
-生成された組版用 HTML にカスタム CSS を適用します。
+生成された組版用 HTML にカスタム CSS を適用
 
 ```css
 /**
@@ -116,7 +116,8 @@ WordPress や jQuery などの環境で使用する場合
 
 ## Typesetter Class
 
-Palt Typesetting では、Typesetter クラスを使用して HTML コードに組版を適用します。ライブラリの機能はオプションを通じてカスタマイズできます。
+Palt Typesetting では、Typesetter クラスを使用して HTML テキストに組版を適用します。  
+ライブラリの機能はオプションを通じてカスタマイズできます。
 
 ### サンプルコード
 
@@ -213,7 +214,7 @@ console.log('output: ' + typesetter.render(srcHtml))
 
 ## for Typescript
 
-TypeScript の型定義を提供しています。
+TypeScript の型定義を提供しています。完全な型定義は[こちら](https://github.com/yamatoiizuka/palt-typesetting/blob/main/types/index.d.ts)をご参照ください。
 
 ### サンプルコード
 
@@ -227,10 +228,6 @@ const kerning: KerningRule[] = [
     between: ['し', 'ま'],
     value: '60',
   },
-  {
-    between: ['す', '。'],
-    value: '-80',
-  },
 ]
 
 const options: TypesettingOptions = {
@@ -240,24 +237,6 @@ const options: TypesettingOptions = {
 
 const typeset = new Typesetter(options)
 typesetter.renderToSelector('.my-class')
-```
-
-### 型定義
-
-```typescript
-interface TypesettingOptions {
-  useWordBreak?: boolean
-  wrapLatin?: boolean
-  noSpaceBetweenNoBreaks?: boolean
-  insertThinSpaces?: boolean
-  thinSpaceWidth?: string
-  kerningRules?: KerningRule[]
-}
-
-interface KerningRule {
-  between: [string, string]
-  value: string | number
-}
 ```
 
 ---
