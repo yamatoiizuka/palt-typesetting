@@ -308,7 +308,7 @@ import Typeset from '../components/Typesetting.astro'
 
   <!-- slot を使った書き方 -->
   <Typesetting>
-    <a href="../">トップページ</a>
+    <a href="/work">作品ページ</a>
   </Typesetting>
 </div>
 
@@ -325,7 +325,7 @@ import Typeset from '../components/Typesetting.astro'
 
 ### 環境要件
 
-Palt Typesetting ライブラリは、テキストを言語固有のセグメントに分割する `Intl.Segmenter` という機能に依存しています。そのため、以下の環境要件があります。
+Palt Typesetting ライブラリは、テキストを言語固有のセグメントに分割する `Intl.Segmenter` という機能に一部依存しています。そのため、以下の環境要件があります。
 
 **SSG など、サーバーサイドで実行する場合**
 
@@ -335,7 +335,7 @@ Palt Typesetting ライブラリは、テキストを言語固有のセグメン
 
 - Intl.Segmenter をサポートしているブラウザ
 
-クライアントサイドで実行する場合、この機能は一部のブラウザで利用できません。Palt Typesetting ライブラリは、Firefox などの `Intl.Segmenter` がサポートされていない環境[^1] では、`useWordBreak`（単語区切りでの改行）と `insertThinSpaces`（四分アキの自動挿入）オプションがスキップされます。全てのモダンブラウザで同様の見え方を再現するには、サーバーサイドでの事前処理（SSG など）が必要となります。
+クライアントサイドで実行する場合、この機能は一部のブラウザで利用できません。Palt Typesetting ライブラリは、Firefox などの `Intl.Segmenter` がサポートされていない環境[^1] では、`useWordBreak`（単語区切りでの改行）と `insertThinSpaces`（四分アキの自動挿入）オプションがスキップされます。全てのモダンブラウザで同様の見え方を再現するには、サーバーサイドでの事前処理（Astro.js での SSG など）が必要となります。
 
 `Intl.Segmenter` の対応状況については、[Can I use...](https://caniuse.com/?search=Intl.Segmenter) で確認できます。
 
