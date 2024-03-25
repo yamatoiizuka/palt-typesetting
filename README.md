@@ -267,15 +267,15 @@ Typesetting コンポーネントの作成
 import Typesetter from 'palt-typesetting'
 import 'palt-typesetting/dist/typesetter.css'
 
-const { src } = Astro.props
+const { content } = Astro.props
 const slot = await Astro.slots.render('default')
-const content = src || slot || ''
+const srcHtml = content || slot || ''
 
 const typesetter = new Typesetter();
 ---
 
-<!-- content が空でなければ組版を適用 -->
-{content && <Fragment set:html={typesetter.render(content)} />}
+<!-- srcHtml が空でなければ組版を適用 -->
+{srcHtml && <Fragment set:html={typesetter.render(srcHtml)} />}
 
 <!-- 合成フォントのイメージでスタイルを設定 -->
 <style is:global>
@@ -304,7 +304,7 @@ import Typeset from '../components/Typesetting.astro'
 
 <div>
   <!-- props を使った書き方 -->
-  <Typesetting src="「日本語」とEnglish、晴れ・28度。" />
+  <Typesetting content="「日本語」とEnglish、晴れ・28度。" />
 
   <!-- slot を使った書き方 -->
   <Typesetting>
