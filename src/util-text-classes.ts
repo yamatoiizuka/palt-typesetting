@@ -26,6 +26,10 @@ const CharClass = {
       `(${util.closingsRegex.source}|${util.commasRegex.source}|${util.periodsRegex.source})`
     )
 
+    // 各設定は以下のプロパティを持つ:
+    // - regex: 対象の正規表現
+    // - hasSpaceBefore: 自身の前に四分アキが入るか
+    // - hasSpaceAfter: 自身の後に四分アキが入るか
     const settings = {
       spaceBefore: {
         regex: util.openingsRegex,

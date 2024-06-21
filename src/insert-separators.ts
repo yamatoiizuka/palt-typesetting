@@ -64,6 +64,7 @@ const addSeparatorsToSegment = (current: string, next = '', options: Typesetting
  * @return 四分アキを追加すべきかどうか
  */
 const shouldAddThinSpace = (current: string, next: string): boolean => {
+  // 片方のセグメントが空白文字、制御文字であれば四分アキを追加しない
   if (whitespaceRegex.test(current) || whitespaceRegex.test(next)) return false
 
   return LanguageClass.shouldAddThinSpace(current, next) || CharClass.shouldAddThinSpace(current, next)
