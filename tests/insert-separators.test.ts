@@ -35,6 +35,20 @@ describe('insertSeparators', () => {
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 
+  it('does not insert a thin space before a latin comma', () => {
+    const currentText = '文字'
+    const nextText = ','
+    const expected = '文字'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space before a latin period', () => {
+    const currentText = '言語'
+    const nextText = '.'
+    const expected = '言語'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
   it('does not insert a thin space before a line fead', () => {
     const currentText = 'です。'
     const nextText = '\n'

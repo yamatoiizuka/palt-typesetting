@@ -5,6 +5,16 @@ export const latinRegex =
   /[\p{scx=Latin}0-9⁰¹²³⁴-⁾₀-₎¢¤$€£¥+−×÷=≠><≥≤±≈~¬∅∞∫∏∑√∂%‰@&.,:;!¡?¿'"‘’“”\-(){}[\]|/\\^_`*#\s]+/gu
 
 /**
+ * 読点類（ラテン文字）
+ */
+export const latinCommaRegex = /,/
+
+/**
+ * 句点類（ラテン文字）
+ */
+export const latinPeriodRegex = /\./
+
+/**
  * 日本語
  */
 export const japaneseRegex = /[\p{scx=Hiragana}\p{scx=Katakana}|ｦ-ﾟ\p{scx=Han}]+/u

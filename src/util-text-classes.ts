@@ -65,7 +65,10 @@ const CharClass = {
    */
   startsWithPunctuation: (segment: string): boolean => {
     // periodsRegexとcommasRegexを組み合わせて一つの正規表現を作成
-    const combinedRegex = new RegExp(`^[${util.periodsRegex.source}${util.commasRegex.source}]`)
+    // 半角カンマ・ピリオドも含める
+    const combinedRegex = new RegExp(
+      `^[${util.periodsRegex.source}${util.commasRegex.source}${util.latinPeriodRegex.source}${util.latinCommaRegex.source}]`
+    )
     return combinedRegex.test(segment)
   },
 }
