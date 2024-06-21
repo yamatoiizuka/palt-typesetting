@@ -256,6 +256,51 @@ typesetter.renderToSelector('.my-class')
 
 モダンな JavaScript フレームワーク用のサンプル集です。
 
+### React
+
+Typesetting コンポーネントの作成
+
+`components/Typesetting.jsx`
+
+```jsx
+'use client'
+
+import React, { useEffect, useState } from 'react'
+import Typesetter from 'palt-typesetting'
+import 'palt-typesetting/dist/typesetter.css'
+
+import './Typesetting.css'
+
+const Typesetting = ({ content }) => {
+  const [renderedHtml, setRenderedHtml] = useState('')
+
+  useEffect(() => {
+    const typesetter = new Typesetter()
+    setRenderedHtml(typesetter.render(content))
+  }, [content])
+
+  return <span dangerouslySetInnerHTML={{ __html: renderedHtml }} />
+}
+
+export default Typesetting
+```
+
+`components/Typesetting.css`
+
+```css
+/* 共通のスタイル */
+.typesetting-wrapper {
+  font-feature-settings: 'palt';
+  letter-spacing: 0.1em;
+}
+
+/* 英数のスタイル */
+.typesetting-latin {
+  font-size: 105%;
+  letter-spacing: 0.05em;
+}
+```
+
 ### Astro.js
 
 Typesetting コンポーネントの作成
@@ -274,10 +319,8 @@ const srcHtml = content || slot || ''
 const typesetter = new Typesetter();
 ---
 
-<!-- srcHtml が空でなければ組版を適用 -->
-{srcHtml && <Fragment set:html={typesetter.render(srcHtml)} />}
+<Fragment set:html={typesetter.render(srcHtml)} />
 
-<!-- 合成フォントのイメージでスタイルを設定 -->
 <style is:global>
   /* 共通のスタイル */
   .typesetting-wrapper {
