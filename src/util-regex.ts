@@ -15,6 +15,11 @@ export const latinCommaRegex = /,/
 export const latinPeriodRegex = /\./
 
 /**
+ * 日本語
+ */
+export const japaneseRegex = /[\p{scx=Hiragana}\p{scx=Katakana}|ｦ-ﾟ\p{scx=Han}]+/u
+
+/**
  * 初め括弧類
  */
 export const openingsRegex = /（|［|｛|〔|〈|《|「|『|【|〘|〖|“|‘/
