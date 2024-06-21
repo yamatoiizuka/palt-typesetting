@@ -13,11 +13,15 @@ const wbr = createWbr()
 const space = createThinSpace(options.thinSpaceWidth, true)
 const nbsp = createThinSpace(options.thinSpaceWidth, false)
 
+const halfSpaceWidth = `calc(${options.thinSpaceWidth} / 2.0)`
+const halfSpace = createThinSpace(halfSpaceWidth, true)
+const halfNbsp = createThinSpace(halfSpaceWidth, false)
+
 describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {
     const currentText = '──「こんにちは。」日本語とEnglish、晴れ・28度à vous。'
     const nextText = '「合成フォント」の見本。'
-    const expected = `──${nbsp}「こんにちは。」${space}日本語${wbr}と${space}English、${space}晴れ${nbsp}・${space}28${space}度${space}à ${wbr}vous。${space}`
+    const expected = `──${nbsp}「こんにちは。」${space}日本語${wbr}と${space}English、${space}晴れ${halfNbsp}・${halfSpace}28${space}度${space}à ${wbr}vous。${space}`
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 
@@ -177,12 +181,12 @@ describe('addSeparatorsToSegment', () => {
     {
       current: '晴れ',
       next: '・',
-      expected: '晴れ' + nbsp,
+      expected: '晴れ' + halfNbsp,
     },
     {
       current: '・',
       next: '28',
-      expected: '・' + space,
+      expected: '・' + halfSpace,
     },
     {
       current: '28',
@@ -274,12 +278,12 @@ describe('addSeparatorsToSegment without useWordBreak', () => {
     {
       current: '晴れ',
       next: '・',
-      expected: '晴れ' + nbsp,
+      expected: '晴れ' + halfNbsp,
     },
     {
       current: '・',
       next: '28',
-      expected: '・' + space,
+      expected: '・' + halfSpace,
     },
     {
       current: '28',
