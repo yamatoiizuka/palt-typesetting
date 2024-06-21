@@ -15,27 +15,27 @@ export const latinCommaRegex = /,/
 export const latinPeriodRegex = /\./
 
 /**
- * 初め括弧類
+ * 全角初め括弧類
  */
 export const openingsRegex = /（|［|｛|〔|〈|《|「|『|【|〘|〖|“|‘/
 
 /**
- * 終わり括弧類
+ * 全角終わり括弧類
  */
 export const closingsRegex = /）|］|｝|〕|〉|》|」|』|】|〙|〗|”|’/
 
 /**
- * 中点類
+ * 全角中点類
  */
 export const middleDotsRegex = /・|：|；/
 
 /**
- * 読点類
+ * 全角読点類
  */
 export const commasRegex = /、|，/
 
 /**
- * 句点類
+ * 全角句点類
  */
 export const periodsRegex = /。|．/
 
