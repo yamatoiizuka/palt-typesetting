@@ -8,10 +8,14 @@ describe('Typesetter', () => {
   const options = Typesetter.getDefaultOptions()
   const spaceWidth = options.thinSpaceWidth
   const space = createThinSpace(spaceWidth, true)
-  const nbsp = createThinSpace(spaceWidth, false)
+
+  const halfSpaceWidth = `calc(${spaceWidth} / 2.0)`
+  const halfSpace  = createThinSpace(halfSpaceWidth, true)
+  const halfNbsp  = createThinSpace(halfSpaceWidth, false)
+
   const srcHtml = `<p>──<b>こんにちは。</b>「日本語」とEnglish、晴れ・28度。</p>`
 
-  const expectedHtml = `<p>${applyWrapperStyle(`${applyNoBreaksStyle('──')}${space}`, true)}<b>${applyWrapperStyle(`こんにちは。${space}`, true)}</b>${applyWrapperStyle(`「日本語」${space}と${space}${applyLatinStyle('English')}、${space}晴れ${nbsp}・${space}${applyLatinStyle('28')}${space}度。`, true)}</p>`
+  const expectedHtml = `<p>${applyWrapperStyle(`${applyNoBreaksStyle('──')}${space}`, true)}<b>${applyWrapperStyle(`こんにちは。${space}`, true)}</b>${applyWrapperStyle(`「日本語」${space}と${space}${applyLatinStyle('English')}、${space}晴れ${halfNbsp}・${halfSpace}${applyLatinStyle('28')}${space}度。`, true)}</p>`
 
   const typeset = new Typesetter()
 

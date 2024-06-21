@@ -2,7 +2,7 @@ import LineBreaker from 'linebreak'
 import { CharClass, LanguageClass } from './util-text-classes.js'
 import { createWbr, createThinSpace } from './util-tags.js'
 import { TypesettingOptions } from '../types'
-import { whitespaceRegex } from './util-regex.js'
+import { middleDotsRegex, whitespaceRegex } from './util-regex.js'
 
 /**
  * HTMLテキストノードにセパレーター（四分アキ、<wbr>）を挿入します。
@@ -46,7 +46,9 @@ const addSeparatorsToSegment = (current: string, next = '', options: Typesetting
   const breakable = isBreakable(current, next)
 
   if (addThinSpace) {
-    const thinSpaceWidth = options.thinSpaceWidth ?? ''
+    // セグメントの片方が中点類の場合、四分アキの幅を 1/2 にする
+    const hasMiddleDots = middleDotsRegex.test(current) || middleDotsRegex.test(next)
+    const thinSpaceWidth = hasMiddleDots ? `calc(${options.thinSpaceWidth} / 2.0)` : options.thinSpaceWidth ?? ''
     return current + createThinSpace(thinSpaceWidth, breakable)
   }
 
