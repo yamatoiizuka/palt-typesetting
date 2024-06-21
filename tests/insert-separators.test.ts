@@ -35,6 +35,20 @@ describe('insertSeparators', () => {
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 
+  it('does not insert a thin space after a opening bracket', () => {
+    const currentText = '（'
+    const nextText = '注'
+    const expected = '（'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space before a closing bracket', () => {
+    const currentText = '例'
+    const nextText = '）'
+    const expected = '例'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
   it('does not insert a thin space before a latin comma', () => {
     const currentText = '文字'
     const nextText = ','
