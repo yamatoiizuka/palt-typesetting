@@ -41,7 +41,7 @@ describe('insertSeparators', () => {
 
   it('does not insert a thin space after a opening bracket', () => {
     const currentText = '（'
-    const nextText = '注'
+    const nextText = '3D'
     const expected = '（'
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
