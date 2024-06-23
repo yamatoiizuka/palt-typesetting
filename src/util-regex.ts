@@ -59,3 +59,11 @@ export const noBreakRulesRegex = new RegExp(
  * 空白文字、制御文字
  */
 export const whitespaceRegex = /[\s\u00A0]/
+
+/**
+ * 約物を合成
+ */
+export const punctuationRegex = new RegExp(
+  `${latinCommaRegex.source}|${latinPeriodRegex.source}|${openingsRegex.source}|${closingsRegex.source}|${middleDotsRegex.source}|${commasRegex.source}|${periodsRegex.source}`,
+  'u'
+)
