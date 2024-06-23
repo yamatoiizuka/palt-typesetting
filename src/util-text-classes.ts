@@ -61,6 +61,16 @@ const CharClass = {
 
     return false
   },
+
+  /**
+   * セグメントの少なくとも一方に約物が含まれているかどうかを判定します。
+   * @param {string} current - 現在のセグメント
+   * @param {string} next - 次のセグメント
+   * @return {boolean} 約物が含まれている場合はtrue、そうでない場合はfalse
+   */
+  includesPunctuation: (current: string, next: string): boolean => {
+    return util.punctuationRegex.test(current) || util.punctuationRegex.test(next)
+  },
 }
 
 /**
