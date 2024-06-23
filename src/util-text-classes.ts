@@ -61,20 +61,6 @@ const CharClass = {
 
     return false
   },
-
-  /**
-   * 与えられた文字列の最初の文字が句読点に一致するかどうか判断します。
-   * @param {string} segment - 判断対象の文字列
-   * @return {boolean} 最初の文字が句読点であればtrueを返します。
-   */
-  startsWithPunctuation: (segment: string): boolean => {
-    // periodsRegexとcommasRegexを組み合わせて一つの正規表現を作成
-    // 半角カンマ・ピリオドも含める
-    const combinedRegex = new RegExp(
-      `^[${util.periodsRegex.source}${util.commasRegex.source}${util.latinPeriodRegex.source}${util.latinCommaRegex.source}]`
-    )
-    return combinedRegex.test(segment)
-  },
 }
 
 /**
@@ -119,7 +105,7 @@ const LanguageClass = {
    * @return 四分アキを追加すべきかどうか
    */
   shouldAddThinSpace: (current: string, next: string): boolean => {
-    return LanguageClass.hasLanguageTransition(current, next) && !CharClass.startsWithPunctuation(next)
+    return LanguageClass.hasLanguageTransition(current, next)
   },
 }
 
