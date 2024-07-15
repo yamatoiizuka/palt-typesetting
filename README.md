@@ -201,14 +201,14 @@ console.log('output: ' + typesetter.render(srcHtml))
 
 ### オプション
 
-| オプション名             | 説明                                                                                        | オプションの型                                           | デフォルト値 |
-| ------------------------ | ------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------ |
-| `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                              | `boolean`                                                | `true`       |
-| `wrapLatin`              | 英数を `span.typesetting-latin` でラップします。                                            | `boolean`                                                | `true`       |
-| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typesetting-no-breaks` でラップし、文字間を 0 に設定します。 | `boolean`                                                | `true`       |
-| `insertThinSpaces`       | 四分アキスペースを自動で挿入します。                                                        | `boolean`                                                | `true`       |
-| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。                                                          | `string`                                                 | `'0.2em' `   |
-| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                | `{between: [string, string], value: string \| number}[]` | `[]`         |
+| オプション名             | 説明                                                                                                                             | オプションの型                                           | デフォルト値 |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------ |
+| `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                                                                   | `boolean`                                                | `true`       |
+| `wrapLatin`              | 英数を `span.typesetting-latin` でラップします。                                                                                 | `boolean`                                                | `true`       |
+| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typesetting-no-breaks` でラップし、文字間を 0 に設定します。                                      | `boolean`                                                | `true`       |
+| `insertThinSpaces`       | 四分アキスペースを自動で挿入します。                                                                                             | `boolean`                                                | `true`       |
+| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。 <br>※四分アキは本来 0.25em ですが、視覚上の補正としてデフォルト値を 0.2 em に設定しています。 | `string`                                                 | `'0.2em'`    |
+| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                     | `{between: [string, string], value: string \| number}[]` | `[]`         |
 
 ### 生成される CSS クラス
 
