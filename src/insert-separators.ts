@@ -1,7 +1,8 @@
 import LineBreaker from 'linebreak'
-import { CharClass, LanguageClass } from './util-text-classes'
-import { createWbr, createThinSpace } from './util-tags'
+import { CharClass, LanguageClass } from './util-text-classes.js'
+import { createWbr, createThinSpace } from './util-tags.js'
 import { TypesettingOptions } from '../types'
+import { middleDotsRegex, whitespaceRegex } from './util-regex.js'
 
 /**
  * HTMLテキストノードにセパレーター（四分アキ、<wbr>）を挿入します。
@@ -45,7 +46,10 @@ const addSeparatorsToSegment = (current: string, next = '', options: Typesetting
   const breakable = isBreakable(current, next)
 
   if (addThinSpace) {
-    return current + createThinSpace(options.thinSpaceWidth, breakable)
+    // セグメントの片方が中点類の場合、四分アキの幅を 1/2 にする
+    const hasMiddleDots = middleDotsRegex.test(current) || middleDotsRegex.test(next)
+    const thinSpaceWidth = hasMiddleDots ? `calc(${options.thinSpaceWidth} / 2.0)` : options.thinSpaceWidth ?? ''
+    return current + createThinSpace(thinSpaceWidth, breakable)
   }
 
   if (options.useWordBreak && breakable) {
@@ -62,7 +66,12 @@ const addSeparatorsToSegment = (current: string, next = '', options: Typesetting
  * @return 四分アキを追加すべきかどうか
  */
 const shouldAddThinSpace = (current: string, next: string): boolean => {
-  return LanguageClass.shouldAddThinSpace(current, next) || CharClass.shouldAddThinSpace(current, next)
+  // 片方のセグメントが空白文字、制御文字であれば四分アキを追加しない
+  if (whitespaceRegex.test(current) || whitespaceRegex.test(next)) return false
+
+  return CharClass.includesPunctuation(current, next)
+    ? CharClass.shouldAddThinSpace(current, next)
+    : LanguageClass.shouldAddThinSpace(current, next)
 }
 
 /**

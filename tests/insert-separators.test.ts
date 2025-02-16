@@ -13,11 +13,64 @@ const wbr = createWbr()
 const space = createThinSpace(options.thinSpaceWidth, true)
 const nbsp = createThinSpace(options.thinSpaceWidth, false)
 
+const halfSpaceWidth = `calc(${options.thinSpaceWidth} / 2.0)`
+const halfSpace = createThinSpace(halfSpaceWidth, true)
+const halfNbsp = createThinSpace(halfSpaceWidth, false)
+
 describe('insertSeparators', () => {
   it('inserts separators (thin spaces, <wbr>) into HTML text nodes', () => {
     const currentText = '──「こんにちは。」日本語とEnglish、晴れ・28度à vous。'
     const nextText = '「合成フォント」の見本。'
-    const expected = `──${nbsp}「こんにちは。」${space}日本語${wbr}と${space}English、${space}晴れ${nbsp}・${space}28${space}度${space}à ${wbr}vous。${space}`
+    const expected = `──${nbsp}「こんにちは。」${space}日本語${wbr}と${space}English、${space}晴れ${halfNbsp}・${halfSpace}28${space}度${space}à ${wbr}vous。${space}`
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space before a space', () => {
+    const currentText = 'です。'
+    const nextText = ' '
+    const expected = 'です。'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space after a space', () => {
+    const currentText = ' '
+    const nextText = '「こんにちは」'
+    const expected = ' <wbr>'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space after a opening bracket', () => {
+    const currentText = '（'
+    const nextText = '3D'
+    const expected = '（'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space before a closing bracket', () => {
+    const currentText = '例'
+    const nextText = '）'
+    const expected = '例'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space before a latin comma', () => {
+    const currentText = '文字'
+    const nextText = ','
+    const expected = '文字'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space before a latin period', () => {
+    const currentText = '言語'
+    const nextText = '.'
+    const expected = '言語'
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('does not insert a thin space before a line fead', () => {
+    const currentText = 'です。'
+    const nextText = '\n'
+    const expected = 'です。'
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 
@@ -128,12 +181,12 @@ describe('addSeparatorsToSegment', () => {
     {
       current: '晴れ',
       next: '・',
-      expected: '晴れ' + nbsp,
+      expected: '晴れ' + halfNbsp,
     },
     {
       current: '・',
       next: '28',
-      expected: '・' + space,
+      expected: '・' + halfSpace,
     },
     {
       current: '28',
@@ -225,12 +278,12 @@ describe('addSeparatorsToSegment without useWordBreak', () => {
     {
       current: '晴れ',
       next: '・',
-      expected: '晴れ' + nbsp,
+      expected: '晴れ' + halfNbsp,
     },
     {
       current: '・',
       next: '28',
-      expected: '・' + space,
+      expected: '・' + halfSpace,
     },
     {
       current: '28',

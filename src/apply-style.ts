@@ -1,7 +1,7 @@
-import { isBreakable } from './insert-separators'
-import { CharClass, LanguageClass } from './util-text-classes'
-import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, createKerning } from './util-tags'
-import * as util from './util-regex'
+import { isBreakable } from './insert-separators.js'
+import { CharClass, LanguageClass } from './util-text-classes.js'
+import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, createKerning } from './util-tags.js'
+import * as util from './util-regex.js'
 import { TypesettingOptions } from '../types'
 
 /**
@@ -59,7 +59,7 @@ const applyKerningToSegment = (currentSegment: string, nextSegment: string, opti
 
   const kernedChars = chars.map((currentChar, i) => {
     const nextChar = chars[i + 1] || nextSegment[0] || ''
-    const kerningRule = options.kerningRules.find(
+    const kerningRule = options.kerningRules?.find(
       rule => rule.between[0] === currentChar && rule.between[1] === nextChar
     )
 

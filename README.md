@@ -13,9 +13,13 @@ Palt Typesetting は、美しいテキスト表示を実現するための JavaS
 - [Interactive Demo](https://palt.typesetting.jp)
 - [Try on CodePen](https://codepen.io/yamatoiizuka-the-animator/pen/PoLGrZe)
 
+---
+
 ## Getting Started
 
 ### Install from NPM
+
+npm でパッケージをインストールする場合
 
 ```shell
 npm install palt-typesetting
@@ -23,6 +27,7 @@ npm install palt-typesetting
 
 ```javascript
 import Typesetter from 'palt-typesetting'
+import 'palt-typesetting/dist/typesetter.css'
 
 // Typesetter のインスタンスを作成
 const typesetter = new Typesetter()
@@ -31,10 +36,20 @@ const typesetter = new Typesetter()
 typesetter.renderToSelector('.my-class')
 ```
 
-### Use Typesetter from CDN
+### Use from CDN
+
+WordPress や jQuery などの環境で使用する場合
 
 ```html
-<script src="https://unpkg.com/palt-typesetting@0.5.1/bundle/typesetter.min.js"></script>
+<head>
+  <!-- head タグ内でスタイルの読み込み -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/palt-typesetting@0.7.4/bundle/typesetter.min.css" />
+</head>
+
+<body>
+  <!-- body 閉じタグの前でスクリプトの読み込み -->
+  <script src="https://unpkg.com/palt-typesetting@0.7.4/bundle/typesetter.min.js"></script>
+</body>
 ```
 
 ```html
@@ -47,13 +62,15 @@ typesetter.renderToSelector('.my-class')
 </script>
 ```
 
-### Apply CSS (Example)
+### Apply Custom CSS
+
+生成された組版用 HTML にカスタム CSS を適用
 
 ```css
-/*
+/**
  * 共通のスタイリング（例）
  */
-.typeset {
+.typesetting-wrapper {
   /* プロポーショナルメトリクス（ツメ組み）の設定 */
   font-feature-settings: 'palt';
 
@@ -63,27 +80,27 @@ typesetter.renderToSelector('.my-class')
   /* 文字間 */
   letter-spacing: 0.1em;
 
-  /*
+  /**
    * Safari のフォントレンダリング対策。
-   * 英数（.typeset-latin）で -webkit-text-stroke を使う場合は必須。
+   * 英数（.typesetting-latin）で -webkit-text-stroke を使う場合は必須。
    * text-stroke-weight > 0, text-stroke-color: transparent
    */
   -webkit-text-stroke: 0.01em transparent;
 }
 
-/*
+/**
  * 英数のみのスタイリング（例）
  */
-.typeset-latin {
+.typesetting-latin {
   /* フォントの拡大・縮小 */
   font-size: 105%;
 
   /* ベースラインの調整 */
   vertical-align: 0.02em;
 
-  /*
-   * 行間の調整。親要素 .typeset の行間と視覚的に合わせます。
-   * [.typeset の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+  /**
+   * 行間の調整。親要素 .typesetting-wrapper の行間と視覚的に合わせます。
+   * [.typesetting-wrapper の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
   line-height: calc(1.8 / 1.05 - 0.02 * 2);
 
@@ -95,56 +112,28 @@ typesetter.renderToSelector('.my-class')
 }
 ```
 
+---
+
 ## Typesetter Class
 
-### Usage
+Palt Typesetting では、Typesetter クラスを使用して HTML 文字列に組版を適用します。  
+ライブラリの機能はオプションを通じてカスタマイズできます。
+
+### サンプルコード
 
 ```javascript
-// Typesetter のインスタンスを作成
-const typesetter = new Typesetter()
-
-// セレクターにマッチする要素に対して組版を適用
-typesetter.renderToSelector('div')
-typesetter.renderToSelector('.my-class')
-typesetter.renderToSelector('#my-id')
-
-// HTML 要素に組版を適用
-const elements = document.querySelectorAll('.my-class')
-typesetter.renderToElements(elements)
-
-// 組版を適用した HTML の取得
-const srcHtml = '「日本語」とEnglish'
-console.log(typesetter.render(srcHtml))
-// <span class="typeset" /* 中略 */>「日本語」<span class="typeset-thin-space" style="font-size: 100%;" /* 中略 */> </span><wbr>と<span class="typeset-thin-space" style="font-size: 100%;" /* 中略 */> </span><wbr><span class="typeset-latin">English</span></span>
-```
-
-### Constructor
-
-| コンストラクタ         | 説明                                                                                                  | 引数                            |
-| ---------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------- |
-| `Typesetter(options?)` | Typesetter インスタンスを作成します。<br>オプションを指定することでカスタムの組版設定を適用できます。 | `options`: オプション（任意）。 |
-
-### Methods
-
-| メソッド名                   | 説明                                                                  | 引数                                                         | 戻り値                                   |
-| ---------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------- |
-| `render(srcHtml)`            | スタイルを適用した HTML 文字列を返します。                            | `srcHtml`: 処理する HTML 文字列                              | `string`: スタイルを適用した HTML 文字列 |
-| `renderToElements(elements)` | 指定された Element または Element の配列にスタイルを適用します。      | `elements`: スタイルを適用する Element または Element の配列 | `void`                                   |
-| `renderToSelector(selector)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。 | `selector`: スタイルを適用する要素を選択する CSS セレクタ    | `void`                                   |
-
-## Options
-
-### Usage
-
-```javascript
+/**
+ * options: TypesettingOptions
+ * オプションの設定
+ */
 const options = {
   // 単語や助詞など、単語区切りでの改行を行います。
   useWordBreak: true,
 
-  // 英数を `.typeset-latin` でラップします。
+  // 英数を `.typesetting-latin` でラップします。
   wrapLatin: true,
 
-  // 罫線などの分離禁則文字を `.typeset-no-breaks` でラップし、文字間を 0 に設定します。
+  // 罫線などの分離禁則文字を `.typesetting-no-breaks` でラップし、文字間を 0 に設定します。
   noSpaceBetweenNoBreaks: true,
 
   // 四分アキスペースを自動で挿入します。
@@ -166,26 +155,220 @@ const options = {
   ],
 }
 
+/**
+ * Typesetter(options?: TypesettingOptions)
+ * インスタンスの作成
+ */
+const typesetter = new Typesetter(options)
+
+/**
+ * renderToSelector(selector: string): void
+ * セレクターにマッチする要素に対して組版を適用
+ */
+typesetter.renderToSelector('div')
+typesetter.renderToSelector('.my-class')
+typesetter.renderToSelector('#my-id')
+
+/**
+ * renderToElements(elements: string): void
+ * HTML 文字列に組版を適用
+ */
+const elements = document.querySelectorAll('.my-class')
+typesetter.renderToElements(elements)
+
+/**
+ * render(srcHtml: string): string
+ * 組版を適用した HTML 文字列の取得
+ */
+const srcHtml = '「日本語」とEnglish'
+console.log('output: ' + typesetter.render(srcHtml))
+// output: <span class="typeset typesetting-wrapper typesetting-word-break">「日本語」<span class="typesetting-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span>と<span class="typesetting-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span><span class="typesetting-latin">English </span></span>
+```
+
+### コンストラクタ
+
+| コンストラクタ         | 説明                                                                                                  | 引数の型                       |
+| ---------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------ |
+| `Typesetter(options?)` | Typesetter インスタンスを作成します。<br>オプションを指定することでカスタムの組版設定を適用できます。 | `options?: TypesettingOptions` |
+
+### メソッド
+
+| メソッド名                   | 説明                                                                  | 引数の型               | 戻り値の型 |
+| ---------------------------- | --------------------------------------------------------------------- | ---------------------- | ---------- |
+| `render(srcHtml)`            | スタイルを適用した HTML 文字列を返します。                            | `string`               | `string`   |
+| `renderToElements(elements)` | 指定された Element または Element の配列にスタイルを適用します。      | `Element \| Element[]` | `void`     |
+| `renderToSelector(selector)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。 | `string`               | `void`     |
+
+### オプション
+
+| オプション名             | 説明                                                                                                                             | オプションの型                                           | デフォルト値 |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------ |
+| `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                                                                   | `boolean`                                                | `true`       |
+| `wrapLatin`              | 英数を `span.typesetting-latin` でラップします。                                                                                 | `boolean`                                                | `true`       |
+| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typesetting-no-breaks` でラップし、文字間を 0 に設定します。                                      | `boolean`                                                | `true`       |
+| `insertThinSpaces`       | 四分アキスペースを自動で挿入します。                                                                                             | `boolean`                                                | `true`       |
+| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。 <br>※四分アキは本来 0.25em ですが、視覚上の補正としてデフォルト値を 0.2 em に設定しています。 | `string`                                                 | `'0.2em'`    |
+| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                     | `{between: [string, string], value: string \| number}[]` | `[]`         |
+
+### 生成される CSS クラス
+
+| CSS クラス名              | 説明                                                                                                        |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `.typesetting-wrapper`    | HTML 文字列中のテキストコンテンツをラップします。<br>オプションの指定に関わらず、常に生成されます。         |
+| `.typesetting-word-break` | HTML 文字列中のテキストコンテンツをラップします。<br>`useWordBreak: true` のときに生成されます。            |
+| `.typesetting-latin`      | テキストコンテンツ中の英数をラップします。<br>`wrapLatin: true` のときに生成されます。                      |
+| `.typesetting-no-breaks`  | テキストコンテンツ中の分離禁則文字をラップします。<br>`noSpaceBetweenNoBreaks: true` のときに生成されます。 |
+| `.typesetting-thin-space` | 挿入される四分アキスペースエレメントの CSS クラスです。<br>`insertThinSpaces: true` のときに生成されます。  |
+| `.typesetting-kerning`    | 挿入されるカーニングエレメントの CSS クラスです。<br>有効な `kerningRules` が存在するときに生成されます。   |
+
+---
+
+## for Typescript
+
+TypeScript の型定義を提供しています。完全な型定義は[こちら](https://github.com/yamatoiizuka/palt-typesetting/blob/main/types/index.d.ts)をご参照ください。
+
+### サンプルコード
+
+```typescript
+import Typesetter from 'palt-typesetting'
+import type { TypesettingOptions, KerningRule } from 'palt-typesetting/types'
+import 'palt-typesetting/dist/typesetter.css'
+
+const kerning: KerningRule[] = [
+  {
+    between: ['し', 'ま'],
+    value: '60',
+  },
+]
+
+const options: TypesettingOptions = {
+  thinSpaceWidth: '0.25em',
+  kerningRules: kerning,
+}
+
 const typeset = new Typesetter(options)
 typesetter.renderToSelector('.my-class')
 ```
 
-### Typesetting Options
+---
 
-| オプション名             | 説明                                                                                                                                       | 型                                                       | デフォルト値 |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- | ------------ |
-| `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                                                                             | `boolean`                                                | `true`       |
-| `wrapLatin`              | 英数を `span.typeset-latin` でラップします。<br>`useWordBreak` が `true` の場合にのみ有効です。                                            | `boolean`                                                | `true`       |
-| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typeset-no-breaks` でラップし、文字間を 0 に設定します。<br>`useWordBreak` が `true` の場合にのみ有効です。 | `boolean`                                                | `true`       |
-| `insertThinSpaces`       | 四分アキスペースを自動で挿入します。                                                                                                       | `boolean`                                                | `true`       |
-| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>`insertThinSpaces` が `true` の場合にのみ有効です。                                                  | `string`                                                 | `'0.2em' `   |
-| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                               | `{between: [string, string], value: string \| number}[]` | `[]`         |
+## for Frameworks
+
+モダンな JavaScript フレームワーク用のサンプル集です。
+
+### React
+
+Typesetting コンポーネントの作成
+
+`components/Typesetting.jsx`
+
+```jsx
+'use client'
+
+import React, { useEffect, useState } from 'react'
+import Typesetter from 'palt-typesetting'
+import 'palt-typesetting/dist/typesetter.css'
+
+import './Typesetting.css'
+
+const Typesetting = ({ content }) => {
+  const [renderedHtml, setRenderedHtml] = useState('')
+
+  useEffect(() => {
+    const typesetter = new Typesetter()
+    setRenderedHtml(typesetter.render(content))
+  }, [content])
+
+  return <span dangerouslySetInnerHTML={{ __html: renderedHtml }} />
+}
+
+export default Typesetting
+```
+
+`components/Typesetting.css`
+
+```css
+/* 共通のスタイル */
+.typesetting-wrapper {
+  font-feature-settings: 'palt';
+  letter-spacing: 0.1em;
+}
+
+/* 英数のスタイル */
+.typesetting-latin {
+  font-size: 105%;
+  letter-spacing: 0.05em;
+}
+```
+
+### Astro.js
+
+Typesetting コンポーネントの作成
+
+`components/Typesetting.astro`
+
+```astro
+---
+import Typesetter from 'palt-typesetting'
+import 'palt-typesetting/dist/typesetter.css'
+
+const { content } = Astro.props
+const slot = await Astro.slots.render('default')
+const srcHtml = content || slot || ''
+
+const typesetter = new Typesetter();
+---
+
+<Fragment set:html={typesetter.render(srcHtml)} />
+
+<style is:global>
+  /* 共通のスタイル */
+  .typesetting-wrapper {
+    font-feature-settings: 'palt';
+    letter-spacing: 0.1em;
+  }
+
+  /* 英数のスタイル */
+  .typesetting-latin {
+    font-size: 105%;
+    letter-spacing: 0.05em;
+  }
+</style>
+```
+
+Typesetting コンポーネントの読み込み
+
+`pages/index.astro`
+
+```astro
+---
+import Typeset from '../components/Typesetting.astro'
+---
+
+<div>
+  <!-- props を使った書き方 -->
+  <Typesetting content="「日本語」とEnglish、晴れ・28度。" />
+
+  <!-- slot を使った書き方 -->
+  <Typesetting>
+    <a href="/work">作品ページ</a>
+  </Typesetting>
+</div>
+
+<style>
+ p {
+  font-size: 1.8rem;
+ }
+</style>
+```
+
+---
 
 ## Notes
 
 ### 環境要件
 
-Palt Typesetting ライブラリは、テキストを言語固有のセグメントに分割する `Intl.Segmenter` という機能に依存しています。そのため、以下の環境要件があります。
+Palt Typesetting ライブラリは、テキストを言語固有のセグメントに分割する `Intl.Segmenter` という機能に一部依存しています。そのため、以下の環境要件があります。
 
 **SSG など、サーバーサイドで実行する場合**
 
@@ -195,7 +378,7 @@ Palt Typesetting ライブラリは、テキストを言語固有のセグメン
 
 - Intl.Segmenter をサポートしているブラウザ
 
-クライアントサイドで実行する場合、この機能は一部のブラウザで利用できません。Palt Typesetting ライブラリは、Firefox などの `Intl.Segmenter` がサポートされていない環境[^1] では組版処理をスキップし、元のテキストをそのまま返します。全てのモダンブラウザで同様の見え方を再現するには、サーバーサイドでの処理（SSG など）が必要になります。
+クライアントサイドで実行する場合、この機能は一部のブラウザで利用できません。Palt Typesetting ライブラリは、Firefox などの `Intl.Segmenter` がサポートされていない環境[^1] では、`useWordBreak`（単語区切りでの改行）と `insertThinSpaces`（四分アキの自動挿入）オプションがスキップされます。全てのモダンブラウザで同様の見え方を再現するには、サーバーサイドでの事前処理（Astro.js での SSG など）が必要となります。
 
 `Intl.Segmenter` の対応状況については、[Can I use...](https://caniuse.com/?search=Intl.Segmenter) で確認できます。
 

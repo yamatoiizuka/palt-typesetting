@@ -1,8 +1,8 @@
 import './style.css'
 import './module/typekit'
 import Typesetter from 'palt-typesetting'
-import { parseDocument } from 'htmlparser2'
-import type { TypesettingOptions, KerningRule } from 'palt-typesetting'
+import type { TypesettingOptions, KerningRule } from 'palt-typesetting/types'
+import 'palt-typesetting/dist/typesetter.css'
 
 // HTML要素の取得
 const toggleButton = document.getElementById('toggleButton') as HTMLInputElement
@@ -61,7 +61,7 @@ const wrapLatinToggle = document.getElementById('wrapLatinToggle') as HTMLInputE
 const noSpaceBetweenNoBreaksToggle = document.getElementById('noSpaceBetweenNoBreaksToggle') as HTMLInputElement
 const kerningRulesToggle = document.getElementById('kerningRulesToggle') as HTMLInputElement
 
-let options: Partial<TypesettingOptions> = {
+let options: TypesettingOptions = {
   kerningRules: getKerningRules(true),
 }
 

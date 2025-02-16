@@ -14,7 +14,8 @@
 
 body {
   -webkit-font-smoothing: antialiased;
-  font-family: aktiv-grotesk, a-otf-gothic-bbb-pr6n, BlinkMacSystemFont, -system-ui, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: aktiv-grotesk, a-otf-gothic-bbb-pr6n, BlinkMacSystemFont, -apple-system, -system-ui, sans-serif;
   margin: 3.2rem 1.6rem;
 }
 
@@ -26,7 +27,7 @@ body {
 
 article {
   font-feature-settings: 'palt';
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.2rem;
   line-height: 2;
   letter-spacing: 0.12em;
@@ -39,7 +40,7 @@ article {
 }
 
 h1 {
-  font-weight: 300;
+  font-weight: 400;
   margin: 0;
   font-size: 1.5rem;
 }
@@ -53,10 +54,10 @@ h1 {
 /*
  * 共通のスタイリング
  */
-.typeset {
+.typesetting-wrapper {
   /*
    * Safari のフォントレンダリング対策。
-   * 英数（.typeset-latin）で -webkit-text-stroke を使う場合は必須。
+   * 英数（.typesetting-latin）で -webkit-text-stroke を使う場合は必須。
    * text-stroke-weight > 0, text-stroke-color: transparent
    */
   -webkit-text-stroke: 0.01em transparent;
@@ -65,7 +66,7 @@ h1 {
 /*
  * 英数のみのスタイリング
  */
-.typeset-latin {
+.typesetting-latin {
   /* フォントの拡大・縮小 */
   font-size: 104%;
 
@@ -73,8 +74,8 @@ h1 {
   vertical-align: 0.02em;
 
   /*
-   * 行間の調整。親要素 .typeset の行間と視覚的に合わせます。
-   * [.typesetの line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+   * 行間の調整。親要素 .typesetting の行間と視覚的に合わせます。
+   * [.typesettingの line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
   line-height: calc(2 / 1.04 - 0.02 * 2);
 
@@ -83,16 +84,23 @@ h1 {
 
   /* 文字の細らせ・太らせ */
   -webkit-text-stroke: 0.014em var(--color-main);
+
+  /*
+   * フォールバックフォントのウェイト：
+   * Web フォント読み込み時のチラつきを低減するための設定
+   * -webkit-text-stroke の値に応じて変更
+   */
+  font-weight: 200;
 }
 
 .en-section {
   line-height: 1.8;
 }
 
-.en-section .typeset-latin {
+.en-section .typesetting-latin {
   /*
-   * 行間の調整。親要素 .typesetの行間と視覚的に合わせます。
-   * [.typesetの line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
+   * 行間の調整。親要素 .typesetting-wrapper の行間と視覚的に合わせます。
+   * [.typesetting-wrapper の line-height] ÷ [フォントの拡大率] - [ベースラインの調整値の絶対値] × 2 
    */
   line-height: calc(1.8 / 1.05 - 0.02 * 2);
 }
@@ -178,14 +186,16 @@ input:checked + .slider:before {
 
 #options .option {
   display: inline-block;
+  margin-bottom: 0.95em;
 }
 
 #options .option label {
   display: inline-block;
   font-size: 1.1rem;
-  margin-right: 1rem;
+  margin-right: 1.2rem;
   cursor: pointer;
   font-weight: 400;
+  font-family: BlinkMacSystemFont, -apple-system, -system-ui, Helvetica, alial, sans-serif;
 }
 
 #options .option input:disabled + label {
@@ -203,7 +213,7 @@ input:checked + .slider:before {
   color: var(--color-sub);
 }
 
-#target label .typeset-latin {
+#target label .typesetting-latin {
   cursor: pointer;
   color: var(--color-sub);
   -webkit-text-stroke-color: var(--color-sub);
@@ -223,7 +233,7 @@ input:checked + .slider:before {
   color: var(--color-main);
 }
 
-#target input:checked + label .typeset-latin {
+#target input:checked + label .typesetting-latin {
   color: var(--color-main);
   -webkit-text-stroke-color: var(--color-main);
 }

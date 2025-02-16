@@ -1,7 +1,8 @@
 {
   "name": "palt-typesetting",
-  "version": "0.5.1",
-  "description": "A typesetting library.",
+  "version": "0.7.4",
+  "description": "Typesetting Library for Proportional Spacing",
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -14,12 +15,14 @@
     "url": "https://github.com/yamatoiizuka/palt-typesetting.git"
   },
   "scripts": {
-    "clean:dist": "rm -rf ./dist",
-    "copy:css": "mkdir -p ./dist/style && cp -R ./src/style/* ./dist/style",
-    "prebuild": "npm run clean:dist && npm run copy:css",
-    "build": "node ./scripts/build.js && webpack",
+    "clean": "rm -rf ./dist && rm -rf ./bundle",
+    "copy:css": "mkdir ./dist && cp -R ./src/*.css ./dist/",
+    "prebuild": "npm run clean && npm run copy:css",
+    "bundle:css": "mkdir ./bundle && cleancss -o ./bundle/typesetter.min.css ./src/*.css",
+    "bundle": "npm run bundle:css && webpack",
+    "build": "node ./scripts/build.js && npm run bundle",
     "test": "vitest",
-    "lint": "eslint ./src/** --no-error-on-unmatched-pattern",
+    "lint": "eslint \"./src/**/*.ts\" --no-error-on-unmatched-pattern",
     "lint:fix": "eslint ./src/** --fix"
   },
   "author": {
@@ -31,24 +34,22 @@
     "./dist/win.js": "./dist/win-browser.js"
   },
   "dependencies": {
-    "jsdom": "^23.0.1",
+    "jsdom": "^25.0.0",
     "linebreak": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@types/jsdom": "^21.1.6",
-    "@types/node": "^20",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^6.18.0",
-    "babel-jest": "^29.7.0",
+    "@types/node": "^22",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "babel-loader": "^9.1.3",
-    "css-loader": "^6.10.0",
-    "esbuild": "^0.19.11",
-    "eslint": "^8",
-    "style-loader": "^3.3.4",
+    "clean-css-cli": "^5.6.3",
+    "esbuild": "^0.25.0",
+    "eslint": "^9",
     "typescript": "^5",
-    "vitest": "^1.2.2",
+    "vitest": "^3.0.5",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4"
   }

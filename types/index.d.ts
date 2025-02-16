@@ -16,38 +16,38 @@ export interface TypesettingOptions {
    * HTML内のテキストにWBRタグを自動的に追加するかどうかを指定します。
    * WBRタグは、必要に応じて改行の挿入を許可するために使用されます。
    */
-  useWordBreak: boolean
+  useWordBreak?: boolean
 
   /**
-   * 英数を .typeset-latin でラップします。
+   * 英数を .typesetting-latin でラップします。
    * useWordBreak が true の場合にのみ有効です。
    */
-  wrapLatin: boolean
+  wrapLatin?: boolean
 
   /**
-   * 分離禁則文字を .typeset-nobreaks でラップし、文字間を 0 に設定します。
+   * 分離禁則文字を .typesetting-no-breaks でラップし、文字間を 0 に設定します。
    * useWordBreak が true の場合にのみ有効です。
    */
-  noSpaceBetweenNoBreaks: boolean
+  noSpaceBetweenNoBreaks?: boolean
 
   /**
-   * HTML内のテキストにTHIN SPACEを自動的に挿入するかどうかを指定します。
-   * THIN SPACEは、視覚的なスペースを微調整するために使用されます。
+   * HTML内のテキストに四分アキを自動的に挿入するかどうかを指定します。
+   * 四分アキは、視覚的なスペースを微調整するために使用されます。
    */
-  insertThinSpaces: boolean
+  insertThinSpaces?: boolean
 
   /**
-   * THIN SPACEの幅を指定します。
-   * 例えば'20%'と指定すると、THIN SPACEは通常のスペースの20%の幅になります。
+   * 四分アキの幅を指定します。
+   * 例えば'20%'と指定すると、四分アキは通常のスペースの20%の幅になります。
    * insertThinSpaces が true の場合のみ有効です。
    */
-  thinSpaceWidth: string
+  thinSpaceWidth?: string
 
   /**
    * カーニングを適用するためのルールのリスト。
    * 各ルールは、特定の文字ペア間に適用されるカーニング値を指定します。
    */
-  kerningRules: KerningRule[]
+  kerningRules?: KerningRule[]
 }
 
 /**

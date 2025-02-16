@@ -1,7 +1,7 @@
-import HTMLProcessor from './html-processor'
-import insertSeparatorsToText from './insert-separators'
-import { applyStyleToText, applyStyleToSegment, applyKerningToSegment } from './apply-style'
-import win from './win'
+import HTMLProcessor from './html-processor.js'
+import insertSeparatorsToText from './insert-separators.js'
+import { applyStyleToText, applyStyleToSegment, applyKerningToSegment } from './apply-style.js'
+import win from './win.js'
 import type { TypesettingOptions, KerningRule } from '../types'
 
 /**
@@ -12,7 +12,7 @@ class Typesetter extends HTMLProcessor {
   /**
    * Typesetter のデフォルトの設定を返します。
    */
-  static getDefaultOptions(): TypesettingOptions {
+  static getDefaultOptions(): Required<TypesettingOptions> {
     return {
       useWordBreak: true,
       wrapLatin: true,
@@ -23,30 +23,30 @@ class Typesetter extends HTMLProcessor {
     }
   }
 
-  /**
-   * Intl.Segmenter API が現在の実行環境でサポートされているかどうかを示します。
-   */
-  private isIntlSegmenterSupported: boolean
-
-  constructor(options: Partial<TypesettingOptions> = {}) {
-    const transformFunctions = [applyStyleToText, insertSeparatorsToText, applyStyleToSegment, applyKerningToSegment]
-    const validatedOptions = Typesetter.validateOptions(options)
-
-    super(transformFunctions, validatedOptions)
-
+  constructor(options: TypesettingOptions = {}) {
     /**
      * 現在の実行環境で Intl.Segmenter がサポートされているかどうかを確認します。
      * Intl.Segmenter は、テキストを言語固有のセグメントに分割する機能を提供します。
      * サポートされていない場合は警告をコンソールに表示します。
      */
-    this.isIntlSegmenterSupported = typeof Intl.Segmenter !== 'undefined'
-    if (!this.isIntlSegmenterSupported) {
-      console.warn(`
-        Intl.Segmenter is not supported in this environment. 
-        The original HTML string will be returned. 
-        For more information, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter
-        `)
+    const isIntlSegmenterSupported = typeof Intl.Segmenter !== 'undefined'
+    if (!isIntlSegmenterSupported) {
+      console.warn(
+        'Intl.Segmenter is not supported in this environment. \nTherefore, the options `useWordBreak` and `insertThinSpaces` will be ignored. \nFor more information about Intl.Segmenter, please visit:\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter'
+      )
     }
+
+    /**
+     * Intl.Segmenter のサポート状況に基づいて transformFunctions を設定
+     * サポートされていない場合は、単語区切りの改行と四分アキの挿入をスキップします。
+     */
+    const transformFunctions = isIntlSegmenterSupported
+      ? [applyStyleToText, insertSeparatorsToText, applyStyleToSegment, applyKerningToSegment]
+      : [applyStyleToSegment, applyKerningToSegment]
+
+    const validatedOptions = Typesetter.validateOptions(options)
+
+    super(transformFunctions, validatedOptions)
   }
 
   /**
@@ -55,7 +55,7 @@ class Typesetter extends HTMLProcessor {
    * @param options - 検証するオプション。
    * @return 修正されたオプション。
    */
-  private static validateOptions(options: Partial<TypesettingOptions>): TypesettingOptions {
+  private static validateOptions(options: TypesettingOptions): Required<TypesettingOptions> {
     if (options.kerningRules) {
       options.kerningRules = options.kerningRules.filter(Typesetter.isValidKerningRule)
     }
@@ -91,9 +91,7 @@ class Typesetter extends HTMLProcessor {
    * @return 処理後のHTML文字列。
    */
   render(srcHtml: string): string {
-    if (!this.isIntlSegmenterSupported || !srcHtml) {
-      return srcHtml
-    }
+    if (!srcHtml) return ''
 
     return this.processHtmlWithFunctions(srcHtml)
   }
@@ -105,9 +103,7 @@ class Typesetter extends HTMLProcessor {
    * @param elements - スタイルを適用するElementまたはHTMLElementの配列。
    */
   renderToElements(elements: Element | Element[] | null): void {
-    if (!this.isIntlSegmenterSupported || !elements) {
-      return
-    }
+    if (!elements) return
 
     if (!Array.isArray(elements)) {
       elements = [elements]
@@ -126,9 +122,7 @@ class Typesetter extends HTMLProcessor {
    * @param selector - スタイルを適用する要素を選択するCSSセレクタ。
    */
   renderToSelector(selector: string | null): void {
-    if (!this.isIntlSegmenterSupported || !selector) {
-      return
-    }
+    if (!selector) return
 
     const elements = win.document.querySelectorAll(selector)
     this.renderToElements(Array.from(elements))

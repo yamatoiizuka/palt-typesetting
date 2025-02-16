@@ -1,4 +1,4 @@
-import * as util from './util-regex'
+import * as util from './util-regex.js'
 
 /**
  * 文字クラス関連の処理を提供するクラスです。
@@ -26,6 +26,10 @@ const CharClass = {
       `(${util.closingsRegex.source}|${util.commasRegex.source}|${util.periodsRegex.source})`
     )
 
+    // 各設定は以下のプロパティを持つ:
+    // - regex: 対象の正規表現
+    // - hasSpaceBefore: 自身の前に四分アキが入るか
+    // - hasSpaceAfter: 自身の後に四分アキが入るか
     const settings = {
       spaceBefore: {
         regex: util.openingsRegex,
@@ -59,14 +63,13 @@ const CharClass = {
   },
 
   /**
-   * 与えられた文字列の最初の文字が句読点に一致するかどうか判断します。
-   * @param {string} segment - 判断対象の文字列
-   * @return {boolean} 最初の文字が句読点であればtrueを返します。
+   * セグメントの少なくとも一方に約物が含まれているかどうかを判定します。
+   * @param {string} current - 現在のセグメント
+   * @param {string} next - 次のセグメント
+   * @return {boolean} 約物が含まれている場合はtrue、そうでない場合はfalse
    */
-  startsWithPunctuation: (segment: string): boolean => {
-    // periodsRegexとcommasRegexを組み合わせて一つの正規表現を作成
-    const combinedRegex = new RegExp(`^[${util.periodsRegex.source}${util.commasRegex.source}]`)
-    return combinedRegex.test(segment)
+  includesPunctuation: (current: string, next: string): boolean => {
+    return util.punctuationRegex.test(current) || util.punctuationRegex.test(next)
   },
 }
 
@@ -112,7 +115,7 @@ const LanguageClass = {
    * @return 四分アキを追加すべきかどうか
    */
   shouldAddThinSpace: (current: string, next: string): boolean => {
-    return LanguageClass.hasLanguageTransition(current, next) && !CharClass.startsWithPunctuation(next)
+    return LanguageClass.hasLanguageTransition(current, next)
   },
 }
 

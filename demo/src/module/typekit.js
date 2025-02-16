@@ -1,6 +1,73 @@
-;(function (d) {
+/* prettier-ignore */
+
+/**
+ * typekit-cache.js
+ * https://github.com/morris/typekit-cache/blob/master/typekit-cache.js
+ */
+(function (
+  // Constants
+  document,
+  style,
+  innerHTML,
+  getElementsByTagName,
+  // Config
+  storage,
+  key,
+  pattern,
+  delay,
+  // Vars
+  temp,
+  next,
+  i,
+  css
+) {
+  // If CSS is in cache, append it to <head> in a <style> tag.
+
+  if (storage[key]) {
+    temp = document.createElement(style)
+    temp[innerHTML] = storage[key]
+    document[getElementsByTagName]('head')[0].appendChild(temp)
+    document.documentElement.className += ' wf-cached'
+  }
+
+  // Find and cache the Typekit CSS.
+
+  (function cache() {
+    // Find matching CSS.
+    temp = document[getElementsByTagName](style)
+    next = ''
+
+    for (i = 0; i < temp.length; i++) {
+      css = temp[i][innerHTML]
+      if (css && css.match(pattern)) {
+        next += css
+      }
+    }
+
+    // If there's matching CSS, cache it.
+    // Prefix cached CSS so it does not match the pattern.
+    if (next) storage[key] = '/**/' + next
+
+    // Retry using exponential backoff.
+    setTimeout(cache, (delay += delay))
+  })()
+})(
+  // Constants
+  document,
+  'style',
+  'innerHTML',
+  'getElementsByTagName',
+  // Config
+  localStorage,
+  'tk',
+  /^@font|^\.tk-/,
+  100
+);
+
+/* prettier-ignore */
+(function (d) {
   var config = {
-      kitId: 'jgt3rhh',
+      kitId: 'ysi4rlt',
       scriptTimeout: 3000,
       async: true,
     },
@@ -21,7 +88,9 @@
     f = true
     clearTimeout(t)
     try {
+      /* eslint no-undef: 0 */
       Typekit.load(config)
+    /* eslint no-empty: 0 */
     } catch (e) {}
   }
   s.parentNode.insertBefore(tk, s)
