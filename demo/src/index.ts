@@ -11,49 +11,6 @@ const srcHtml = target.innerHTML
 let renderedHtml = ''
 let isTypeset = true
 
-// htmlparser
-
-// HTMLをリスト形式に変換する関数
-function htmlToList(html: string): any[] {
-  const doc = parseDocument(html)
-  const result: any[] = []
-
-  // ノードをトラバースする関数
-  function traverse(node: DomElement) {
-    // 開始タグの処理
-    if (node.type === 'tag') {
-      let attrs = ''
-      if (node.attribs) {
-        attrs = Object.entries(node.attribs)
-          .map(([key, value]) => `${key}="${value}"`)
-          .join(' ')
-        attrs = attrs ? ' ' + attrs : ''
-      }
-      result.push({ content: `<${node.name}${attrs}>`, type: 'openingTag' })
-
-      // 子ノードがあれば再帰的に処理
-      node.children.forEach(child => traverse(child as DomElement))
-
-      result.push({ content: `</${node.name}>`, type: 'closingTag' })
-    }
-    // テキストノードの処理
-    else if (node.type === 'text') {
-      if (node.data.trim().length > 0) {
-        // 空白のテキストノードを無視
-        result.push({ content: node.data, type: 'text' })
-      }
-    }
-  }
-
-  // DOMツリーをトラバース
-  doc.children.forEach(child => traverse(child as DomElement))
-
-  return result
-}
-
-// HTMLをリストに変換して出力
-console.log(htmlToList(target.innerHTML))
-
 // オプション関連のDOM要素をキャッシュ
 const useWordBreakToggle = document.getElementById('useWordBreakToggle') as HTMLInputElement
 const insertThinSpacesToggle = document.getElementById('insertThinSpacesToggle') as HTMLInputElement
