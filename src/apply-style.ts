@@ -7,33 +7,33 @@ import { TypesettingOptions } from '../types'
 /**
  * 与えられたテキストに対して、word-breakとoverflow-wrapスタイルを持つspanタグでラップします。
  *
- * @param text - スタイリングされるテキスト。
- * @return スタイリングされたテキスト。テキストが空の場合は、そのまま返されます。
+ * @param currentNodeValue - スタイリングされるテキスト。
+ * @param nextNodeValue - 次のテキスト（未使用ですが、TransformFunctionに合わせたシグネチャ）。
+ * @param options - TypesettingOptions
+ * @return スタイリングされたテキスト。テキストが空の場合はそのまま返されます。
  */
 const applyStyleToText = (currentNodeValue: string, nextNodeValue: string, options: TypesettingOptions): string => {
-  // ここでは nextNodeValue を使用していませんが、関数のシグネチャはTransformFunctionに合わせています。
   if (currentNodeValue === ' ') {
     return currentNodeValue
   }
-
   return applyWrapperStyle(currentNodeValue, options.useWordBreak)
 }
 
 /**
- * 与えられたテキストセグメントにスタイリングを適用します。これには、セグメントの内容に基づいて、
- * 特定のクラスまたはスタイルでHTMLのspanタグでセグメントをラップすることが含まれる場合があります。
+ * 与えられたテキストセグメントにスタイリングを適用します。
+ * セグメントがスペースの場合はそのままとし、ラテン文字や分離禁則文字に対して固有のスタイルを適用します。
  *
- * @param segment - スタイリングされるテキストセグメント。
- * @return スタイリングされたテキストセグメント。セグメントがスペースであるか、特別なスタイリングが不要であれば、
- *     そのまま返されます。それ以外の場合は、適切なスタイリングでspanタグでラップされます。
+ * @param currentSegment - 対象のテキストセグメント
+ * @param nextSegment - 次のセグメント（判定に利用）
+ * @param options - TypesettingOptions
+ * @return 適切なスタイリングが適用されたテキストセグメント
  */
 const applyStyleToSegment = (currentSegment: string, nextSegment: string, options: TypesettingOptions): string => {
-  // セグメントがスペースであればそのまま返す
   if (currentSegment === ' ') {
     return currentSegment
   }
 
-  // ラテン文字のセグメントには 'latin' クラスを適用
+  // ラテン文字の場合は 'latin' クラスでラップ
   if (options.wrapLatin && LanguageClass.isLatin(currentSegment)) {
     return currentSegment.replace(util.latinRegex, match => applyLatinStyle(match))
   }
@@ -49,10 +49,10 @@ const applyStyleToSegment = (currentSegment: string, nextSegment: string, option
 /**
  * カーニングルールに基づき、テキストセグメントにカーニングを適用します。
  *
- * @param currentSegment - カーニングを適用する現在のセグメント。
- * @param nextSegment - 次のセグメント（カーニング適用の判断に使用）。
- * @param kerningRules - 適用するカーニングルールの配列。
- * @return カーニング適用後のテキストセグメント。
+ * @param currentSegment - カーニング適用対象となる現在のセグメント
+ * @param nextSegment - 次のセグメント（カーニング適用の判断に使用）
+ * @param options - TypesettingOptions
+ * @return カーニング適用後のテキストセグメント
  */
 const applyKerningToSegment = (currentSegment: string, nextSegment: string, options: TypesettingOptions): string => {
   const chars = [...currentSegment]
@@ -75,4 +75,63 @@ const applyKerningToSegment = (currentSegment: string, nextSegment: string, opti
   return kernedChars.join('')
 }
 
-export { applyStyleToText, applyStyleToSegment, applyKerningToSegment }
+/**
+ * 正規表現で特殊文字をエスケープするヘルパー関数
+ *
+ * @param str - エスケープする文字列
+ * @return エスケープされた文字列
+ */
+const escapeRegExp = (str: string): string => str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+
+/**
+ * 特例文字の設定に基づき、テキストセグメント内の対象文字（連続した部分）を指定のクラスでラップします。
+ *
+ * @param currentSegment - 対象のセグメント
+ * @param nextSegment - 次のセグメント（本処理では未使用）
+ * @param options - TypesettingOptions。wrapChars の設定を含む
+ * @return 特例文字のラッピングを適用したセグメント
+ */
+const applyStyleToChar = (currentSegment: string, nextSegment: string, options: TypesettingOptions): string => {
+  // wrapChars の設定がない場合はそのまま返す
+  if (!options.wrapChars || options.wrapChars.length === 0) {
+    return currentSegment
+  }
+
+  let updatedSegment = currentSegment
+  options.wrapChars.forEach(rule => {
+    const rawChar = rule.char
+    // char が1文字であることを保証する（サロゲートペアも考慮）
+    if (Array.from(rawChar).length !== 1) {
+      console.error(`Invalid configuration in wrapChars: '${rawChar}' is not valid. 'char' must be a single character.`)
+      // 該当ルールはスキップする
+      return
+    }
+
+    // label が指定されていなければ、デフォルトは rawChar を採用する
+    const label = rule.label ? rule.label : rawChar
+
+    // クラス名として使用する際に安全な文字列か判定
+    // クラス名に使用できるのは、空白や " ' < > などの特殊文字を含まない文字列
+    const validClassRegex = /^[^"'<>\s]+$/
+    if (!validClassRegex.test(label)) {
+      console.error(
+        `Invalid configuration in wrapChars: '${rawChar}' is used. ` +
+          `To be used as a CSS class, the 'label' property must not contain spaces, quotes, '<' or '>'. ` +
+          `Skipping this wrapping rule.`
+      )
+      return
+    }
+
+    // 有効な場合、クラス名を生成する（例: typesetting-char-あ など）
+    const className = `typesetting-char-${label}`
+    const escapedChar = escapeRegExp(rawChar)
+
+    // 連続する該当文字をラッピングする正規表現を作成
+    const regex = new RegExp(`(${escapedChar}+)`, 'gu')
+    updatedSegment = updatedSegment.replace(regex, match => `<span class="${className}">${match}</span>`)
+  })
+
+  return updatedSegment
+}
+
+export { applyStyleToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar }
