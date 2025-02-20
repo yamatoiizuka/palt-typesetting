@@ -1,5 +1,5 @@
 import Typesetter, { TypesettingOptions } from '../src'
-import { applyStyleToSegment, applyKerningToSegment } from '../src/apply-style'
+import { applyStyleToSegment, applyKerningToSegment, applyStyleToChar } from '../src/apply-style'
 import { describe, it, expect } from 'vitest'
 
 describe('applyStyleToSegment', () => {
@@ -141,5 +141,68 @@ describe('applyStyleToSegment without useWordBreak option', () => {
     const next = 'Script'
     const expected = `Java<span class="typesetting-kerning" style="letter-spacing: 0.02em;" data-content="${space}"></span>`
     expect(applyKerningToSegment(current, next, options)).toEqual(expected)
+  })
+})
+
+describe('applyStyleToChar', () => {
+  it('wraps consecutive occurrences of special characters according to configuration', () => {
+    const options: TypesettingOptions = {
+      wrapChars: [{ char: 'あ', label: 'hira-a' }, { char: '」' }],
+    }
+    const input = '「ああ、そうだね。」と言った。'
+    const expected =
+      '「<span class="typesetting-char-hira-a">ああ</span>、そうだね。<span class="typesetting-char-」">」</span>と言った。'
+    const output = applyStyleToChar(input, '', options)
+    expect(output).toEqual(expected)
+  })
+
+  it('returns original text if wrapChar configuration is not provided', () => {
+    const options: TypesettingOptions = {}
+    const input = 'テスト'
+    const output = applyStyleToChar(input, '', options)
+    expect(output).toEqual('テスト')
+  })
+
+  it('wraps multiple occurrences correctly', () => {
+    const options: TypesettingOptions = {
+      wrapChars: [{ char: 'あ', label: 'hira-a' }],
+    }
+    const input = 'あいうえおああ'
+    // "あ" と "ああ" それぞれをラップする
+    const expected =
+      '<span class="typesetting-char-hira-a">あ</span>いうえお<span class="typesetting-char-hira-a">ああ</span>'
+    const output = applyStyleToChar(input, '', options)
+    expect(output).toEqual(expected)
+  })
+
+  // このテストは、wrapChar の設定で char: '"' を指定した場合、
+  // デフォルトのラベルが不正な文字を含むため、ラッピング処理がスキップされることを検証します。
+  // その結果、期待されるラッピング結果（クラス名に不正な文字が含まれる HTML）は生成されないことを確認します。
+  it('should skip wrapping for multiple occurrences of invalid characters when default label is unsafe (e.g. double quotes)', () => {
+    const options: TypesettingOptions = {
+      wrapChars: [{ char: '"' }],
+    }
+    const input = '"hi"'
+    const expected = '<span class="typesetting-char-"">"</span>hi<span class="typesetting-char-"">"</span>'
+    const output = applyStyleToChar(input, '', options)
+    expect(output).not.toEqual(expected)
+  })
+
+  it('should skip wrapping when char has more than one character (invalid rule)', () => {
+    const options: TypesettingOptions = {
+      wrapChars: [{ char: 'ab', label: 'double' }],
+    }
+    const input = 'ababab'
+    // ルールが無効なため、ラッピング処理は適用されず入力と同じ文字列が返される
+    expect(applyStyleToChar(input, '', options)).toEqual(input)
+  })
+
+  it('wraps emoji correctly when char is a single emoji (even if represented by surrogate pairs)', () => {
+    const options: TypesettingOptions = {
+      wrapChars: [{ char: '😀', label: 'smiley' }],
+    }
+    const input = '😀😀'
+    const expected = '<span class="typesetting-char-smiley">😀😀</span>'
+    expect(applyStyleToChar(input, '', options)).toEqual(expected)
   })
 })

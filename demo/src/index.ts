@@ -1,7 +1,7 @@
 import './style.css'
 import './module/typekit'
 import Typesetter from 'palt-typesetting'
-import type { TypesettingOptions, KerningRule } from 'palt-typesetting/types'
+import type { TypesettingOptions, KerningRule, WrapChar } from 'palt-typesetting/types'
 import 'palt-typesetting/dist/typesetter.css'
 
 // HTML要素の取得
@@ -17,9 +17,11 @@ const insertThinSpacesToggle = document.getElementById('insertThinSpacesToggle')
 const wrapLatinToggle = document.getElementById('wrapLatinToggle') as HTMLInputElement
 const noSpaceBetweenNoBreaksToggle = document.getElementById('noSpaceBetweenNoBreaksToggle') as HTMLInputElement
 const kerningRulesToggle = document.getElementById('kerningRulesToggle') as HTMLInputElement
+const wrapCharsToggle = document.getElementById('wrapCharsToggle') as HTMLInputElement
 
 let options: TypesettingOptions = {
-  kerningRules: getKerningRules(true),
+  kerningRules: getKerningRules(),
+  wrapChars: getWrapChars(),
 }
 
 /**
@@ -133,7 +135,8 @@ function updateOptions() {
     insertThinSpaces: insertThinSpacesToggle.checked,
     wrapLatin: wrapLatinToggle.checked,
     noSpaceBetweenNoBreaks: noSpaceBetweenNoBreaksToggle.checked,
-    kerningRules: getKerningRules(kerningRulesToggle.checked),
+    kerningRules: kerningRulesToggle.checked ? getKerningRules() : [],
+    wrapChars: wrapCharsToggle.checked ? getWrapChars() : [],
   }
 }
 
@@ -166,27 +169,36 @@ function handleTargetCheckboxChange(event: Event) {
 
 /**
  * カーニングルールを取得する関数
- * @param {boolean} isEnabled - カーニングルールが有効かどうか
  * @returns {KerningRule[]} カーニングルールの配列
  */
-function getKerningRules(isEnabled: boolean): KerningRule[] {
-  return isEnabled
-    ? [
-        { between: ['美', 'し'], value: 60 },
-        { between: ['ス', 'ト'], value: 120 },
-        { between: ['イ', 'ブ'], value: 20 },
-        { between: ['ブ', 'ラ'], value: -30 },
-        { between: ['ラ', 'リ'], value: 30 },
-        { between: ['て', '、'], value: -60 },
-        { between: ['す', '。'], value: -120 },
-        { between: ['よ', 'う'], value: 60 },
-        { between: ['う', 'な'], value: 40 },
-        { between: ['さ', 'れ'], value: 20 },
-        { between: ['れ', 'た'], value: -60 },
-        { between: ['供', 'し'], value: 40 },
-        { between: ['し', 'ま'], value: 70 },
-      ]
-    : []
+function getKerningRules(): KerningRule[] {
+  return [
+    { between: ['美', 'し'], value: 60 },
+    { between: ['ス', 'ト'], value: 120 },
+    { between: ['イ', 'ブ'], value: 20 },
+    { between: ['ブ', 'ラ'], value: -30 },
+    { between: ['ラ', 'リ'], value: 30 },
+    { between: ['て', '、'], value: -60 },
+    { between: ['す', '。'], value: -120 },
+    { between: ['よ', 'う'], value: 60 },
+    { between: ['う', 'な'], value: 40 },
+    { between: ['さ', 'れ'], value: 20 },
+    { between: ['れ', 'た'], value: -60 },
+    { between: ['供', 'し'], value: 40 },
+    { between: ['し', 'ま'], value: 70 },
+  ]
+}
+
+/**
+ * 特例文字の設定を取得する関数
+ * @returns {wrapCharRule[]} 特例文字の設定の配列
+ */
+function getWrapChars(): WrapChar[] {
+  return [
+    { char: '↗', label: 'arrow' },
+    { char: '(', label: 'parenthesis' },
+    { char: ')', label: 'parenthesis' },
+  ]
 }
 
 // 初期化処理
