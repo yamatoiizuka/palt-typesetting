@@ -25,6 +25,14 @@ export interface TypesettingOptions {
   wrapLatin?: boolean
 
   /**
+   * 特例文字の設定。
+   * 指定された char をラップします。
+   * ラップされた文字は、.typesetting-char-[label] というクラス名でラップされます。
+   * label が未設定の場合は、char の値がそのままクラス名の一部として使用されます。
+   */
+  wrapChars?: WrapChar[]
+
+  /**
    * 分離禁則文字を .typesetting-no-breaks でラップし、文字間を 0 に設定します。
    * useWordBreak が true の場合にのみ有効です。
    */
@@ -48,12 +56,6 @@ export interface TypesettingOptions {
    * 各ルールは、特定の文字ペア間に適用されるカーニング値を指定します。
    */
   kerningRules?: KerningRule[]
-
-  /**
-   * 特例文字の設定。
-   *
-   */
-  wrapChars?: WrapChar[]
 }
 
 /**

@@ -16,11 +16,11 @@ class Typesetter extends HTMLProcessor {
     return {
       useWordBreak: true,
       wrapLatin: true,
+      wrapChars: [],
       noSpaceBetweenNoBreaks: true,
       insertThinSpaces: true,
       thinSpaceWidth: '0.2em',
       kerningRules: [],
-      wrapChars: [],
     }
   }
 
