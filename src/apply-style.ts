@@ -99,35 +99,47 @@ const applyStyleToChar = (currentSegment: string, nextSegment: string, options: 
 
   let updatedSegment = currentSegment
   options.wrapChars.forEach(rule => {
-    const rawChar = rule.char
-    // char が1文字であることを保証する（サロゲートペアも考慮）
-    if (Array.from(rawChar).length !== 1) {
-      console.error(`Invalid configuration in wrapChars: '${rawChar}' is not valid. 'char' must be a single character.`)
-      // 該当ルールはスキップする
+    // rule.char を配列に正規化
+    const chars: string[] = typeof rule.char === 'string' ? [rule.char] : rule.char
+    // 各文字が1文字であるかを確認し、無効な文字は除外する（サロゲートペアも考慮）
+    const validChars = chars.filter(ch => Array.from(ch).length === 1)
+    if (validChars.length === 0) {
+      console.error(`Invalid configuration in wrapChars: rule.char does not contain any valid single character.`)
       return
     }
 
-    // label が指定されていなければ、デフォルトは rawChar を採用する
-    const label = rule.label ? rule.label : rawChar
+    // 配列の長さが1のときのみ、label の省略が可能（省略時はその文字を使用）
+    // 配列の長さが複数の場合は label の指定が必須
+    let label: string
+    if (validChars.length === 1) {
+      label = rule.label ? rule.label : validChars[0]
+    } else {
+      if (!rule.label) {
+        console.error(
+          `Invalid configuration in wrapChars: when grouping multiple characters, a label must be provided.`
+        )
+        return
+      }
+      label = rule.label
+    }
 
-    // クラス名として使用する際に安全な文字列か判定
-    // クラス名に使用できるのは、空白や " ' < > などの特殊文字を含まない文字列
+    // クラス名として使用する際に、安全な文字列か（空白や "、'、<、> を含まないか）判定
     const validClassRegex = /^[^"'<>\s]+$/
     if (!validClassRegex.test(label)) {
       console.error(
-        `Invalid configuration in wrapChars: '${rawChar}' is used. ` +
+        `Invalid configuration in wrapChars: '${validChars.join(',')}' is used. ` +
           `To be used as a CSS class, the 'label' property must not contain spaces, quotes, '<' or '>'. ` +
           `Skipping this wrapping rule.`
       )
       return
     }
 
-    // 有効な場合、クラス名を生成する（例: typesetting-char-あ など）
+    // 有効な場合、クラス名を生成する（例: typesetting-char-あ や typesetting-char-paren）
     const className = `typesetting-char-${label}`
-    const escapedChar = escapeRegExp(rawChar)
-
-    // 連続する該当文字をラッピングする正規表現を作成
-    const regex = new RegExp(`(${escapedChar}+)`, 'gu')
+    // 有効な文字群を用いて、正規表現用の文字クラスを構築する
+    const escapedChars = validChars.map(ch => escapeRegExp(ch)).join('')
+    // 連続して現れる対象文字列にマッチ（例: "(" または ")" の連続）
+    const regex = new RegExp(`([${escapedChars}]+)`, 'gu')
     updatedSegment = updatedSegment.replace(regex, match => `<span class="${className}">${match}</span>`)
   })
 
