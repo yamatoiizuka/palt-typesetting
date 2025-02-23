@@ -75,6 +75,6 @@ export interface KerningRule {
  * label が未設定の場合は、char の値がそのままクラス名の一部として使用されます。
  */
 export interface WrapChar {
-  char: string
+  char: string | string[]
   label?: string
 }
