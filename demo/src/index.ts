@@ -196,8 +196,7 @@ function getKerningRules(): KerningRule[] {
 function getWrapChars(): WrapChar[] {
   return [
     { char: '↗', label: 'arrow' },
-    { char: '(', label: 'parenthesis' },
-    { char: ')', label: 'parenthesis' },
+    { char: ['(', ')'], label: 'parenthesis' },
   ]
 }
 
