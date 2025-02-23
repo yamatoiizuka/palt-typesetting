@@ -145,6 +145,13 @@ const options = {
       // output: <span class="typesetting-char-」">」</span>
       // label が未指定の場合は、char の値がそのまま label として使用されます。
     },
+    {
+      char: ['(', ')'],
+      label: 'parenthesis',
+      // output: <span class="typesetting-char-parenthesis">（）</span>
+      // 配列で複数の文字をまとめて指定できます。
+      // 配列の長さが2以上の場合は label の指定が必須です。
+    },
   ],
 
   // 罫線などの分離禁則文字を `.typesetting-no-breaks` でラップし、文字間を 0 に設定します。
@@ -215,27 +222,27 @@ console.log('output: ' + typesetter.render(srcHtml))
 
 ### オプション
 
-| オプション名             | 説明                                                                                                                                                                                                                                                     | オプションの型                                           | デフォルト値 |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------ |
-| `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                                                                                                                                                                                           | `boolean`                                                | `true`       |
-| `wrapLatin`              | 英数を `span.typesetting-latin` でラップします。                                                                                                                                                                                                         | `boolean`                                                | `true`       |
-| `wrapChars`              | 特例文字の設定です。指定された文字 `char` をラッピングし、`<span>` タグで囲みます。ラッピングされた文字には、`typesetting-char-[label]` の形式で CSS クラスが付与されます。<br>※ `label` が未指定の場合は、`char` の値がそのままクラス名に使用されます。 | `{char: string, label?: string}[]`                       | `[]`         |
-| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typesetting-no-breaks` でラップし、文字間を 0 に設定します。                                                                                                                                                              | `boolean`                                                | `true`       |
-| `insertThinSpaces`       | 四分アキスペースを自動で挿入します。                                                                                                                                                                                                                     | `boolean`                                                | `true`       |
-| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>※四分アキは本来 0.25em ですが、視覚上の補正としてデフォルト値を 0.2em に設定しています。                                                                                                                           | `string`                                                 | `'0.2em'`    |
-| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                                                                                                                                             | `{between: [string, string], value: string \| number}[]` | `[]`         |
+| オプション名             | 説明                                                                                                                                                                                                                                                                                             | オプションの型                                           | デフォルト値 |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- | ------------ |
+| `useWordBreak`           | 単語や助詞など、単語区切りでの改行を行います。                                                                                                                                                                                                                                                   | `boolean`                                                | `true`       |
+| `wrapLatin`              | 英数を `span.typesetting-latin` でラップします。                                                                                                                                                                                                                                                 | `boolean`                                                | `true`       |
+| `wrapChars`              | 特例文字の設定です。指定された文字 `char` をラッピングし、`<span>` タグで囲みます。ラッピングされた文字には、`span.typesetting-char-[label]` の形式で CSS クラスが付与されます。<br>※ 指定が 1 文字の場合は、`label` を省略できます。その際、`char` の値がそのままクラス名の一部に使用されます。 | `{char: string \| string[], label?: string}[]`           | `[]`         |
+| `noSpaceBetweenNoBreaks` | 罫線などの分離禁則文字を `span.typesetting-no-breaks` でラップし、文字間を 0 に設定します。                                                                                                                                                                                                      | `boolean`                                                | `true`       |
+| `insertThinSpaces`       | 四分アキスペースを自動で挿入します。                                                                                                                                                                                                                                                             | `boolean`                                                | `true`       |
+| `thinSpaceWidth`         | 四分アキスペースの幅を設定します。<br>※四分アキは本来 0.25em ですが、視覚上の補正としてデフォルト値を 0.2em に設定しています。                                                                                                                                                                   | `string`                                                 | `'0.2em'`    |
+| `kerningRules`           | 特定の文字間のカーニングルールを設定します。                                                                                                                                                                                                                                                     | `{between: [string, string], value: string \| number}[]` | `[]`         |
 
 ### 生成される CSS クラス
 
-| CSS クラス名                | 説明                                                                                                                           |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `.typesetting-wrapper`      | HTML 文字列中のテキストコンテンツをラップします。<br>オプションの指定に関わらず、常に生成されます。                            |
-| `.typesetting-word-break`   | HTML 文字列中のテキストコンテンツをラップします。<br>`useWordBreak: true` のときに生成されます。                               |
-| `.typesetting-latin`        | テキストコンテンツ中の英数をラップします。<br>`wrapLatin: true` のときに生成されます。                                         |
-| `.typesetting-char-[label]` | `wrapChars` で指定された特例文字に付与されるクラスです。<br>※ `label` が未指定の場合、`char` の値を `label` として使用します。 |
-| `.typesetting-no-breaks`    | テキストコンテンツ中の分離禁則文字をラップします。<br>`noSpaceBetweenNoBreaks: true` のときに生成されます。                    |
-| `.typesetting-thin-space`   | 挿入される四分アキスペースエレメントの CSS クラスです。<br>`insertThinSpaces: true` のときに生成されます。                     |
-| `.typesetting-kerning`      | 挿入されるカーニングエレメントの CSS クラスです。<br>有効な `kerningRules` が存在するときに生成されます。                      |
+| CSS クラス名                | 説明                                                                                                               |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `.typesetting-wrapper`      | HTML 文字列中のテキストコンテンツをラップします。<br>オプションの指定に関わらず、常に生成されます。                |
+| `.typesetting-word-break`   | HTML 文字列中のテキストコンテンツをラップします。<br>`useWordBreak: true` のときに生成されます。                   |
+| `.typesetting-latin`        | テキストコンテンツ中の英数をラップします。<br>`wrapLatin: true` のときに生成されます。                             |
+| `.typesetting-char-[label]` | `wrapChars` で指定された特例文字に付与される CSS クラスです。<br>指定した `label` がクラス名の一部に使用されます。 |
+| `.typesetting-no-breaks`    | テキストコンテンツ中の分離禁則文字をラップします。<br>`noSpaceBetweenNoBreaks: true` のときに生成されます。        |
+| `.typesetting-thin-space`   | 挿入される四分アキスペースエレメントの CSS クラスです。<br>`insertThinSpaces: true` のときに生成されます。         |
+| `.typesetting-kerning`      | 挿入されるカーニングエレメントの CSS クラスです。<br>有効な `kerningRules` が存在するときに生成されます。          |
 
 ---
 
@@ -254,6 +261,10 @@ const chars: WrapChar[] = [
   {
     char: 'あ',
     label: 'hira-a',
+  },
+  {
+    char: ['(', ')'],
+    label: 'parenthesis',
   },
 ]
 
