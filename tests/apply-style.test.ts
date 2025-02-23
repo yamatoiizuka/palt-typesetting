@@ -206,3 +206,48 @@ describe('applyStyleToChar', () => {
     expect(applyStyleToChar(input, '', options)).toEqual(expected)
   })
 })
+
+describe('applyStyleToChar - extended tests for grouped characters', () => {
+  it('wraps grouped characters correctly when char is an array with multiple elements and label is provided', () => {
+    const options: TypesettingOptions = {
+      wrapChars: [{ char: ['(', ')'], label: 'paren' }],
+    }
+    const input = 'Hello (world)!'
+    const expected =
+      'Hello <span class="typesetting-char-paren">(</span>world<span class="typesetting-char-paren">)</span>!'
+    const output = applyStyleToChar(input, '', options)
+    expect(output).toEqual(expected)
+  })
+
+  it('wraps single element array correctly when label is omitted', () => {
+    const options: TypesettingOptions = {
+      wrapChars: [{ char: ['あ'] }],
+    }
+    const input = 'あいうえおああ'
+    const expected = '<span class="typesetting-char-あ">あ</span>いうえお<span class="typesetting-char-あ">ああ</span>'
+    const output = applyStyleToChar(input, '', options)
+    expect(output).toEqual(expected)
+  })
+
+  it('skips wrapping grouped characters when multiple characters are provided in array but label is omitted', () => {
+    const options: TypesettingOptions = {
+      wrapChars: [{ char: ['(', ')'] }],
+    }
+    const input = 'Hello (world)!'
+    const output = applyStyleToChar(input, '', options)
+    // 無効な設定なので、ラッピング処理は行われず入力と同じ文字列が返る
+    expect(output).toEqual(input)
+  })
+
+  it('filters out invalid characters in the array and uses only valid ones', () => {
+    const options: TypesettingOptions = {
+      // 'ab' と '' は無効なため除外され、結果的に ['あ'] となる
+      wrapChars: [{ char: ['あ', 'ab', ''], label: 'group' }],
+    }
+    const input = 'あいうえおああ'
+    const expected =
+      '<span class="typesetting-char-group">あ</span>いうえお<span class="typesetting-char-group">ああ</span>'
+    const output = applyStyleToChar(input, '', options)
+    expect(output).toEqual(expected)
+  })
+})
