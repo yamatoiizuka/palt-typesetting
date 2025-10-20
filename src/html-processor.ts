@@ -1,4 +1,5 @@
 import type { TransformFunction, TypesettingOptions } from '../types'
+import { whitespaceRegex } from './util-regex.js'
 
 /**
  * HTMLコンテンツの変換と処理を行うクラスです。
@@ -56,6 +57,12 @@ class HTMLProcessor {
     // テキストトークンに対して変換関数を適用
     for (let i = 0; i < tokens.length; i++) {
       if (tokens[i].type === 'text') {
+        // 空白のみのテキストノード（タグ間の改行やインデント）はスキップ
+        const isWhitespaceOnly = new RegExp(`^${whitespaceRegex.source}*$`).test(tokens[i].value)
+        if (isWhitespaceOnly) {
+          continue
+        }
+
         // 隣接するテキストノードがあれば、その値を文脈として取得する
         let nextText = ''
         for (let j = i + 1; j < tokens.length; j++) {
