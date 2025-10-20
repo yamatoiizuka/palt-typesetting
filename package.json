@@ -1,6 +1,6 @@
 {
   "name": "palt-typesetting",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Typesetting Library for Proportional Spacing",
   "type": "module",
   "main": "./dist/index.js",
