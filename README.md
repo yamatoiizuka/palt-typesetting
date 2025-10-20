@@ -291,7 +291,8 @@ typesetter.renderToSelector('.my-class')
 
 モダンな JavaScript フレームワーク用のサンプル集です。
 
-### React
+<details>
+  <summary>React</summary>
 
 Typesetting コンポーネントの作成
 
@@ -336,7 +337,10 @@ export default Typesetting
 }
 ```
 
-### Astro.js
+</details>
+
+<details>
+  <summary>Astro.js</summary>
 
 Typesetting コンポーネントの作成
 
@@ -397,7 +401,7 @@ import Typeset from '../components/Typesetting.astro'
 </style>
 ```
 
----
+</details>
 
 ## Notes
 
