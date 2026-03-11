@@ -81,10 +81,22 @@ const shouldAddThinSpace = (current: string, next: string): boolean => {
  * @return 改行可能かどうか
  */
 const isBreakable = (current: string, next: string): boolean => {
-  const combinedText = current.slice(-1) + next.slice(0, 1)
-  const lb = new LineBreaker(combinedText)
-  const breakOpportunity = lb.nextBreak()
-  return breakOpportunity ? breakOpportunity.position === 1 : false
+  // linebreak には境界文字だけ渡せば十分なので、各セグメントの端 1 文字だけを取り出す。
+  // Array.from を使うのは、emoji やサロゲートペアを slice(-1) / [0] で壊さないため。
+  const currentChar = Array.from(current).at(-1) ?? ''
+  const nextChar = Array.from(next)[0] ?? ''
+
+  if (!currentChar || !nextChar) return false
+  // 次が空白なら <wbr> を足しても意味が薄く、既存の空白処理と競合しやすいのでここで止める。
+  if (whitespaceRegex.test(nextChar)) return false
+
+  // UAX #14 ベースの判定は 2 文字境界だけで十分。
+  // nextBreak().position は UTF-16 index なので、境界が currentChar の直後なら改行可能とみなす。
+  const combinedText = currentChar + nextChar
+  const lineBreaker = new LineBreaker(combinedText)
+  const breakOpportunity = lineBreaker.nextBreak()
+
+  return breakOpportunity ? breakOpportunity.position === currentChar.length : false
 }
 
 export default insertSeparatorsToText

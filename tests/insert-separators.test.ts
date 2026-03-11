@@ -95,6 +95,27 @@ describe('insertSeparators', () => {
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 
+  it('inserts a thin space between Japanese–Arabic', () => {
+    const currentText = 'こんにちはالعربية'
+    const nextText = ''
+    const expected = `こんにちは${space}العربية`
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('inserts a thin space between Japanese–Hebrew', () => {
+    const currentText = 'こんにちはעברית'
+    const nextText = ''
+    const expected = `こんにちは${space}עברית`
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
+  it('inserts a thin space between Japanese–Thai', () => {
+    const currentText = 'こんにちはไทย'
+    const nextText = ''
+    const expected = `こんにちは${space}ไทย`
+    expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
+  })
+
   it('does not insert a thin space between Japanese–Chinese', () => {
     const currentText = 'こんにちは下午好'
     const nextText = ''
@@ -338,6 +359,15 @@ describe('isBreakable', () => {
     { current: 'à', next: ' ', expected: false },
     { current: ' ', next: 'vous', expected: true },
     { current: 'vous', next: '。', expected: false },
+    { current: '😀', next: '日本語', expected: true },
+    { current: '日本語', next: '😀', expected: true },
+    { current: '🇯🇵', next: '🇺🇸', expected: false },
+    { current: '👨', next: '‍', expected: false },
+    { current: '‍', next: '👩', expected: false },
+    { current: '-', next: 'B', expected: true },
+    { current: '日', next: 'العربية', expected: true },
+    { current: '日', next: 'עברית', expected: true },
+    { current: '日', next: 'ไทย', expected: true },
   ]
 
   tests.forEach(({ current, next, expected }) => {

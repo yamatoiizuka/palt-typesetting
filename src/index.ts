@@ -99,7 +99,7 @@ class Typesetter extends HTMLProcessor {
 
   /**
    * 与えられたElementまたはElementの配列に対して、スタイルと区切り文字を適用します。
-   * 各要素のinnerHTMLを取得し、変換処理を適用した後、変換されたHTMLで元の内容を置き換えます。
+   * 各要素の innerHTML を処理して置き換えます。
    *
    * @param elements - スタイルを適用するElementまたはHTMLElementの配列。
    */
