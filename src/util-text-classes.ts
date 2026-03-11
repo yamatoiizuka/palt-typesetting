@@ -12,7 +12,7 @@ const CharClass = {
    * @return 分離禁則文字で構成されている場合はtrue、そうでない場合はfalse
    */
   shouldNotBreak: (segment: string): boolean => {
-    return util.noBreakRulesRegex.test(segment)
+    return new RegExp(util.noBreakRulesRegex.source, 'u').test(segment)
   },
 
   /**
@@ -85,7 +85,7 @@ const LanguageClass = {
    * @return ラテン文字で構成されている場合はtrue、そうでない場合はfalse
    */
   isLatin: (segment: string): boolean => {
-    return util.latinRegex.test(segment)
+    return new RegExp(util.latinRegex.source, 'u').test(segment)
   },
 
   /**
