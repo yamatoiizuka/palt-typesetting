@@ -95,8 +95,13 @@ const isBreakable = (current: string, next: string): boolean => {
   const combinedText = currentChar + nextChar
   const lineBreaker = new LineBreaker(combinedText)
   const breakOpportunity = lineBreaker.nextBreak()
+  if (breakOpportunity && breakOpportunity.position === currentChar.length) {
+    return true
+  }
 
-  return breakOpportunity ? breakOpportunity.position === currentChar.length : false
+  // UAX #14 はブラウザ実装ほど CJK ↔ Latin 境界に寛容ではないため、
+  // Blink 相当の Tailoring を後段で適用する。
+  return LanguageClass.canBreakAcrossScripts(currentChar, nextChar)
 }
 
 export default insertSeparatorsToText

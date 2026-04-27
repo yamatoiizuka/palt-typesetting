@@ -117,6 +117,41 @@ const LanguageClass = {
   shouldAddThinSpace: (current: string, next: string): boolean => {
     return LanguageClass.hasLanguageTransition(current, next)
   },
+
+  /**
+   * UAX #14 が拾わない「ラテン・数字」と「CJK 文字／全角約物」の境界で
+   * 改行を許容するかを判定します。日本語組版の慣習に合わせて、
+   * 開き括弧の前・閉じ括弧や句読点の後では英数との境界で改行可能にします。
+   *
+   * 例: `e × 「` は true、`「 × h` は false（OP の後の禁則を尊重）。
+   *
+   * @param current - 現在の境界文字（1 文字）
+   * @param next - 次の境界文字（1 文字）
+   * @return 追加で改行可能とみなす場合は true
+   */
+  canBreakAcrossScripts: (current: string, next: string): boolean => {
+    if (!current || !next) return false
+
+    // 句読点や約物まで巻き込まないよう Script Extensions ではなく Script で判定する。
+    const isLatinOrDigit = (c: string): boolean => /[\p{sc=Latin}0-9]/u.test(c)
+    const isCjkLetter = (c: string): boolean => /[\p{sc=Hiragana}\p{sc=Katakana}\p{sc=Han}]/u.test(c)
+    const isOpeningBracket = (c: string): boolean => new RegExp(util.openingsRegex.source, 'u').test(c)
+    const isClosingBracket = (c: string): boolean => new RegExp(util.closingsRegex.source, 'u').test(c)
+    const isJapanesePunctuation = (c: string): boolean =>
+      new RegExp(util.commasRegex.source, 'u').test(c) || new RegExp(util.periodsRegex.source, 'u').test(c)
+
+    // 左: ラテン/数字 × 右: CJK 文字 or 全角開き括弧
+    if (isLatinOrDigit(current) && (isCjkLetter(next) || isOpeningBracket(next))) {
+      return true
+    }
+
+    // 左: CJK 文字 or 全角閉じ括弧/句読点 × 右: ラテン/数字
+    if ((isCjkLetter(current) || isClosingBracket(current) || isJapanesePunctuation(current)) && isLatinOrDigit(next)) {
+      return true
+    }
+
+    return false
+  },
 }
 
 export { CharClass, LanguageClass }

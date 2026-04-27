@@ -368,6 +368,14 @@ describe('isBreakable', () => {
     { current: '日', next: 'العربية', expected: true },
     { current: '日', next: 'עברית', expected: true },
     { current: '日', next: 'ไทย', expected: true },
+    // ラテン/数字 ↔ 全角開き括弧 / CJK 境界の Tailoring
+    { current: 'e', next: '「', expected: true },
+    { current: 'photooffice', next: '「', expected: true },
+    { current: '1', next: '（', expected: true },
+    { current: '」', next: 'T', expected: true },
+    // 開き括弧の直後・閉じ括弧の直前は禁則のまま
+    { current: '「', next: 'h', expected: false },
+    { current: 'T', next: '」', expected: false },
   ]
 
   tests.forEach(({ current, next, expected }) => {
