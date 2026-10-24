@@ -46,7 +46,9 @@ export interface TypesettingOptions {
 
   /**
    * 四分アキの幅を指定します。
-   * 例えば'20%'と指定すると、四分アキは通常のスペースの20%の幅になります。
+   * CSSの長さ・割合や calc()、var() などの式を指定できます。
+   * ASCII英数字、スペース、.%()+*,/_- を使用できます（CSSコメントは不可）。
+   * 安全でない値や空文字は既定値 '0.2em' に置き換えます。
    * insertThinSpaces が true の場合のみ有効です。
    */
   thinSpaceWidth?: string
