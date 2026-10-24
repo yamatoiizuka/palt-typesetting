@@ -81,7 +81,7 @@ const applyKerningToSegment = (currentSegment: string, nextSegment: string, opti
  * @param str - エスケープする文字列
  * @return エスケープされた文字列
  */
-const escapeRegExp = (str: string): string => str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+const escapeRegExp = (str: string): string => str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
 
 /**
  * 特例文字の設定に基づき、テキストセグメント内の対象文字（連続した部分）を指定のクラスでラップします。

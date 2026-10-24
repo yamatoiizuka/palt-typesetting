@@ -427,6 +427,20 @@ Palt Typesetting ライブラリは、テキストを言語固有のセグメン
 
 Palt Typesetting ライブラリは HTML 入力をサポートしていますが、入力された HTML をサニタイズする機能は**含まれていません**。 入力を信頼できない場合は、適切なサニタイザライブラリと共に使用することを強く推奨します。
 
+## Development
+
+開発・テストには Node.js 22.13 以上の 22 系、24 系、または 26 系を使用してください。CI でもこれらのメジャーバージョンを検証します。
+
+```sh
+npm ci
+npm test -- --run
+npm run lint
+npx tsc --noEmit
+npm run build
+npm ci --prefix demo
+npm run build --prefix demo
+```
+
 ## Author
 
 [飯塚 大和 (Yamato Iizuka)](https://yamatoiizuka.com)
