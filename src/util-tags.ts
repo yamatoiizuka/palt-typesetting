@@ -1,5 +1,18 @@
 const prefix = 'typesetting'
 
+// Accept CSS lengths and expressions, but never declaration/HTML delimiters or comments.
+const safeSpacingValue = /^[a-zA-Z0-9 .%()+*,/_-]+$/
+export const normalizeSpacingValue = (value: string): string => {
+  if (typeof value !== 'string') return '0.2em'
+  const trimmed = value.trim()
+  return trimmed && safeSpacingValue.test(trimmed) && !trimmed.includes('/*') && !trimmed.includes('*/')
+    ? trimmed
+    : '0.2em'
+}
+
+const escapeAttribute = (value: string): string =>
+  value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
 /**
  * HTML文書内で単語の区切りを示し、必要に応じて改行の挿入を許可する`<wbr>`タグを生成します。
  * @return `<wbr>`タグを含む文字列。
@@ -17,7 +30,7 @@ const createWbr = (): string => {
 const createThinSpace = (thinSpaceWidth: string, breakable?: boolean): string => {
   const content = ''
   const className = `${prefix}-thin-space`
-  return createSpacer(content, className, thinSpaceWidth, breakable)
+  return createSpacer(content, className, normalizeSpacingValue(thinSpaceWidth), breakable)
 }
 
 /**
@@ -86,8 +99,8 @@ const applyNoBreaksStyle = (segment: string): string => {
  * @return 指定されたパラメータに基づいて構築された`span`タグを含む文字列。
  */
 const createStyledSpan = (content: string, className: string, style: string = '', attr: string = ''): string => {
-  const styleAttr = style ? ` style="${style}"` : ''
-  return `<span class="${className}"${styleAttr}${attr}>${content}</span>`
+  const styleAttr = style ? ` style="${escapeAttribute(style)}"` : ''
+  return `<span class="${escapeAttribute(className)}"${styleAttr}${attr}>${content}</span>`
 }
 
 /**

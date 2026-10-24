@@ -2,6 +2,7 @@ import HTMLProcessor from './html-processor.js'
 import insertSeparatorsToText from './insert-separators.js'
 import { applyStyleToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar } from './apply-style.js'
 import win from './win.js'
+import { normalizeSpacingValue } from './util-tags.js'
 import type { TypesettingOptions, KerningRule } from '../types'
 
 /**
@@ -65,6 +66,7 @@ class Typesetter extends HTMLProcessor {
     return {
       ...Typesetter.getDefaultOptions(),
       ...options,
+      thinSpaceWidth: normalizeSpacingValue(options.thinSpaceWidth ?? Typesetter.getDefaultOptions().thinSpaceWidth),
     }
   }
 
