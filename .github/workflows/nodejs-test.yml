@@ -4,6 +4,12 @@ on:
   pull_request:
     paths:
       - 'src/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - 'demo/**'
+      - 'package*.json'
+      - '*config*'
+      - '.github/workflows/nodejs-test.yml'
 
 jobs:
   build:
@@ -11,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18, 20, 22]
+        node-version: [22, 24, 26]
 
     steps:
       - uses: actions/checkout@v4.2.2
@@ -20,6 +26,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: npm test
+      - run: npm test -- --run
       - run: npx tsc --noEmit
       - run: npm run lint
+      - run: npm run build
+      - run: npm ci
+        working-directory: demo
+      - run: npm run build
+        working-directory: demo
