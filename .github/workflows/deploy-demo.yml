@@ -1,6 +1,9 @@
 name: Build and Deploy
 
 on:
+  pull_request:
+    paths:
+      - '.github/workflows/deploy-demo.yml'
   push:
     branches:
       - main
@@ -12,11 +15,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v7.0.1
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4.2.0
+        uses: actions/setup-node@v7.1.0
         with:
+          package-manager-cache: false
           node-version: '22'
 
       - name: Install dependencies (/)
@@ -34,8 +38,10 @@ jobs:
         working-directory: demo
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.7.3
+        uses: JamesIves/github-pages-deploy-action@v4.9.0
         with:
+          # Validate the action on PRs without publishing the demo.
+          dry-run: ${{ github.event_name == 'pull_request' }}
           branch: gh-pages
           folder: demo/dist
           token: ${{ secrets.GITHUB_TOKEN }}
