@@ -58,7 +58,7 @@ const applyKerningToSegment = (currentSegment: string, nextSegment: string, opti
   const chars = [...currentSegment]
 
   const kernedChars = chars.map((currentChar, i) => {
-    const nextChar = chars[i + 1] || nextSegment[0] || ''
+    const nextChar = chars[i + 1] || [...nextSegment][0] || ''
     const kerningRule = options.kerningRules?.find(
       rule => rule.between[0] === currentChar && rule.between[1] === nextChar
     )

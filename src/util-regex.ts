@@ -48,10 +48,9 @@ export const spaceAfterRegex = new RegExp(`[${CLOSINGS}${COMMAS}${PERIODS}]`)
 
 /**
  * 日本語（各種約物を含む）
- * 従来の定義との互換のため、'|' も含みます。
  */
 export const japaneseRegex = new RegExp(
-  `[\\p{scx=Hiragana}\\p{scx=Katakana}|ｦ-ﾟ\\p{scx=Han}${OPENINGS}${CLOSINGS}${MIDDLE_DOTS}${COMMAS}${PERIODS}]`,
+  `[\\p{scx=Hiragana}\\p{scx=Katakana}ｦ-ﾟ\\p{scx=Han}${OPENINGS}${CLOSINGS}${MIDDLE_DOTS}${COMMAS}${PERIODS}]`,
   'u'
 )
 
