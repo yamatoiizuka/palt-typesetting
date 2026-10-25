@@ -429,12 +429,13 @@ Palt Typesetting ライブラリは、テキストを言語固有のセグメン
 
 Palt Typesetting ライブラリは HTML 入力をサポートしていますが、入力された HTML をサニタイズする機能は**含まれていません**。 入力を信頼できない場合は、適切なサニタイザライブラリと共に使用することを強く推奨します。
 
-## 改行判定の依存ライブラリ
+## 改行判定
 
-改行判定には、`linebreak@1.1.0` と互換性を検証した
-[`@yamatoiizuka/linebreak`](https://github.com/yamatoiizuka/linebreak) の固定バージョンを使用しています。
-Unicode 15.0の既存の改行動作を維持し、データ展開をビルド時に行うことで、fork自体の実行時依存をなくしています。
-Unicodeの規則更新は、この依存整理とは別に検証して行います。
+改行判定には、UAX #14（Unicode 15.0）に基づく内蔵の実装を使用しています。
+本ライブラリは 2 文字の境界だけを判定するため、Line_Break クラスの区間表と組み合わせ表だけを持ち、実行時の依存はありません。
+区間表は `npm run generate:line-break` で Unicode の `LineBreak.txt` から生成します。
+判定結果は、全コードポイントのクラスと全ペアの改行可否について、`linebreak@1.1.0` 互換の
+[`@yamatoiizuka/linebreak`](https://github.com/yamatoiizuka/linebreak) と一致することをテストで確認しています。
 
 ## Development
 
