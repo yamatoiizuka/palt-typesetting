@@ -34,8 +34,8 @@
     "./dist/win.js": "./dist/win-browser.js"
   },
   "dependencies": {
-    "jsdom": "^27.0.0",
-    "linebreak": "^1.1.0"
+    "@yamatoiizuka/linebreak": "1.1.0-palt.0",
+    "jsdom": "^27.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",

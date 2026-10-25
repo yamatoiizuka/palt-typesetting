@@ -1,4 +1,4 @@
-import LineBreaker from 'linebreak'
+import LineBreaker from '@yamatoiizuka/linebreak'
 import { CharClass, LanguageClass } from './util-text-classes.js'
 import { createWbr, createThinSpace } from './util-tags.js'
 import { TypesettingOptions } from '../types'
