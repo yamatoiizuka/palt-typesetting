@@ -214,11 +214,13 @@ console.log('output: ' + typesetter.render(srcHtml))
 
 ### メソッド
 
-| メソッド名                   | 説明                                                                  | 引数の型               | 戻り値の型 |
-| ---------------------------- | --------------------------------------------------------------------- | ---------------------- | ---------- |
-| `render(srcHtml)`            | スタイルを適用した HTML 文字列を返します。                            | `string`               | `string`   |
-| `renderToElements(elements)` | 指定された Element または Element の配列にスタイルを適用します。      | `Element \| Element[]` | `void`     |
-| `renderToSelector(selector, root?)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。 | `string`               | `void`     |
+| メソッド名                               | 説明                                        | 引数の型                                                  | 戻り値の型    |
+| ----------------------------------- | ----------------------------------------- | ----------------------------------------------------- | -------- |
+| `render(srcHtml)`                   | スタイルを適用した HTML 文字列を返します。                  | `string`                                              | `string` |
+| `renderToElements(elements)`        | 指定された Element または Element の配列にスタイルを適用します。 | `Element \| Element[]`                                | `void`   |
+| `renderToSelector(selector, root?)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。     | `selector: string \| null, root?: ParentNode \| null` | `void`   |
+
+`root` には `Document`、`Element`、`DocumentFragment` を指定できます。省略時は実行時のグローバル `document` を使用し、DOMがない場合や `null` を指定した場合は何もしません。
 
 ### オプション
 

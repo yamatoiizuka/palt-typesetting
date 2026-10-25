@@ -119,11 +119,11 @@ class Typesetter extends HTMLProcessor {
 
   /**
    * 指定されたCSSセレクタに一致するすべての要素にスタイルを適用します。
-   * document.querySelectorAllを使用して要素を取得し、それぞれに対してスタイル適用処理を行います。
+   * root.querySelectorAllを使用して要素を取得し、それぞれに対してスタイル適用処理を行います。
    *
    * DOMがない環境では何もしません。サーバー側のDOMを使う場合は root を指定してください。
    * @param selector - スタイルを適用する要素を選択するCSSセレクタ。
-   * @param root - 検索対象のDocumentやElement。省略時は実行時のグローバルdocument。
+   * @param root - 検索対象のDocument、Element、DocumentFragment。省略時は実行時のグローバルdocument。
    */
   renderToSelector(
     selector: string | null,
