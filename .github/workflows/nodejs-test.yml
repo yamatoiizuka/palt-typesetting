@@ -1,15 +1,8 @@
 name: Unittest for NodeJS and Typescript Style Check
 
+# main の必須チェックにしているため、パスで絞り込まずにすべての PR で実行する。
 on:
   pull_request:
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'scripts/**'
-      - 'demo/**'
-      - 'package*.json'
-      - '*config*'
-      - '.github/workflows/**'
 
 jobs:
   build:

@@ -9,3 +9,16 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      # parser と eslint-plugin は同じ版で揃える必要があるため、1 つの PR にまとめる。
+      typescript-eslint:
+        patterns:
+          - "@typescript-eslint/*"
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint/*"
+      webpack:
+        patterns:
+          - "webpack"
+          - "webpack-cli"
