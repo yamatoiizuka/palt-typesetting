@@ -62,6 +62,10 @@ under `strict` and with `overflow-wrap: normal`. Native strict text has none.
 The existing 13-opening fixture remains useful, but does not cover these
 additional characters.
 
+Follow-up: `〝`, `｢` and `〚` were added to the opening set afterwards, and
+`opening-punctuation.html` now covers them too. The numbers in this report
+were measured before that change and have not been re-run in Safari.
+
 ### Ellipses: another Safari-specific failure
 
 Safari splits both `……` and `‥‥` inside an existing

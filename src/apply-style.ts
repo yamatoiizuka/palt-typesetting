@@ -177,7 +177,7 @@ const applyStyleToChar = (currentSegment: string, nextSegment: string, options: 
 // Run last so kerning and custom character wrappers retain their existing output.
 const applyStyleToOpenings = (text: string, _next: string, options: TypesettingOptions): string => {
   if (!options.useWordBreak) return text
-  return text.replace(new RegExp(util.openingsRegex.source, 'gu'), applyOpeningStyle)
+  return text.replace(util.openingsGlobalRegex, applyOpeningStyle)
 }
 
 export { applyStyleToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar, applyStyleToOpenings }

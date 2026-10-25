@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { JSDOM } from 'jsdom'
 import Typesetter from '../src'
 
-const openings = Array.from('（［｛〔〈《「『【〘〖“‘')
+const openings = Array.from('（［｛〔〈《「『【〘〖“‘〝｢〚')
 
 describe('opening punctuation with word-based wrapping', () => {
   it.each(openings)('protects %s without wrapping the following word', opening => {
