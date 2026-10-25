@@ -460,9 +460,9 @@ Palt Typesetting ライブラリは HTML 入力をサポートしていますが
 本ライブラリは 2 文字の境界だけを判定するため、Line_Break クラスの区間表と組み合わせ表だけを持ち、実行時の依存はありません。
 これは従来 `linebreak` にセグメント境界の 2 文字だけを渡していた挙動との互換を保つためのもので、文章全体に対する UAX #14 の完全な判定ではありません
 （例: 地域指示子の個数に依存する LB30a は考慮しません）。
-区間表は `npm run generate:line-break` で Unicode の `LineBreak.txt` から生成します。
-判定結果は、全コードポイントのクラスと全ペアの改行可否について、`linebreak@1.1.0` 互換の
-[`@yamatoiizuka/linebreak`](https://github.com/yamatoiizuka/linebreak) と一致することをテストで確認しています。
+区間表は `npm run generate:line-break` で、`scripts/ucd/` に置いた Unicode の `LineBreak.txt` から生成します。
+判定結果は、Unicode の `LineBreak.txt` の全コードポイントのクラスと、`LineBreakTest.txt` の 2 文字のテストケースに照らしてテストしています。
+テストケースのうち、前後の文脈や East_Asian_Width に依存する規則（LB25, LB30, LB30b）による 18 件は、従来の挙動に合わせた既知の差異です。
 
 ## Development
 

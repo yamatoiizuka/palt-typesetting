@@ -37,7 +37,6 @@
     "@types/node": "^24.19.2",
     "@typescript-eslint/eslint-plugin": "^8.72.0",
     "@typescript-eslint/parser": "^8.72.0",
-    "@yamatoiizuka/linebreak": "1.1.0-palt.0",
     "clean-css-cli": "^5.6.3",
     "esbuild": "^0.28.2",
     "eslint": "^10.13.0",

@@ -1,56 +1,58 @@
-import { describe, it, expect, beforeAll } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { getLineBreakClass, canBreakBetween } from '../src/line-break'
-import { loadLineBreakReference } from '../scripts/linebreak-reference.js'
+import { MAX_CODE_POINT, readLineBreakClasses, readLineBreakPairTests } from '../scripts/line-break-ucd.js'
 
-// src/line-break.ts が @yamatoiizuka/linebreak と同じ結果を返すことを全数で確認する。
-// 2 文字の判定は 2 文字のクラスだけで決まるため、
-// 全コードポイントのクラス一致と、クラスが同じ区間の代表同士の全ペア一致で、全ペアの一致が保証される。
+// src/line-break.ts を Unicode 15.0.0 の公式データ（scripts/ucd/）と照合する。
 
-const MAX_CODE_POINT = 0x10ffff
+// 2 文字のペア表では表せない、前後の文脈や East_Asian_Width に依存する規則による既知の差異。
+// 従来 linebreak に 2 文字だけを渡していた挙動との互換のため、そのままにしている。
+const KNOWN_DIFFERENCES = new Set([
+  // LB25: 数値の前後（PR/PO と OP、CL/CP と PR/PO、IS/SY と NU）は数値の文脈があるときだけ改行しない。
+  '0025 0028',
+  '0024 0028',
+  '007D 0025',
+  '007D 0024',
+  '0029 0025',
+  '0029 0024',
+  '002C 0030',
+  '002F 0030',
+  // LB30: East_Asian_Width が F, W, H の OP の前では改行できる。
+  '0023 2329',
+  '05D0 2329',
+  '0030 2329',
+  '0025 2329',
+  '0024 2329',
+  '0001 2329',
+  '00A7 2329',
+  '50005 2329',
+  '0E01 2329',
+  // LB30b: 未割り当ての Extended_Pictographic と EM の間では改行しない。
+  '1F02C 1F3FF',
+])
 
-let reference: Awaited<ReturnType<typeof loadLineBreakReference>>
-
-beforeAll(async () => {
-  reference = await loadLineBreakReference()
-})
-
-const referenceBreakable = (before: string, after: string): boolean => {
-  const breakOpportunity = new reference.LineBreaker(before + after).nextBreak()
-  return !!breakOpportunity && breakOpportunity.position === before.length
-}
+const hex = (char: string) => (char.codePointAt(0) ?? 0).toString(16).toUpperCase().padStart(4, '0')
 
 describe('line-break', () => {
-  it('classifies every code point like linebreak', () => {
+  it('classifies every code point like LineBreak.txt', () => {
+    const classes = readLineBreakClasses()
     let mismatches = 0
     for (let cp = 0; cp <= MAX_CODE_POINT; cp++) {
-      if (getLineBreakClass(cp) !== reference.classOf(cp)) mismatches++
+      if (getLineBreakClass(cp) !== classes[cp]) mismatches++
     }
     expect(mismatches).toBe(0)
   })
 
-  it('decides breaks like linebreak for every pair of class ranges', () => {
-    // 区間の先頭に加え、単独のサロゲートの境界も代表に含める。
-    const representatives = new Set([0xd800, 0xdbff, 0xdc00, 0xdfff])
-    for (let cp = 0; cp <= MAX_CODE_POINT; cp++) {
-      if (cp === 0 || reference.classOf(cp - 1) !== reference.classOf(cp)) representatives.add(cp)
-    }
-    const chars = Array.from(representatives, cp => String.fromCodePoint(cp))
-
-    const mismatches: string[] = []
-    for (const before of chars) {
-      for (const after of chars) {
-        if (canBreakBetween(before, after) !== referenceBreakable(before, after)) {
-          mismatches.push(`U+${before.codePointAt(0)?.toString(16)} U+${after.codePointAt(0)?.toString(16)}`)
-        }
-      }
-    }
-    expect(chars.length).toBeGreaterThan(2000)
-    expect(mismatches.slice(0, 10)).toEqual([])
+  it('decides breaks like the two-code-point cases of LineBreakTest.txt', () => {
+    const cases = readLineBreakPairTests()
+    const differences = cases
+      .filter(({ before, after, breakable }) => canBreakBetween(before, after) !== breakable)
+      .map(({ before, after }) => `${hex(before)} ${hex(after)}`)
+    expect(cases.length).toBeGreaterThan(1800)
+    expect(differences.sort()).toEqual([...KNOWN_DIFFERENCES].sort())
   })
 
   it('does not break inside a surrogate pair split across text nodes', () => {
     expect(canBreakBetween('\uD83D', '\uDE00')).toBe(false)
-    expect(referenceBreakable('\uD83D', '\uDE00')).toBe(false)
   })
 
   it('handles typical Japanese and Latin boundaries', () => {
