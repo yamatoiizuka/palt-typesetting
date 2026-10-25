@@ -1,8 +1,8 @@
-import LineBreaker from 'linebreak'
 import { CharClass, LanguageClass } from './util-text-classes.js'
 import { createWbr, createThinSpace } from './util-tags.js'
 import { TypesettingOptions } from '../types'
 import { middleDotsRegex, whitespaceRegex } from './util-regex.js'
+import { canBreakBetween } from './line-break.js'
 
 /**
  * HTMLテキストノードにセパレーター（四分アキ、<wbr>）を挿入します。
@@ -81,7 +81,8 @@ const shouldAddThinSpace = (current: string, next: string): boolean => {
  * @return 改行可能かどうか
  */
 const isBreakable = (current: string, next: string): boolean => {
-  // linebreak には境界文字だけ渡せば十分なので、各セグメントの端 1 文字だけを取り出す。
+  // 各セグメントの端 1 文字だけを取り出して判定する。従来 linebreak に 2 文字だけを渡していた挙動との互換用で、
+  // UAX #14 の完全な判定ではない（LB30a のように、より前の文字に依存する規則は考慮しない）。
   // Array.from を使うのは、emoji やサロゲートペアを slice(-1) / [0] で壊さないため。
   const currentChar = Array.from(current).at(-1) ?? ''
   const nextChar = Array.from(next)[0] ?? ''
@@ -90,14 +91,7 @@ const isBreakable = (current: string, next: string): boolean => {
   // 次が空白なら <wbr> を足しても意味が薄く、既存の空白処理と競合しやすいのでここで止める。
   if (whitespaceRegex.test(nextChar)) return false
 
-  // UAX #14 ベースの判定は 2 文字境界だけで十分。
-  // nextBreak().position は UTF-16 index なので、境界が currentChar の直後なら改行可能とみなす。
-  const combinedText = currentChar + nextChar
-  const lineBreaker = new LineBreaker(combinedText)
-  const breakOpportunity = lineBreaker.nextBreak()
-  if (breakOpportunity && breakOpportunity.position === currentChar.length) {
-    return true
-  }
+  if (canBreakBetween(currentChar, nextChar)) return true
 
   // UAX #14 はブラウザ実装ほど CJK ↔ Latin 境界に寛容ではないため、
   // Blink 相当の Tailoring を後段で適用する。

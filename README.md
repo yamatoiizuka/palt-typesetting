@@ -453,6 +453,16 @@ typesetter.renderToSelector('p', dom.window.document)
 
 Palt Typesetting ライブラリは HTML 入力をサポートしていますが、入力された HTML をサニタイズする機能は**含まれていません**。 入力を信頼できない場合は、適切なサニタイザライブラリと共に使用することを強く推奨します。
 
+## 改行判定
+
+改行判定には、UAX #14（Unicode 15.0）に基づく内蔵の実装を使用しています。
+本ライブラリは 2 文字の境界だけを判定するため、Line_Break クラスの区間表と組み合わせ表だけを持ち、実行時の依存はありません。
+これは従来 `linebreak` にセグメント境界の 2 文字だけを渡していた挙動との互換を保つためのもので、文章全体に対する UAX #14 の完全な判定ではありません
+（例: 地域指示子の個数に依存する LB30a は考慮しません）。
+区間表は `npm run generate:line-break` で Unicode の `LineBreak.txt` から生成します。
+判定結果は、全コードポイントのクラスと全ペアの改行可否について、`linebreak@1.1.0` 互換の
+[`@yamatoiizuka/linebreak`](https://github.com/yamatoiizuka/linebreak) と一致することをテストで確認しています。
+
 ## Development
 
 開発・テストには Node.js 22.13 以上の 22 系、24 系、または 26 系を使用してください。CI でもこれらのメジャーバージョンを検証します。

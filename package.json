@@ -23,16 +23,14 @@
     "build": "node ./scripts/build.js && npm run bundle",
     "test": "vitest",
     "lint": "eslint \"./src/**/*.ts\" --no-error-on-unmatched-pattern",
-    "lint:fix": "eslint ./src/** --fix"
+    "lint:fix": "eslint ./src/** --fix",
+    "generate:line-break": "node ./scripts/generate-line-break-data.js"
   },
   "author": {
     "name": "Yamato Iizuka",
     "email": "me@yamatoiizuka.com"
   },
   "license": "MIT",
-  "dependencies": {
-    "linebreak": "^1.1.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.29.7",
     "@babel/preset-env": "^7.29.7",
@@ -41,6 +39,7 @@
     "@types/node": "^24.19.2",
     "@typescript-eslint/eslint-plugin": "^8.72.0",
     "@typescript-eslint/parser": "^8.72.0",
+    "@yamatoiizuka/linebreak": "1.1.0-palt.0",
     "babel-loader": "^10.1.1",
     "clean-css-cli": "^5.6.3",
     "esbuild": "^0.28.2",
