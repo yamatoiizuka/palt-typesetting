@@ -89,6 +89,8 @@ const applyNoBreaksStyle = (segment: string): string => {
   return createStyledSpan(segment, className)
 }
 
+const applyOpeningStyle = (character: string): string => createStyledSpan(character, `${prefix}-opening`)
+
 /**
  * スタイリングされた`span`タグを生成し、指定された内容とクラス名を適用します。オプショナルでスタイルとUI無視の属性も設定可能です。
  *
@@ -122,4 +124,4 @@ const createSpacer = (content: string, className: string, value: string, breakab
   return createStyledSpan(content, className, style, data)
 }
 
-export { createWbr, createThinSpace, createKerning, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle }
+export { createWbr, createThinSpace, createKerning, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, applyOpeningStyle }

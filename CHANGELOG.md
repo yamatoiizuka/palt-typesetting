@@ -8,6 +8,8 @@
 
 ### Changes
 
+- Preserve opening-punctuation line-end rules in Safari when word-based wrapping is enabled. Opening punctuation now receives a `typesetting-opening` span; update the distributed CSS together with JavaScript or server-rendered HTML.
+- Treat `〝`, `｢` and `〚` as opening punctuation. Like the other openings, they now get a thin space before them, allow a line break between Latin text and the opening, and receive the `typesetting-opening` span.
 - Remove jsdom from runtime dependencies. HTML-string rendering remains available without a DOM.
 - Resolve the default document when `renderToSelector` is called, and support an explicit `Document`, `Element`, or `DocumentFragment` root. Calls without an available document remain a no-op.
 - Existing public API calls remain supported.

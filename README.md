@@ -203,7 +203,7 @@ typesetter.renderToElements(elements)
  */
 const srcHtml = '「日本語」とEnglish'
 console.log('output: ' + typesetter.render(srcHtml))
-// output: <span class="typeset typesetting-wrapper typesetting-word-break">「日本語<span class="typesetting-char-」">」</span><span class="typesetting-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span>と<span class="typesetting-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span><span class="typesetting-latin">English </span></span>
+// output: <span class="typeset typesetting-wrapper typesetting-word-break"><span class="typesetting-opening">「</span>日本語<span class="typesetting-char-」">」</span><span class="typesetting-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span>と<span class="typesetting-thin-space" style="letter-spacing: 0.2em;" data-content=" "></span><span class="typesetting-latin">English </span></span>
 ```
 
 ### コンストラクタ
@@ -240,6 +240,7 @@ console.log('output: ' + typesetter.render(srcHtml))
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `.typesetting-wrapper`      | HTML 文字列中のテキストコンテンツをラップします。<br>オプションの指定に関わらず、常に生成されます。                |
 | `.typesetting-word-break`   | HTML 文字列中のテキストコンテンツをラップします。<br>`useWordBreak: true` のときに生成されます。                   |
+| `.typesetting-opening`      | 開き括弧類をラップし、Safari で行末に残るのを防ぎます。<br>`useWordBreak: true` のときに生成されます。 |
 | `.typesetting-latin`        | テキストコンテンツ中の英数をラップします。<br>`wrapLatin: true` のときに生成されます。                             |
 | `.typesetting-char-[label]` | `wrapChars` で指定された特例文字に付与される CSS クラスです。<br>指定した `label` がクラス名の一部に使用されます。 |
 | `.typesetting-no-breaks`    | テキストコンテンツ中の分離禁則文字をラップします。<br>`noSpaceBetweenNoBreaks: true` のときに生成されます。        |
