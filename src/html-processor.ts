@@ -80,16 +80,19 @@ class HTMLProcessor {
 
     const tokens = html.match(htmlTokenRegex) ?? []
 
-    // 後ろから走査し、各テキストに「次のテキスト（変換前）」を渡す。
+    // 各テキストの「次のテキスト（変換前）」を、後ろから 1 回走査して求める。
+    const nextTexts: string[] = []
     let nextText = ''
     for (let i = tokens.length - 1; i >= 0; i--) {
-      const token = tokens[i]
-      if (token[0] === '<') continue
+      if (tokens[i][0] === '<') continue
+      nextTexts[i] = nextText
+      nextText = tokens[i]
+    }
 
-      if (!whitespaceOnlyRegex.test(token)) {
-        tokens[i] = transformFunction(token, nextText, this.options)
-      }
-      nextText = token
+    // 変換関数は前から順に呼ぶ。
+    for (let i = 0; i < tokens.length; i++) {
+      if (tokens[i][0] === '<' || whitespaceOnlyRegex.test(tokens[i])) continue
+      tokens[i] = transformFunction(tokens[i], nextTexts[i], this.options)
     }
 
     return tokens.join('')
@@ -177,8 +180,12 @@ class HTMLProcessor {
    * @return プレースホルダを元のブロック要素に戻したHTML文字列。
    */
   private restoreProtectedBlocks(html: string, protectedBlocks: string[], tokenPrefix: string): string {
+    // 各プレースホルダの最初の 1 件だけを戻す（入力に同じ文字列のコメントがあっても置き換えない）。
     // 置換文字列ではなく関数で返し、ブロック内の "$&" などが置換パターンとして解釈されないようにする。
-    return html.replace(new RegExp(`<!--${tokenPrefix}(\\d+)-->`, 'g'), (token, index) => protectedBlocks[index] ?? token)
+    return protectedBlocks.reduce(
+      (restoredHtml, block, index) => restoredHtml.replace(`<!--${tokenPrefix}${index}-->`, () => block),
+      html
+    )
   }
 
   /**
