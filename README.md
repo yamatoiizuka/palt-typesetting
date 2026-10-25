@@ -214,11 +214,13 @@ console.log('output: ' + typesetter.render(srcHtml))
 
 ### メソッド
 
-| メソッド名                   | 説明                                                                  | 引数の型               | 戻り値の型 |
-| ---------------------------- | --------------------------------------------------------------------- | ---------------------- | ---------- |
-| `render(srcHtml)`            | スタイルを適用した HTML 文字列を返します。                            | `string`               | `string`   |
-| `renderToElements(elements)` | 指定された Element または Element の配列にスタイルを適用します。      | `Element \| Element[]` | `void`     |
-| `renderToSelector(selector)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。 | `string`               | `void`     |
+| メソッド名                               | 説明                                        | 引数の型                                                  | 戻り値の型    |
+| ----------------------------------- | ----------------------------------------- | ----------------------------------------------------- | -------- |
+| `render(srcHtml)`                   | スタイルを適用した HTML 文字列を返します。                  | `string`                                              | `string` |
+| `renderToElements(elements)`        | 指定された Element または Element の配列にスタイルを適用します。 | `Element \| Element[]`                                | `void`   |
+| `renderToSelector(selector, root?)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。     | `selector: string \| null, root?: ParentNode \| null` | `void`   |
+
+`root` には `Document`、`Element`、`DocumentFragment` を指定できます。省略時は実行時のグローバル `document` を使用し、DOMがない場合や `null` を指定した場合は何もしません。
 
 ### オプション
 
@@ -422,6 +424,28 @@ Palt Typesetting ライブラリは、テキストを言語固有のセグメン
 `Intl.Segmenter` の対応状況については、[Can I use...](https://caniuse.com/?search=Intl.Segmenter) で確認できます。
 
 [^1]: Firefox では、バージョン 125 から Intl.Segmenter のサポートが予定されています。
+
+### Node.js と DOM
+
+`render(html)` はDOMライブラリなしで利用できます。jsdomは必須依存に含まれません。
+ブラウザでは、従来どおり `renderToSelector(selector)` がグローバルの `document` を検索します。
+Node.jsなど `document` が存在しない環境では、このメソッドは何もしません。
+
+サーバー側でセレクタを使う場合は、自分で用意した `Document` または検索対象の `Element` を第2引数に渡してください。
+例えばjsdomを使う場合は、利用するプロジェクトで別途インストールします。
+
+```ts
+import { JSDOM } from 'jsdom'
+import Typesetter from 'palt-typesetting'
+
+const dom = new JSDOM('<p>日本語English</p>')
+const typesetter = new Typesetter()
+typesetter.renderToSelector('p', dom.window.document)
+// renderToElements(element) も引き続き使用できます。
+```
+
+従来の内部モジュール `dist/win.js` / `dist/win-browser.js` は廃止しました。
+これらを直接importしていた場合は、呼び出し元でDOMを用意する方法に移行してください。
 
 ### 注意事項
 

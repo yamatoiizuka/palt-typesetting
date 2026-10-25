@@ -1,7 +1,6 @@
 import HTMLProcessor from './html-processor.js'
 import insertSeparatorsToText from './insert-separators.js'
 import { applyStyleToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar } from './apply-style.js'
-import win from './win.js'
 import { normalizeSpacingValue } from './util-tags.js'
 import type { TypesettingOptions, KerningRule } from '../types'
 
@@ -120,14 +119,19 @@ class Typesetter extends HTMLProcessor {
 
   /**
    * 指定されたCSSセレクタに一致するすべての要素にスタイルを適用します。
-   * document.querySelectorAllを使用して要素を取得し、それぞれに対してスタイル適用処理を行います。
+   * root.querySelectorAllを使用して要素を取得し、それぞれに対してスタイル適用処理を行います。
    *
+   * DOMがない環境では何もしません。サーバー側のDOMを使う場合は root を指定してください。
    * @param selector - スタイルを適用する要素を選択するCSSセレクタ。
+   * @param root - 検索対象のDocument、Element、DocumentFragment。省略時は実行時のグローバルdocument。
    */
-  renderToSelector(selector: string | null): void {
-    if (!selector) return
+  renderToSelector(
+    selector: string | null,
+    root: ParentNode | null = typeof document === 'undefined' ? null : document
+  ): void {
+    if (!selector || !root) return
 
-    const elements = win.document.querySelectorAll(selector)
+    const elements = root.querySelectorAll(selector)
     this.renderToElements(Array.from(elements))
   }
 }

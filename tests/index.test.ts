@@ -1,7 +1,7 @@
 import Typesetter from '../src/'
 import { createThinSpace, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle } from '../src/util-tags'
-import win from '../src/win'
-import { describe, test, expect, beforeEach } from 'vitest'
+import { JSDOM } from 'jsdom'
+import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
 
 // prettier-ignore
 describe('Typesetter', () => {
@@ -24,9 +24,17 @@ describe('Typesetter', () => {
   </article>`
 
   const typeset = new Typesetter()
+  let win: JSDOM['window']
 
   beforeEach(() => {
+    win = new JSDOM().window
+    vi.stubGlobal('document', win.document)
     win.document.body.innerHTML = `<div id="test">${srcHtml}</div>`
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    win.close()
   })
 
   test('render should insert separators and apply styles to HTML string', () => {

@@ -1,6 +1,6 @@
 {
   "name": "palt-typesetting",
-  "version": "0.9.5",
+  "version": "0.10.0",
   "description": "Typesetting Library for Proportional Spacing",
   "type": "module",
   "main": "./dist/index.js",
@@ -30,11 +30,7 @@
     "email": "me@yamatoiizuka.com"
   },
   "license": "MIT",
-  "browser": {
-    "./dist/win.js": "./dist/win-browser.js"
-  },
   "dependencies": {
-    "jsdom": "^27.0.0",
     "linebreak": "^1.1.0"
   },
   "devDependencies": {
@@ -50,6 +46,7 @@
     "esbuild": "^0.28.2",
     "eslint": "^10.13.0",
     "globals": "^17.13.0",
+    "jsdom": "^27.0.0",
     "typescript": "^5.9.3",
     "vitest": "^5.0.5",
     "webpack": "^5.112.2",
