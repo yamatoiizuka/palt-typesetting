@@ -2,7 +2,7 @@ import { LINE_BREAK_RANGES } from './line-break-data.js'
 
 /**
  * UAX #14 に基づく、2 文字間の改行可否の判定です。
- * linebreak（@yamatoiizuka/linebreak）の LineBreaker を、2 コードポイントの入力に特化させたものです。
+ * linebreak（foliojs/linebreak）の LineBreaker を、2 コードポイントの入力に特化させたものです。
  * クラス番号と PAIR_TABLE は linebreak と同じ並びです。
  */
 
