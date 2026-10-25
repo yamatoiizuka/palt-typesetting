@@ -57,15 +57,13 @@ class Typesetter extends HTMLProcessor {
    * @return 修正されたオプション。
    */
   private static validateOptions(options: TypesettingOptions): Required<TypesettingOptions> {
-    if (options.kerningRules) {
-      options.kerningRules = options.kerningRules.filter(Typesetter.isValidKerningRule)
-    }
-
-    // デフォルトのオプションとマージ
+    // デフォルトのオプションとマージ（呼び出し元のオブジェクトは変更しない）
+    const merged = { ...Typesetter.getDefaultOptions(), ...options }
     return {
-      ...Typesetter.getDefaultOptions(),
-      ...options,
-      thinSpaceWidth: normalizeSpacingValue(options.thinSpaceWidth ?? Typesetter.getDefaultOptions().thinSpaceWidth),
+      ...merged,
+      wrapChars: [...(merged.wrapChars ?? [])],
+      kerningRules: (merged.kerningRules ?? []).filter(Typesetter.isValidKerningRule),
+      thinSpaceWidth: normalizeSpacingValue(merged.thinSpaceWidth),
     }
   }
 
