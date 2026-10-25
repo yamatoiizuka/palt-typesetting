@@ -81,7 +81,8 @@ const shouldAddThinSpace = (current: string, next: string): boolean => {
  * @return 改行可能かどうか
  */
 const isBreakable = (current: string, next: string): boolean => {
-  // UAX #14 の判定には境界文字だけ渡せば十分なので、各セグメントの端 1 文字だけを取り出す。
+  // 各セグメントの端 1 文字だけを取り出して判定する。従来 linebreak に 2 文字だけを渡していた挙動との互換用で、
+  // UAX #14 の完全な判定ではない（LB30a のように、より前の文字に依存する規則は考慮しない）。
   // Array.from を使うのは、emoji やサロゲートペアを slice(-1) / [0] で壊さないため。
   const currentChar = Array.from(current).at(-1) ?? ''
   const nextChar = Array.from(next)[0] ?? ''

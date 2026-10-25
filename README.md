@@ -214,11 +214,13 @@ console.log('output: ' + typesetter.render(srcHtml))
 
 ### メソッド
 
-| メソッド名                   | 説明                                                                  | 引数の型               | 戻り値の型 |
-| ---------------------------- | --------------------------------------------------------------------- | ---------------------- | ---------- |
-| `render(srcHtml)`            | スタイルを適用した HTML 文字列を返します。                            | `string`               | `string`   |
-| `renderToElements(elements)` | 指定された Element または Element の配列にスタイルを適用します。      | `Element \| Element[]` | `void`     |
-| `renderToSelector(selector)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。 | `string`               | `void`     |
+| メソッド名                               | 説明                                        | 引数の型                                                  | 戻り値の型    |
+| ----------------------------------- | ----------------------------------------- | ----------------------------------------------------- | -------- |
+| `render(srcHtml)`                   | スタイルを適用した HTML 文字列を返します。                  | `string`                                              | `string` |
+| `renderToElements(elements)`        | 指定された Element または Element の配列にスタイルを適用します。 | `Element \| Element[]`                                | `void`   |
+| `renderToSelector(selector, root?)` | 指定された CSS セレクタに一致するすべての要素にスタイルを適用します。     | `selector: string \| null, root?: ParentNode \| null` | `void`   |
+
+`root` には `Document`、`Element`、`DocumentFragment` を指定できます。省略時は実行時のグローバル `document` を使用し、DOMがない場合や `null` を指定した場合は何もしません。
 
 ### オプション
 
@@ -423,6 +425,28 @@ Palt Typesetting ライブラリは、テキストを言語固有のセグメン
 
 [^1]: Firefox では、バージョン 125 から Intl.Segmenter のサポートが予定されています。
 
+### Node.js と DOM
+
+`render(html)` はDOMライブラリなしで利用できます。jsdomは必須依存に含まれません。
+ブラウザでは、従来どおり `renderToSelector(selector)` がグローバルの `document` を検索します。
+Node.jsなど `document` が存在しない環境では、このメソッドは何もしません。
+
+サーバー側でセレクタを使う場合は、自分で用意した `Document` または検索対象の `Element` を第2引数に渡してください。
+例えばjsdomを使う場合は、利用するプロジェクトで別途インストールします。
+
+```ts
+import { JSDOM } from 'jsdom'
+import Typesetter from 'palt-typesetting'
+
+const dom = new JSDOM('<p>日本語English</p>')
+const typesetter = new Typesetter()
+typesetter.renderToSelector('p', dom.window.document)
+// renderToElements(element) も引き続き使用できます。
+```
+
+従来の内部モジュール `dist/win.js` / `dist/win-browser.js` は廃止しました。
+これらを直接importしていた場合は、呼び出し元でDOMを用意する方法に移行してください。
+
 ### 注意事項
 
 `thinSpaceWidth` は `0.2em`、`20%`、`calc(1em / 2)`、`var(--spacing, 0.2em)` などを指定できます。使用できる文字はASCII英数字、スペース、および `.%()+*,/_-` です。CSSコメント、HTML属性や別のCSS宣言を挿入する文字を含む値、空文字は既定値の `0.2em` に置き換えられます。
@@ -433,6 +457,8 @@ Palt Typesetting ライブラリは HTML 入力をサポートしていますが
 
 改行判定には、UAX #14（Unicode 15.0）に基づく内蔵の実装を使用しています。
 本ライブラリは 2 文字の境界だけを判定するため、Line_Break クラスの区間表と組み合わせ表だけを持ち、実行時の依存はありません。
+これは従来 `linebreak` にセグメント境界の 2 文字だけを渡していた挙動との互換を保つためのもので、文章全体に対する UAX #14 の完全な判定ではありません
+（例: 地域指示子の個数に依存する LB30a は考慮しません）。
 区間表は `npm run generate:line-break` で Unicode の `LineBreak.txt` から生成します。
 判定結果は、全コードポイントのクラスと全ペアの改行可否について、`linebreak@1.1.0` 互換の
 [`@yamatoiizuka/linebreak`](https://github.com/yamatoiizuka/linebreak) と一致することをテストで確認しています。
