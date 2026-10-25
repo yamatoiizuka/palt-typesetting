@@ -17,10 +17,9 @@
   "scripts": {
     "clean": "rm -rf ./dist && rm -rf ./bundle",
     "copy:css": "mkdir ./dist && cp -R ./src/*.css ./dist/",
-    "prebuild": "npm run clean && npm run copy:css",
     "bundle:css": "mkdir ./bundle && cleancss -o ./bundle/typesetter.min.css ./src/*.css",
     "bundle": "npm run bundle:css && webpack",
-    "build": "node ./scripts/build.js && npm run bundle",
+    "build": "npm run clean && npm run copy:css && node ./scripts/build.js && npm run bundle",
     "test": "vitest",
     "lint": "eslint \"./src/**/*.ts\" --no-error-on-unmatched-pattern",
     "lint:fix": "eslint ./src/** --fix",

@@ -5,10 +5,9 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "start": "parcel ./src/index.html --no-cache",
-    "prebuild": "npm run clean:dist && npm run copy:public",
     "clean:dist": "rm -rf dist && mkdir dist",
     "copy:public": "cp -r public/* dist/",
-    "build": "parcel build ./src/index.html --no-cache"
+    "build": "npm run clean:dist && npm run copy:public && parcel build ./src/index.html --no-cache"
   },
   "author": {
     "name": "Yamato Iizuka",

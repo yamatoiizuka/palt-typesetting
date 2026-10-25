@@ -9,6 +9,10 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    # 公開から 7 日たった版だけを提案する。乗っ取られた版は多くが数日以内に見つかり取り下げられるため。
+    # セキュリティ更新には適用されない。
+    cooldown:
+      default-days: 7
     groups:
       # parser と eslint-plugin は同じ版で揃える必要があるため、1 つの PR にまとめる。
       typescript-eslint:
