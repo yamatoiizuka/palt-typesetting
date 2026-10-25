@@ -97,6 +97,30 @@ describe('Typesetter', () => {
     expect(output).not.toContain('<span class="typesetting-latin"><span class="typesetting-latin">English</span></span>')
   })
 
+  describe('kerning rules with surrogate pairs', () => {
+    const typesetter = new Typesetter({
+      kerningRules: [{ between: ['の', '𠮷'], value: -200 }, { between: ['𠮷', '😀'], value: 100 }],
+    })
+    const kerned = (char: string) => `${char}<span class="typesetting-kerning"`
+
+    test('accepts rules with surrogate pair characters', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      new Typesetter({ kerningRules: [{ between: ['の', '𠮷'], value: -200 }] })
+      expect(warn).not.toHaveBeenCalled()
+      warn.mockRestore()
+    })
+
+    test('applies kerning within a segment', () => {
+      expect(typesetter.render('の𠮷')).toContain(kerned('の'))
+      expect(typesetter.render('𠮷😀')).toContain(kerned('𠮷'))
+    })
+
+    test('applies kerning across text node boundaries', () => {
+      expect(typesetter.render('の<b>𠮷</b>')).toContain(kerned('の'))
+      expect(typesetter.render('𠮷<b>😀</b>')).toContain(kerned('𠮷'))
+    })
+  })
+
   describe('options snapshot', () => {
     const createOptions = (): TypesettingOptions => ({
       wrapChars: [{ char: 'あ', label: 'a' }, { char: ['か', 'き'], label: 'k' }],

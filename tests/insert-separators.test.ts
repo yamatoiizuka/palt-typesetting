@@ -25,6 +25,12 @@ describe('insertSeparators', () => {
     expect(insertSeparatorsToText(currentText, nextText, options)).toEqual(expected)
   })
 
+  it('treats a vertical bar as latin', () => {
+    expect(insertSeparatorsToText('a|b', '', options)).toEqual(`a|${wbr}b`)
+    expect(insertSeparatorsToText('日|本', '', options)).toEqual(`日${nbsp}|${space}本`)
+    expect(insertSeparatorsToText('日本語|English', '', options)).toEqual(`日本語${nbsp}|${wbr}English`)
+  })
+
   it('does not insert a thin space before a space', () => {
     const currentText = 'です。'
     const nextText = ' '

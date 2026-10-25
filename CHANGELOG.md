@@ -19,4 +19,6 @@
 
 ### Fixes
 
+- Treat the vertical bar `|` (U+007C) as Latin instead of Japanese. Thin spaces are no longer inserted between `|` and adjacent Latin letters (e.g. `a|b`), and are now inserted between `|` and adjacent Japanese characters (e.g. `日本語|English`).
+- Accept `kerningRules` containing characters represented by surrogate pairs (e.g. `𠮷` or emoji), and apply them across segment and text node boundaries.
 - Keep `$&`, `` $` ``, `$'` and `$$` inside protected blocks (`script`, `style`, `pre`, already generated spans, etc.) intact when restoring them.
