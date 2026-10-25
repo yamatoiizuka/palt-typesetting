@@ -1,6 +1,6 @@
 import { isBreakable } from './insert-separators.js'
 import { CharClass, LanguageClass } from './util-text-classes.js'
-import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, createKerning } from './util-tags.js'
+import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, applyOpeningStyle, createKerning } from './util-tags.js'
 import * as util from './util-regex.js'
 import { TypesettingOptions } from '../types'
 
@@ -146,4 +146,12 @@ const applyStyleToChar = (currentSegment: string, nextSegment: string, options: 
   return updatedSegment
 }
 
-export { applyStyleToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar }
+// Keep the opening punctuation's native line-end prohibition in WebKit without
+// enabling character-by-character wrapping for the surrounding Japanese words.
+// Run last so kerning and custom character wrappers retain their existing output.
+const applyStyleToOpenings = (text: string, _next: string, options: TypesettingOptions): string => {
+  if (!options.useWordBreak) return text
+  return text.replace(new RegExp(util.openingsRegex.source, 'gu'), applyOpeningStyle)
+}
+
+export { applyStyleToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar, applyStyleToOpenings }

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<title>Opening punctuation line-breaking regression</title>
+<link rel="stylesheet" href="../../dist/typesetter.css">
+<style>
+  body { margin: 24px; font: 16px system-ui; }
+  pre { white-space: pre-wrap; }
+  .sample { margin: 0; font: 24px/2 sans-serif; letter-spacing: .13em; }
+  #examples { display: flex; gap: 32px; }
+  #examples .sample { border: 1px solid #aaa; }
+</style>
+<h1>Opening punctuation line-breaking regression</h1>
+<p>Run <code>npm run build</code>, serve the repository over HTTP, and open this page in Safari and Chromium.</p>
+<pre id="result">Running…</pre>
+<div id="examples"></div>
+<div id="samples"></div>
+<script type="module">
+  import Typesetter from '../../dist/index.js'
+
+  const pairs = ['（）', '［］', '｛｝', '〔〕', '〈〉', '《》', '「」', '『』', '【】', '〘〙', '〖〗', '“”', '‘’']
+  const typesetter = new Typesetter({ thinSpaceWidth: '0.15em' })
+  const samples = document.querySelector('#samples')
+  const tests = []
+  for (const [opening, closing] of pairs) {
+    for (const inner of ['未来予測', '<em>未来</em>予測']) {
+      // Curly quotes are QU rather than OP/CL: separate adjacent quotations so
+      // this test does not trigger the intentional overlong-run anywhere fallback.
+      const gap = '“‘'.includes(opening) ? ' ' : ''
+      const html = typesetter.render(`最近の興味は${opening}気の利いた簡素さ${closing}${gap}${opening}魔法${closing}${gap}${opening}${inner}${closing}の三つです。`)
+      for (let width = 160; width <= 480; width += 8) {
+        for (const mode of ['before', 'after']) {
+          const p = document.createElement('p')
+          p.className = 'sample'
+          p.style.width = `${width}px`
+          // The control restores the markup emitted before the fix. This makes
+          // the fixture demonstrate the original bug as well as the regression.
+          p.innerHTML = mode === 'before'
+            ? html.replace(/<span class="typesetting-opening">([^<]*)<\/span>/gu, '$1')
+            : html
+          samples.append(p)
+          tests.push({ p, mode, width, opening })
+        }
+      }
+    }
+  }
+  await document.fonts.ready
+  const failures = { before: [], after: [] }
+  for (const test of tests) {
+    const characters = []
+    const walker = document.createTreeWalker(test.p, NodeFilter.SHOW_TEXT)
+    while (walker.nextNode()) {
+      const node = walker.currentNode
+      for (let offset = 0; offset < node.length; offset++) {
+        const range = document.createRange()
+        range.setStart(node, offset)
+        range.setEnd(node, offset + 1)
+        const rect = range.getBoundingClientRect()
+        if (rect.width) characters.push({ text: node.data[offset], y: rect.top + rect.height / 2 })
+      }
+    }
+    // Compare adjacent glyphs rather than textContent: an opening on the preceding
+    // line is a failure even across an author-supplied inline element.
+    const bad = characters.some((character, i) => character.text === test.opening &&
+      characters[i + 1] && characters[i + 1].y - character.y > 24)
+    if (bad) failures[test.mode].push(test)
+  }
+  const tested = tests.length / 2
+  document.querySelector('#result').textContent = [
+    navigator.userAgent,
+    `Before: ${failures.before.length} / ${tested} cases leave an opening at line end`,
+    `After: ${failures.after.length} / ${tested} cases leave an opening at line end`,
+    failures.after.length ? 'FAIL' : 'PASS',
+    ...failures.after.slice(0, 8).map(test => `Failed: ${test.opening}, ${test.width}px`),
+  ].join('\n')
+  const example = failures.before[0]
+  if (example) {
+    const index = tests.indexOf(example)
+    for (const test of [example, tests[index + 1]]) {
+      const section = document.createElement('section')
+      const title = document.createElement('h2')
+      title.textContent = test.mode
+      section.append(title, test.p.cloneNode(true))
+      document.querySelector('#examples').append(section)
+    }
+  }
+  samples.remove()
+</script>
+</html>

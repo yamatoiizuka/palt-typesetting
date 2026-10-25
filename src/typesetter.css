@@ -22,6 +22,13 @@
   overflow-wrap: anywhere;
 }
 
+/* WebKit can break after opening punctuation under keep-all. Restore native
+ * punctuation rules only here; keep word-based wrapping on the surrounding text.
+ */
+.typesetting-opening {
+  word-break: normal;
+}
+
 .typesetting-thin-space,
 .typesetting-kerning {
   letter-spacing: 0; /* 親要素から継承される letter-spacing の影響を無視します。 */

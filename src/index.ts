@@ -1,6 +1,6 @@
 import HTMLProcessor from './html-processor.js'
 import insertSeparatorsToText from './insert-separators.js'
-import { applyStyleToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar } from './apply-style.js'
+import { applyStyleToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar, applyStyleToOpenings } from './apply-style.js'
 import { normalizeSpacingValue } from './util-tags.js'
 import type { TypesettingOptions, KerningRule } from '../types'
 
@@ -42,7 +42,7 @@ class Typesetter extends HTMLProcessor {
      * サポートされていない場合は、単語区切りの改行と四分アキの挿入をスキップします。
      */
     const transformFunctions = isIntlSegmenterSupported
-      ? [applyStyleToText, insertSeparatorsToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar]
+      ? [applyStyleToText, insertSeparatorsToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar, applyStyleToOpenings]
       : [applyStyleToSegment, applyKerningToSegment, applyStyleToChar]
 
     const validatedOptions = Typesetter.validateOptions(options)
