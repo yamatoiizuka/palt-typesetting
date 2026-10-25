@@ -177,10 +177,8 @@ class HTMLProcessor {
    * @return プレースホルダを元のブロック要素に戻したHTML文字列。
    */
   private restoreProtectedBlocks(html: string, protectedBlocks: string[], tokenPrefix: string): string {
-    return protectedBlocks.reduce((restoredHtml, block, index) => {
-      const token = `<!--${tokenPrefix}${index}-->`
-      return restoredHtml.replace(token, block)
-    }, html)
+    // 置換文字列ではなく関数で返し、ブロック内の "$&" などが置換パターンとして解釈されないようにする。
+    return html.replace(new RegExp(`<!--${tokenPrefix}(\\d+)-->`, 'g'), (token, index) => protectedBlocks[index] ?? token)
   }
 
   /**

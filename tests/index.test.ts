@@ -97,6 +97,15 @@ describe('Typesetter', () => {
     expect(output).not.toContain('<span class="typesetting-latin"><span class="typesetting-latin">English</span></span>')
   })
 
+  test('render should restore protected blocks containing replacement patterns verbatim', () => {
+    const script = '<script>const s = "$&" + "$`" + "$\'" + "$1" + "$$";</script>'
+    const generated = '<span class="typesetting-latin">$& $$ $1</span>'
+    const output = typeset.render(`日本語${script}${generated}English`)
+
+    expect(output).toContain(script)
+    expect(output).toContain(generated)
+  })
+
   test('renderToElements should skip excluded tags', () => {
     win.document.body.innerHTML = '<div id="test"><script>const value = \"日本語English\";</script><p>「日本語」とEnglish</p></div>'
     const element = win.document.getElementById('test')
