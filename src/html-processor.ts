@@ -1,8 +1,10 @@
 import type { TransformFunction, TypesettingOptions } from '../types'
-import { whitespaceRegex } from './util-regex.js'
+import { whitespaceOnlyRegex } from './util-regex.js'
 
 const PROTECTED_BLOCK_TOKEN_PREFIX = '__TYPESETTING_PROTECTED_BLOCK__'
 const PROTECTED_GENERATED_TOKEN_PREFIX = '__TYPESETTING_PROTECTED_GENERATED__'
+// HTML をタグとテキストに分割する。'>' で閉じられていない '<' は、どちらにも含まれず取り除かれる。
+const htmlTokenRegex = /<[^>]+>|[^<]+/g
 const protectedBlockRegex = /<(script|style|textarea|code|pre|kbd|samp)\b[^>]*>[\s\S]*?<\/\1>/gi
 const VOID_TAGS = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'])
 const MANAGED_CLASS_NAMES = new Set([
@@ -77,39 +79,24 @@ class HTMLProcessor {
   private processHtml(html: string, transformFunction: TransformFunction): string {
     if (html === '') return html
 
-    const tokenRegex = /(<[^>]+>)|([^<]+)/g
-    const tokens: { type: 'tag' | 'text'; value: string; skipTransform?: boolean }[] = []
-    let match: RegExpExecArray | null
+    const tokens = html.match(htmlTokenRegex) ?? []
 
-    while ((match = tokenRegex.exec(html)) !== null) {
-      if (match[1]) {
-        tokens.push({ type: 'tag', value: match[1] })
-      } else if (match[2]) {
-        tokens.push({ type: 'text', value: match[2] })
-      }
+    // 各テキストの「次のテキスト（変換前）」を、後ろから 1 回走査して求める。
+    const nextTexts: string[] = []
+    let nextText = ''
+    for (let i = tokens.length - 1; i >= 0; i--) {
+      if (tokens[i][0] === '<') continue
+      nextTexts[i] = nextText
+      nextText = tokens[i]
     }
 
+    // 変換関数は前から順に呼ぶ。
     for (let i = 0; i < tokens.length; i++) {
-      if (tokens[i].type !== 'text') {
-        continue
-      }
-
-      if (this.isWhitespaceOnly(tokens[i].value)) {
-        continue
-      }
-
-      let nextText = ''
-      for (let j = i + 1; j < tokens.length; j++) {
-        if (tokens[j].type === 'text') {
-          nextText = tokens[j].value
-          break
-        }
-      }
-
-      tokens[i].value = transformFunction(tokens[i].value, nextText, this.options)
+      if (tokens[i][0] === '<' || whitespaceOnlyRegex.test(tokens[i])) continue
+      tokens[i] = transformFunction(tokens[i], nextTexts[i], this.options)
     }
 
-    return tokens.map(token => token.value).join('')
+    return tokens.join('')
   }
 
   /**
@@ -140,16 +127,13 @@ class HTMLProcessor {
    * @return プレースホルダ化後のHTMLと、退避した要素の配列。
    */
   private extractManagedGeneratedBlocks(html: string): { html: string; protectedBlocks: string[] } {
-    const tokenRegex = /(<[^>]+>)|([^<]+)/g
     const protectedBlocks: string[] = []
     const outputTokens: string[] = []
     const protectedTokens: string[] = []
     const protectedTagStack: string[] = []
-    let match: RegExpExecArray | null
 
-    while ((match = tokenRegex.exec(html)) !== null) {
-      const token = match[0]
-      const tagInfo = match[1] ? this.getTagInfo(match[1]) : null
+    for (const token of html.match(htmlTokenRegex) ?? []) {
+      const tagInfo = token[0] === '<' ? this.getTagInfo(token) : null
       const isInsideProtectedBlock = protectedTagStack.length > 0
 
       if (!isInsideProtectedBlock && tagInfo && !tagInfo.isClosing && !tagInfo.isSelfClosing && this.isManagedGeneratedTag(tagInfo)) {
@@ -197,27 +181,19 @@ class HTMLProcessor {
    * @return プレースホルダを元のブロック要素に戻したHTML文字列。
    */
   private restoreProtectedBlocks(html: string, protectedBlocks: string[], tokenPrefix: string): string {
-    return protectedBlocks.reduce((restoredHtml, block, index) => {
-      const token = `<!--${tokenPrefix}${index}-->`
-      return restoredHtml.replace(token, block)
-    }, html)
-  }
-
-  /**
-   * テキストが空白文字と制御文字だけで構成されているかを判定します。
-   *
-   * @param value - 判定対象の文字列。
-   * @return 空白のみなら true、意味のある文字を含むなら false。
-   */
-  private isWhitespaceOnly(value: string): boolean {
-    return new RegExp(`^${whitespaceRegex.source}*$`).test(value)
+    // 各プレースホルダの最初の 1 件だけを戻す（入力に同じ文字列のコメントがあっても置き換えない）。
+    // 置換文字列ではなく関数で返し、ブロック内の "$&" などが置換パターンとして解釈されないようにする。
+    return protectedBlocks.reduce(
+      (restoredHtml, block, index) => restoredHtml.replace(`<!--${tokenPrefix}${index}-->`, () => block),
+      html
+    )
   }
 
   /**
    * タグ文字列から、タグ名とクラス名などの最小限の情報を抽出します。
    * コメントや doctype のような通常タグでないものは null を返します。
    *
-   * @param tag - tokenRegex で切り出したタグ文字列。
+   * @param tag - htmlTokenRegex で切り出したタグ文字列。
    * @return 抽出したタグ情報。通常タグでなければ null。
    */
   private getTagInfo(tag: string): TagInfo | null {

@@ -419,6 +419,7 @@ Palt Typesetting ライブラリは、テキストを言語固有のセグメン
 **クライアントサイドで実行する場合**
 
 - Intl.Segmenter をサポートしているブラウザ
+- `Intl.Segmenter` がない環境でも、ES2020 の構文に対応している必要があります（UMD バンドル `bundle/typesetter.min.js` と `dist/` は ES2020 で出力しています）
 
 クライアントサイドで実行する場合、この機能は一部のブラウザで利用できません。Palt Typesetting ライブラリは、Firefox などの `Intl.Segmenter` がサポートされていない環境[^1] では、`useWordBreak`（単語区切りでの改行）と `insertThinSpaces`（四分アキの自動挿入）オプションがスキップされます。全てのモダンブラウザで同様の見え方を再現するには、サーバーサイドでの事前処理（Astro.js での SSG など）が必要となります。
 

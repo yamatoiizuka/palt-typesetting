@@ -2,6 +2,8 @@ const path = require('path')
 
 module.exports = {
   mode: 'production',
+  // dist/ は esbuild で ES2020 に変換済みなので、webpack では変換せずに束ねて圧縮する。
+  target: ['web', 'es2020'],
   entry: './dist/index.js',
   output: {
     path: path.resolve(__dirname, 'bundle'),
@@ -12,25 +14,5 @@ module.exports = {
       export: 'default',
     },
     globalObject: 'this',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        resolve: {
-          fullySpecified: false,
-        },
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.js'],
   },
 }

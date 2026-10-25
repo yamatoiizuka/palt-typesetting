@@ -23,6 +23,7 @@ files.forEach(file => {
       bundle: false,
       format: 'esm',
       platform: 'browser',
+      target: 'es2020',
     })
     .catch(() => process.exit(1))
 })
