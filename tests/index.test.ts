@@ -1,4 +1,4 @@
-import Typesetter from '../src/'
+import Typesetter, { TypesettingOptions } from '../src/'
 import { createThinSpace, applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle } from '../src/util-tags'
 import { JSDOM } from 'jsdom'
 import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest'
@@ -95,6 +95,55 @@ describe('Typesetter', () => {
     expect(output).toContain('<span class="typesetting-latin">English</span>')
     expect(output).toContain('typesetting-wrapper')
     expect(output).not.toContain('<span class="typesetting-latin"><span class="typesetting-latin">English</span></span>')
+  })
+
+  describe('options snapshot', () => {
+    const createOptions = (): TypesettingOptions => ({
+      wrapChars: [{ char: 'あ', label: 'a' }, { char: ['か', 'き'], label: 'k' }],
+      kerningRules: [{ between: ['あ', 'い'], value: 100 }],
+    })
+    const mutate = (options: TypesettingOptions) => {
+      options.wrapChars![0].char = 'い'
+      options.wrapChars![1].char = ['く']
+      ;(options.wrapChars![1].char as string[]).push('け')
+      options.kerningRules![0].value = 900
+      options.kerningRules![0].between[1] = 'う'
+      options.wrapChars!.push({ char: 'う' })
+      options.kerningRules!.push({ between: ['い', 'う'], value: 500 })
+    }
+    const input = 'あいうかきくけ'
+
+    test('does not modify the options passed by the caller', () => {
+      const options = { ...createOptions(), kerningRules: [{ between: ['ab', 'c'], value: 1 }] } as TypesettingOptions
+      const snapshot = structuredClone(options)
+      new Typesetter(options)
+      expect(options).toEqual(snapshot)
+    })
+
+    test('ignores changes made to the rules after construction and before the first render', () => {
+      const expected = new Typesetter(createOptions()).render(input)
+      const options = createOptions()
+      const typesetter = new Typesetter(options)
+      mutate(options)
+      expect(typesetter.render(input)).toBe(expected)
+    })
+
+    test('ignores changes made to the rules after the first render', () => {
+      const options = createOptions()
+      const typesetter = new Typesetter(options)
+      const expected = typesetter.render(input)
+      mutate(options)
+      expect(typesetter.render(input)).toBe(expected)
+    })
+  })
+
+  test('render should restore protected blocks containing replacement patterns verbatim', () => {
+    const script = '<script>const s = "$&" + "$`" + "$\'" + "$1" + "$$";</script>'
+    const generated = '<span class="typesetting-latin">$& $$ $1</span>'
+    const output = typeset.render(`日本語${script}${generated}English`)
+
+    expect(output).toContain(script)
+    expect(output).toContain(generated)
   })
 
   test('renderToElements should skip excluded tags', () => {

@@ -57,15 +57,19 @@ class Typesetter extends HTMLProcessor {
    * @return 修正されたオプション。
    */
   private static validateOptions(options: TypesettingOptions): Required<TypesettingOptions> {
-    if (options.kerningRules) {
-      options.kerningRules = options.kerningRules.filter(Typesetter.isValidKerningRule)
-    }
-
-    // デフォルトのオプションとマージ
+    // デフォルトのオプションとマージする。呼び出し元のオブジェクトは変更しない。
+    // 規則は入れ子の配列までコピーし、生成後に呼び出し元が書き換えても影響しないようにする。
+    const merged = { ...Typesetter.getDefaultOptions(), ...options }
     return {
-      ...Typesetter.getDefaultOptions(),
-      ...options,
-      thinSpaceWidth: normalizeSpacingValue(options.thinSpaceWidth ?? Typesetter.getDefaultOptions().thinSpaceWidth),
+      ...merged,
+      wrapChars: (merged.wrapChars ?? []).map(rule => ({
+        ...rule,
+        char: Array.isArray(rule.char) ? [...rule.char] : rule.char,
+      })),
+      kerningRules: (merged.kerningRules ?? [])
+        .filter(Typesetter.isValidKerningRule)
+        .map(rule => ({ ...rule, between: [...rule.between] as [string, string] })),
+      thinSpaceWidth: normalizeSpacingValue(merged.thinSpaceWidth),
     }
   }
 

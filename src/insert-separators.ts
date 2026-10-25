@@ -23,13 +23,16 @@ const insertSeparatorsToText = (currentText: string, nextText: string, options: 
   return formattedText
 }
 
+let segmenter: Intl.Segmenter | undefined
+
 /**
  * 文章から文節区切りのセグメントの配列を生成します。
  * @param src - ソーステキスト
  * @return 文章から生成されたセグメントの配列
  */
 const createSegments = (src: string): string[] => {
-  const segmenter = new Intl.Segmenter('ja-JP', { granularity: 'word' })
+  // Intl.Segmenter がない環境では呼ばれないため、初回の呼び出し時に生成して使い回す。
+  segmenter ??= new Intl.Segmenter('ja-JP', { granularity: 'word' })
   return Array.from(segmenter.segment(src), ({ segment }) => segment)
 }
 

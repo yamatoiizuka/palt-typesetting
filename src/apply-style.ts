@@ -2,7 +2,7 @@ import { isBreakable } from './insert-separators.js'
 import { CharClass, LanguageClass } from './util-text-classes.js'
 import { applyWrapperStyle, applyLatinStyle, applyNoBreaksStyle, createKerning } from './util-tags.js'
 import * as util from './util-regex.js'
-import { TypesettingOptions } from '../types'
+import type { TypesettingOptions, WrapChar } from '../types'
 
 /**
  * 与えられたテキストに対して、word-breakとoverflow-wrapスタイルを持つspanタグでラップします。
@@ -83,22 +83,22 @@ const applyKerningToSegment = (currentSegment: string, nextSegment: string, opti
  */
 const escapeRegExp = (str: string): string => str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
 
-/**
- * 特例文字の設定に基づき、テキストセグメント内の対象文字（連続した部分）を指定のクラスでラップします。
- *
- * @param currentSegment - 対象のセグメント
- * @param nextSegment - 次のセグメント（本処理では未使用）
- * @param options - TypesettingOptions。wrapChars の設定を含む
- * @return 特例文字のラッピングを適用したセグメント
- */
-const applyStyleToChar = (currentSegment: string, nextSegment: string, options: TypesettingOptions): string => {
-  // wrapChars の設定がない場合はそのまま返す
-  if (!options.wrapChars || options.wrapChars.length === 0) {
-    return currentSegment
-  }
+type CompiledWrapChar = { regex: RegExp; className: string }
 
-  let updatedSegment = currentSegment
-  options.wrapChars.forEach(rule => {
+// wrapChars の配列ごとに、検証と正規表現の生成を一度だけ行う。
+const compiledWrapCharsCache = new WeakMap<WrapChar[], CompiledWrapChar[]>()
+
+/**
+ * 特例文字の設定を検証し、ラップ用の正規表現とクラス名に変換します。
+ * 無効な設定はエラーを出力して除外します。
+ *
+ * @param wrapChars - 特例文字の設定
+ * @return 有効な設定から生成した正規表現とクラス名の配列
+ */
+const compileWrapChars = (wrapChars: WrapChar[]): CompiledWrapChar[] => {
+  const compiled: CompiledWrapChar[] = []
+
+  wrapChars.forEach(rule => {
     // rule.char を配列に正規化
     const chars: string[] = typeof rule.char === 'string' ? [rule.char] : rule.char
     // 各文字が1文字であるかを確認し、無効な文字は除外する（サロゲートペアも考慮）
@@ -134,16 +134,42 @@ const applyStyleToChar = (currentSegment: string, nextSegment: string, options: 
       return
     }
 
-    // 有効な場合、クラス名を生成する（例: typesetting-char-あ や typesetting-char-paren）
-    const className = `typesetting-char-${label}`
-    // 有効な文字群を用いて、正規表現用の文字クラスを構築する
+    // 有効な文字群を用いて、連続して現れる対象文字列にマッチする正規表現を構築する（例: "(" または ")" の連続）
     const escapedChars = validChars.map(ch => escapeRegExp(ch)).join('')
-    // 連続して現れる対象文字列にマッチ（例: "(" または ")" の連続）
-    const regex = new RegExp(`([${escapedChars}]+)`, 'gu')
-    updatedSegment = updatedSegment.replace(regex, match => `<span class="${className}">${match}</span>`)
+    compiled.push({
+      regex: new RegExp(`([${escapedChars}]+)`, 'gu'),
+      // クラス名の例: typesetting-char-あ や typesetting-char-paren
+      className: `typesetting-char-${label}`,
+    })
   })
 
-  return updatedSegment
+  return compiled
+}
+
+/**
+ * 特例文字の設定に基づき、テキストセグメント内の対象文字（連続した部分）を指定のクラスでラップします。
+ *
+ * @param currentSegment - 対象のセグメント
+ * @param nextSegment - 次のセグメント（本処理では未使用）
+ * @param options - TypesettingOptions。wrapChars の設定を含む
+ * @return 特例文字のラッピングを適用したセグメント
+ */
+const applyStyleToChar = (currentSegment: string, nextSegment: string, options: TypesettingOptions): string => {
+  // wrapChars の設定がない場合はそのまま返す
+  if (!options.wrapChars || options.wrapChars.length === 0) {
+    return currentSegment
+  }
+
+  let compiled = compiledWrapCharsCache.get(options.wrapChars)
+  if (!compiled) {
+    compiled = compileWrapChars(options.wrapChars)
+    compiledWrapCharsCache.set(options.wrapChars, compiled)
+  }
+
+  return compiled.reduce(
+    (segment, { regex, className }) => segment.replace(regex, match => `<span class="${className}">${match}</span>`),
+    currentSegment
+  )
 }
 
 export { applyStyleToText, applyStyleToSegment, applyKerningToSegment, applyStyleToChar }

@@ -99,8 +99,9 @@ const applyNoBreaksStyle = (segment: string): string => {
  * @return 指定されたパラメータに基づいて構築された`span`タグを含む文字列。
  */
 const createStyledSpan = (content: string, className: string, style: string = '', attr: string = ''): string => {
+  // className はライブラリ内の固定値なのでエスケープしない。style は利用者の指定値を含むためエスケープする。
   const styleAttr = style ? ` style="${escapeAttribute(style)}"` : ''
-  return `<span class="${escapeAttribute(className)}"${styleAttr}${attr}>${content}</span>`
+  return `<span class="${className}"${styleAttr}${attr}>${content}</span>`
 }
 
 /**

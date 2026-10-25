@@ -1,5 +1,12 @@
 import * as util from './util-regex.js'
 
+// 四分アキを入れる約物の規則: [対象の正規表現, 自身の前に入るか, 自身の後に入るか]
+const thinSpaceRules: [RegExp, boolean, boolean][] = [
+  [util.openingsRegex, true, false],
+  [util.spaceAfterRegex, false, true],
+  [util.middleDotsRegex, true, true],
+]
+
 /**
  * 文字クラス関連の処理を提供するクラスです。
  * 文章内の特定の文字や文字クラスに基づいて、
@@ -12,7 +19,7 @@ const CharClass = {
    * @return 分離禁則文字で構成されている場合はtrue、そうでない場合はfalse
    */
   shouldNotBreak: (segment: string): boolean => {
-    return new RegExp(util.noBreakRulesRegex.source, 'u').test(segment)
+    return util.noBreakRulesTestRegex.test(segment)
   },
 
   /**
@@ -22,33 +29,7 @@ const CharClass = {
    * @return 四分アキを追加すべきかどうか
    */
   shouldAddThinSpace: (current: string, next: string): boolean => {
-    const spaceAfterRegex = new RegExp(
-      `(${util.closingsRegex.source}|${util.commasRegex.source}|${util.periodsRegex.source})`
-    )
-
-    // 各設定は以下のプロパティを持つ:
-    // - regex: 対象の正規表現
-    // - hasSpaceBefore: 自身の前に四分アキが入るか
-    // - hasSpaceAfter: 自身の後に四分アキが入るか
-    const settings = {
-      spaceBefore: {
-        regex: util.openingsRegex,
-        hasSpaceBefore: true,
-        hasSpaceAfter: false,
-      },
-      spaceAfter: {
-        regex: spaceAfterRegex,
-        hasSpaceBefore: false,
-        hasSpaceAfter: true,
-      },
-      spaceBoth: {
-        regex: util.middleDotsRegex,
-        hasSpaceBefore: true,
-        hasSpaceAfter: true,
-      },
-    }
-
-    for (const { regex, hasSpaceBefore, hasSpaceAfter } of Object.values(settings)) {
+    for (const [regex, hasSpaceBefore, hasSpaceAfter] of thinSpaceRules) {
       // 同じ文字クラスの記号が連続する場合はアキを入れない
       if (hasSpaceBefore && regex.test(next) && !regex.test(current)) {
         return true
@@ -85,7 +66,7 @@ const LanguageClass = {
    * @return ラテン文字で構成されている場合はtrue、そうでない場合はfalse
    */
   isLatin: (segment: string): boolean => {
-    return new RegExp(util.latinRegex.source, 'u').test(segment)
+    return util.latinTestRegex.test(segment)
   },
 
   /**
@@ -132,25 +113,15 @@ const LanguageClass = {
   canBreakAcrossScripts: (current: string, next: string): boolean => {
     if (!current || !next) return false
 
-    // 句読点や約物まで巻き込まないよう Script Extensions ではなく Script で判定する。
-    const isLatinOrDigit = (c: string): boolean => /[\p{sc=Latin}0-9]/u.test(c)
-    const isCjkLetter = (c: string): boolean => /[\p{sc=Hiragana}\p{sc=Katakana}\p{sc=Han}]/u.test(c)
-    const isOpeningBracket = (c: string): boolean => new RegExp(util.openingsRegex.source, 'u').test(c)
-    const isClosingBracket = (c: string): boolean => new RegExp(util.closingsRegex.source, 'u').test(c)
-    const isJapanesePunctuation = (c: string): boolean =>
-      new RegExp(util.commasRegex.source, 'u').test(c) || new RegExp(util.periodsRegex.source, 'u').test(c)
-
     // 左: ラテン/数字 × 右: CJK 文字 or 全角開き括弧
-    if (isLatinOrDigit(current) && (isCjkLetter(next) || isOpeningBracket(next))) {
-      return true
+    if (util.latinOrDigitRegex.test(current)) {
+      return util.cjkLetterRegex.test(next) || util.openingsRegex.test(next)
     }
 
     // 左: CJK 文字 or 全角閉じ括弧/句読点 × 右: ラテン/数字
-    if ((isCjkLetter(current) || isClosingBracket(current) || isJapanesePunctuation(current)) && isLatinOrDigit(next)) {
-      return true
-    }
-
-    return false
+    return (
+      (util.cjkLetterRegex.test(current) || util.spaceAfterRegex.test(current)) && util.latinOrDigitRegex.test(next)
+    )
   },
 }
 
