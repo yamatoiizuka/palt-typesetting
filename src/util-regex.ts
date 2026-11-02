@@ -1,5 +1,5 @@
 // 約物の文字集合。単独の文字クラスとしても、他の文字クラスへの埋め込みにも使う。
-const OPENINGS = '（［｛〔〈《「『【〘〖“‘'
+const OPENINGS = '（［｛〔〈《「『【〘〖“‘〝｢〚'
 const CLOSINGS = '）］｝〕〉》」』】〙〗”’'
 const MIDDLE_DOTS = '・：；'
 const COMMAS = '、，'
@@ -20,6 +20,11 @@ export const latinTestRegex = new RegExp(latinRegex.source, 'u')
  * 全角初め括弧類
  */
 export const openingsRegex = new RegExp(`[${OPENINGS}]`)
+
+/**
+ * 全角初め括弧類（置換用の global 版）
+ */
+export const openingsGlobalRegex = new RegExp(`[${OPENINGS}]`, 'g')
 
 /**
  * 全角終わり括弧類

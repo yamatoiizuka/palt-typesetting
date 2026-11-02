@@ -14,6 +14,7 @@ const MANAGED_CLASS_NAMES = new Set([
   'typesetting-no-breaks',
   'typesetting-thin-space',
   'typesetting-kerning',
+  'typesetting-opening',
 ])
 const MANAGED_CLASS_PREFIXES = ['typesetting-char-']
 
